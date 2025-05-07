@@ -1,5 +1,5 @@
 # Directory Guide
-Card Game Project  
+```Card Game Project  
 ├── src  
 │   ├── components  
 │   │   ├── Card.js             // Handles individual card logic and rendering  
@@ -36,4 +36,4 @@ Card Game Project
 │   └── index.html              // Front page of game  
 ├── package.json                // Project dependencies and scripts  
 ├── README.md                    
-└── .gitignore                   
+└── .gitignore        ```           
