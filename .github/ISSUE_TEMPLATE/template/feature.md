@@ -1,3 +1,11 @@
+---
+name: Feature Tracker
+about: Track the progress of a new or planned feature
+title: "[Feature] "
+labels: enhancement
+assignees: ''
+---
+
 ##  Feature Title  
 Provide a clear, concise title for the feature.  
 *Example: Implement User Authentication*

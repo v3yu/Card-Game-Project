@@ -1,3 +1,11 @@
+---
+name: Bug Report
+about: Report a bug to help us improve the project
+title: "[Bug] "
+labels: bug
+assignees: ''
+---
+
 # Prerequisites
 
 Please answer the following questions for yourself before submitting an issue. **YOU MAY DELETE THE PREREQUISITES SECTION.**
