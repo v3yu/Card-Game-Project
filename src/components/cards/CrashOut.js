@@ -1,0 +1,20 @@
+import Card from "../components/Card";
+class CrashOut extends Card {
+    constructor() {
+        super({
+            name: "Crash Out",
+            type: "attack",
+            cost: 1,
+            description: "You've been debugging for 6 hours straight.",
+        });
+    }
+    /**
+    * @param {Object} enemy - The target enemy.
+     * The handlePlayerAction() function in PlayerManager.js checks if the player has enough energy to play the card.
+     * So we don't need to check it here.
+     */
+    play(enemy) {
+        enemy.takeDamage(3);
+    }
+}
+export default CrashOut;
