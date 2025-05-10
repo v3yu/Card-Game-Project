@@ -67,6 +67,7 @@ The subgroup leader should document the meeting content and, if necessary, sched
     3. Chrome
     4. Jest
     5. Miro white board
+    6. GitHub Pull Requests is an official VS Code extension that allows you to view, review, and manage GitHub pull requests directly within the editor.
 - **About Branch strategy**:
   1. main Branch (Production Branch)
 This is the production branch that contains tested and deployable code.
