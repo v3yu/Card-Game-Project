@@ -1,3 +1,10 @@
+---
+name: Sprint Tracker
+about: Plan and track tasks for a specific sprint
+title: "[Sprint] Sprint <number>: <goal/summary>"
+labels: sprint
+assignees: ''
+---
 #  Sprint [XX]-SubTeam[Team lead name]
 
 **Sprint Duration:** [Start Date] → [End Date]  

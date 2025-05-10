@@ -1,3 +1,10 @@
+---
+name: Standup Meeting
+about: Daily standup record – what was done, what’s next, and any blockers
+title: "[Standup] YYYY-MM-DD"
+labels: standup
+assignees: ''
+---
 ##  Daily Stand-up – [Date]
 
 ### 👤 Attendees
