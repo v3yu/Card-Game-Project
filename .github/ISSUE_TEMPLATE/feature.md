@@ -2,7 +2,7 @@
 name: Feature Tracker
 about: Track the progress of a new or planned feature
 title: "[Feature] "
-labels: enhancement
+labels: feature
 assignees: ''
 ---
 
