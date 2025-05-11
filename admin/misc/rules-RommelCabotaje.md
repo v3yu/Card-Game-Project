@@ -190,8 +190,8 @@ As we outlined above, if a conflict arises between two members,
 
 By signing below, you agree to adhere to the stipulations outlined in this contract.
 
-**Signature:** AJ Hermosillo
-
+**Signature:** 
+Rommel Cabotaje
 
 
 
