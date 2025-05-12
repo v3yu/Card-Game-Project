@@ -6,6 +6,7 @@ class CrashOut extends Card {
             type: "attack",
             cost: 1,
             description: "You've been debugging for 6 hours straight.",
+            effect: "Deal 3 damage.",
             image: "src/img/CrashOut.png",
         });
     }
