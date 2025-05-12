@@ -6,7 +6,7 @@ class CrashOut extends Card {
             type: "attack",
             cost: 1,
             description: "You've been debugging for 6 hours straight.",
-            image: "assets/cards/images/CrashOut.png",
+            image: "src/img/CrashOut.png",
         });
     }
     /**
