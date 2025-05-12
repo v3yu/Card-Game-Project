@@ -1,11 +1,16 @@
 
-class Card {
+class Card extends HTMLElement{
     constructor({ name, type, cost, description, image }) {
+        super();
         this.name = name;
         this.type = type;
         this.cost = cost;
         this.description = description;
         this.image = image;
+
+        const shadow = this.attachShadow({mode:'open'});
+        const div = document.createElement('div');
+
     }
 }
 
@@ -22,7 +27,6 @@ function render(){
  * @param enemy
  */
 function play(enemy){
-
 }
 
 export default Card;
