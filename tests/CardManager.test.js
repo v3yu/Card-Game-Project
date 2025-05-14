@@ -1,5 +1,11 @@
 import {shuffle, draw, moveCard, filterCards} from '../src/game/CardManager.js' 
 
+const cards = [
+  { name: 'Free Boba', type: 'special', cost: 1 },
+  { name: 'Early Submission', type: 'special', cost: 0 },
+  { name: 'CS Crash Out', type: 'attack', cost: 1 }
+];
+
 /*
 testExample('shuffle', () => {
     let deck = ['Ace', '2', '3', '4', '5'];
@@ -11,11 +17,6 @@ testExample('shuffle', () => {
 
 //filterCards function test
 test('filterCards filters by cost', () => {
-    const cards = [
-        { name: 'Free Boba', type: 'special', cost: 1 },
-        { name: 'Early Submission', type: 'special', cost: 0 }
-    ];
-
     const result = filterCards(cards, card => card.cost === 0);
 
     expect(result).toEqual([
@@ -23,4 +24,10 @@ test('filterCards filters by cost', () => {
       ]);
 });
 
-
+test('filterCards filters by type', () => {
+    const result = filterCards(cards, card => card.type === 'attack');
+    
+    expect(result).toEqual([
+        { name: 'CS Crash Out', type: 'attack', cost: 1 }
+      ]);
+});
