@@ -1,9 +1,15 @@
 
 
-export function shuffle(card) {
+export function shuffle(cards) {
   // Fisher-Yates shuffle algorithm
-  
-  
+  for (let i = cards.length-1; i >= 0; i--) {
+    const idToSwap = Math.floor(Math.random() * i);
+    const spare = cards[idToSwap];
+    cards[idToSwap] = cards[i];
+    cards[i] = spare;
+  }
+
+  return cards;
 }
 
 export function draw(cards, number) {

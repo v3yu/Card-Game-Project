@@ -61,3 +61,22 @@ test('moveCard', () => {
     expect(hand).toEqual(expectHand);
 
 });
+
+//shuffle function test
+test('shuffle check no card loss', () => {
+    const deck = [1, 2, 3, 4, 5, 6];
+    const shuffleDeck = shuffle(deck);
+    expect(deck.sort()).toEqual(shuffleDeck.sort());
+});
+
+test('shuffle small deck', () => {
+    const deck = [1, 2, 3, 4, 5, 6];
+    const shuffleDeck = shuffle(deck);
+    expect(shuffle).not.toEqual(deck);
+});
+
+test('shuffle large deck', () => {
+    const deck = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15];
+    const shuffleDeck = shuffle(deck);
+    expect(shuffle).not.toEqual(deck);
+});
