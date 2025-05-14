@@ -3,6 +3,7 @@
 export function shuffle(card) {
   // Fisher-Yates shuffle algorithm
   
+  
 }
 
 export function draw(cards, number) {
@@ -13,7 +14,12 @@ export function draw(cards, number) {
 
 export function moveCard(card, fromCollection, toCollection) {
     // Moving cards between deck, hand, discard, etc.
-    
+    const index = fromCollection.indexOf(card);
+
+    if (index >= 0 && index < fromCollection.length) {
+        fromCollection.splice(index, 1);
+        toCollection.push(card);
+    }
 }
 
 export function filterCards(cards, condition) {
