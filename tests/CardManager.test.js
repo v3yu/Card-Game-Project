@@ -6,6 +6,12 @@ const cards = [
   { name: 'CS Crash Out', type: 'attack', cost: 1 }
 ];
 
+const cardsAttack = [
+    {name: 'Redbull Crashout', type: 'attack', cost: 0 },
+    {name: 'CSE 110 Midterm', type: 'attack', cost: 1},
+    {name: 'Freeze Ray', type: 'attack', cost: 2}
+];
+
 /*
 testExample('shuffle', () => {
     let deck = ['Ace', '2', '3', '4', '5'];
@@ -15,7 +21,7 @@ testExample('shuffle', () => {
 });
 */
 
-//filterCards function test
+//filterCards function test (added ret empty if no match, 
 test('filterCards filters by cost', () => {
     const result = filterCards(cards, card => card.cost === 0);
 
@@ -31,6 +37,32 @@ test('filterCards filters by type', () => {
         { name: 'CS Crash Out', type: 'attack', cost: 1 }
       ]);
 });
+
+test('filterCards filters by type with multiple', ()=>{
+    const result= filterCards(cardsAttack, card => card.type === 'attack');
+    expect(result).toEqual([
+        {name: 'Redbull Crashout', type: 'attack', cost: 0 },
+        {name: 'CSE 110 Midterm', type: 'attack', cost: 1},
+        {name: 'Freeze Ray', type: 'attack', cost: 2}
+    ])
+});
+
+test('filterCards returns empty if no type match', () => {
+    const result = filterCards(cards, card => card.type === 'healing');
+    expect(result).toEqual([]);
+});
+
+test('filterCards returns empty if no cost match', () => {
+    const result = filterCards(cards, card => card.cost === 6);
+    expect(result).toEqual([]);
+});
+
+test('filterCards handles empty input', () => {
+    const result = filterCards([], card => card.cost === 0);
+    expect(result).toEqual([]);
+});
+
+
 
 //moveCard function test
 test('moveCard', () => { 
@@ -80,3 +112,17 @@ test('shuffle large deck', () => {
     const shuffleDeck = shuffle(deck);
     expect(shuffle).not.toEqual(deck);
 });
+
+test('shuffle preserves original elements (len,amt,value)' , () =>{
+    const cardA = {name: 'Sigma', type: 'special', cost: 1 };
+    const cardB = {name: 'Lebron James' };
+    const cardC = {name: 'Thomas A Powell' };
+
+    const goatDeck = [cardA, cardB, cardC];
+    const shuffleDeck = shuffle(goatDeck);
+    expect(Array.isArray(shuffleDeck)).toBe(true);
+    expect(shuffleDeck.length).toBe(goatDeck.length);
+    expect(shuffleDeck).toEqual(expect.arrayContaining([cardA, cardB, cardC]));
+});
+
+

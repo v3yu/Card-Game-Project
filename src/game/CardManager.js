@@ -15,6 +15,9 @@ export function shuffle(cards) {
 export function draw(cards, number) {
     // Draw the specified number of cards from the deck
     //Should call Deck.draw() for a card then Hand.add() to the hand
+    //**Plan do some sort of for loop for i=0, i<number and deck.length>0. 
+    // have some const equal to deck.shift(if deck is top-first) 
+    // and then push to the hand from the constant variable*/
     
 }
 
