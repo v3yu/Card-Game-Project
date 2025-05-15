@@ -93,6 +93,28 @@ export class Card extends HTMLElement {
     font-size: 14px;
     color: #444;
 }
+
+
+@keyframes dealCard {
+    0% {
+      transform: scale(0.8) rotate(-5deg);
+      opacity: 0;
+    }
+    50% {
+      transform: scale(1.05) rotate(5deg);
+      opacity: 1;
+    }
+    80% {
+      transform: scale(0.98) rotate(-2deg);
+    }
+    100% {
+      transform: scale(1) rotate(0);
+    }
+  }
+  
+  .card.dealing {
+    animation: dealCard 0.6s ease-out forwards;
+  }
 `;
 
         this.article.className = 'card';
@@ -120,6 +142,9 @@ export class Card extends HTMLElement {
     
         <footer class="description">${this.description}</footer>
 `;
+        requestAnimationFrame(() => {
+            this.article.classList.add('dealing');
+        });
 
     }
 
