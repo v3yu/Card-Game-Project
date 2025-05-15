@@ -12,6 +12,42 @@ const cardsAttack = [
     {name: 'Freeze Ray', type: 'attack', cost: 2}
 ];
 
+function createStandardDeck() {
+    const suits = ['Hearts', 'Diamonds', 'Clubs', 'Spades'];
+    const ranks = [
+      { rank: 'A', value: 1 },
+      { rank: '2', value: 2 },
+      { rank: '3', value: 3 },
+      { rank: '4', value: 4 },
+      { rank: '5', value: 5 },
+      { rank: '6', value: 6 },
+      { rank: '7', value: 7 },
+      { rank: '8', value: 8 },
+      { rank: '9', value: 9 },
+      { rank: '10', value: 10 },
+      { rank: 'J', value: 11 },
+      { rank: 'Q', value: 12 },
+      { rank: 'K', value: 13 }
+    ];
+
+    const deckoCards = [];
+
+    for(const suit of suits) {
+        for (const { rank, value } of ranks) {
+          deckoCards.push({
+            rank,
+            suit,
+            value,
+            name: `${rank} of ${suit}`
+          });
+        }
+      }
+    
+      return deckoCards;
+    } 
+    const gamblerDeck = createStandardDeck();
+  
+    
 /*
 testExample('shuffle', () => {
     let deck = ['Ace', '2', '3', '4', '5'];
@@ -62,6 +98,16 @@ test('filterCards handles empty input', () => {
     expect(result).toEqual([]);
 });
 
+test('filterCards handles a regular deck of cards', () =>{
+    const gambleYAY = createStandardDeck();
+    const blackCards = filterCards(gambleYAY, card =>
+        card.suit === 'Clubs' || card.suit === 'Spades'
+    );
+    expect(blackCards.length).toBe(26);
+    expect(blackCards.every(card=>
+        card.suit === 'Spades' || card.suit === 'Clubs'
+    )).toBe(true);
+});
 
 
 //moveCard function test
@@ -94,6 +140,20 @@ test('moveCard', () => {
 
 });
 
+test('moveCard works with a standard deck to hand', ()=>{
+    const deck = createStandardDeck();
+    const hand= []
+
+    const movedCard = deck.find(card=> card.rank === 'K' && card.suit === 'Diamonds')
+
+    moveCard(movedCard, deck, hand);
+    
+    expect(hand).toContainEqual(movedCard);
+    expect(deck).not.toContainEqual(movedCard);
+    expect(deck.length).toBe(51);
+    expect(hand.length).toBe(1);
+})
+
 //shuffle function test
 test('shuffle check no card loss', () => {
     const deck = [1, 2, 3, 4, 5, 6];
@@ -115,14 +175,15 @@ test('shuffle large deck', () => {
 
 test('shuffle preserves original elements (len,amt,value)' , () =>{
     const cardA = {name: 'Sigma', type: 'special', cost: 1 };
-    const cardB = {name: 'Lebron James' };
-    const cardC = {name: 'Thomas A Powell' };
+    const cardB = {name: 'Lebron James', type: 'attack', cost: 0 };
+    const cardC = {name: 'Thomas A Powell', type: 'special', cost: 2 };
 
     const goatDeck = [cardA, cardB, cardC];
     const shuffleDeck = shuffle(goatDeck);
     expect(Array.isArray(shuffleDeck)).toBe(true);
     expect(shuffleDeck.length).toBe(goatDeck.length);
     expect(shuffleDeck).toEqual(expect.arrayContaining([cardA, cardB, cardC]));
+    expect(shuffleDeck).not.toEqual(goatDeck); //this is failing
 });
 
 
