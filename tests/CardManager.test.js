@@ -144,6 +144,25 @@ test('moveCard works with objects', () => {
 
 });
 
+test('moveCard with Card Duplicates', ()=> {
+  let hand = [
+    { name: 'Severe Crashout', type: 'attack', cost: 1 },
+    { name: 'Fake Sleep', type: 'defense', cost: 1 },
+    { name: 'Severe Crashout', type: 'attack', cost: 1 }
+  ];
+
+  let deck = cards;
+
+  let expectHand = [
+    { name: 'Severe Crashout', type: 'attack', cost: 1 },
+    { name: 'Fake Sleep', type: 'defense', cost: 1 }
+  ];
+  moveCard(hand[2], hand, deck);
+
+  expect(hand[0]).toEqual(expectHand[0]);
+  expect(hand[1]).toEqual(expectHand[1]);
+});
+
 test('moveCard works with a standard deck to hand', ()=>{
   const deck = createStandardDeck();
   const hand = []
