@@ -10,7 +10,7 @@ class StackOverflow extends Card {
       cost: 1,
       description: "Well, the user whose code you copied probably copied it from someone else too.",
       effect: "Deal 4 damage. Apply 'Shame' (target loses 1 energy next turn).",
-      image: "src/img/StackOverflow.png",
+      image: "../img/StackOverflow.png",
     });
   }
 

@@ -10,7 +10,7 @@ class FreeBoba extends Card {
       cost: 1,
       description: "AS doing something useful for once.",
       effect: "Heal 1 HP. Draw 1 card.",
-      image: "src/img/FreeBoba.png",
+      image: "../img/FreeBoba.png",
     });
   }
 
