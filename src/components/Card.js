@@ -28,6 +28,9 @@ export class Card extends HTMLElement {
 }
 
 
+.card:hover{
+    transform: scale(1.2);
+}
 
 .cost {
     position: absolute;
@@ -142,8 +145,20 @@ export class Card extends HTMLElement {
     
         <footer class="description">${this.description}</footer>
 `;
+        // Schedule animation trigger in the next frame to ensure layout is updated
         requestAnimationFrame(() => {
+            // Add the 'dealing' class to start the dealCard animation
             this.article.classList.add('dealing');
+
+            // Define a one-time callback to remove the class after the animation ends
+            const onAnimationEnd = () => {
+                this.article.classList.remove('dealing');
+
+                // Remove class after animation ends (runs only once)
+                this.article.removeEventListener('animationend', onAnimationEnd);
+            };
+
+            this.article.addEventListener('animationend', onAnimationEnd);
         });
 
     }
