@@ -163,6 +163,11 @@ export class Card extends HTMLElement {
 
     }
 
+    //auto render
+    connectedCallback(){
+        this.render();
+    }
+
     /**
      * A virtual function to be overridden by subclasses.
      * @param enemy
@@ -172,5 +177,7 @@ export class Card extends HTMLElement {
 
 }
 
-customElements.define('my-card', Card);
+if (!customElements.get("my-card")) {
+    customElements.define("my-card", Card);
+}
 export default Card;

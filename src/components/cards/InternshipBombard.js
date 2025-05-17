@@ -1,4 +1,6 @@
 import Card from "../Card.js";
+
+
 class InternshipBombard extends Card {
     constructor() {
         super({
@@ -19,4 +21,8 @@ class InternshipBombard extends Card {
         });
     }
 }
+if (!customElements.get("internship-bombard")) {
+    customElements.define("internship-bombard", InternshipBombard);
+}
+
 export {InternshipBombard};

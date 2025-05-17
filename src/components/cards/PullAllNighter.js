@@ -1,4 +1,5 @@
 import Card from "../Card.js";
+
 class PullAllNighter extends Card {
     constructor() {
         super({
@@ -18,4 +19,10 @@ class PullAllNighter extends Card {
         player.takeDamage(1);
     }
 }
+
+if (!customElements.get("pull-all-nighter")) {
+    customElements.define("pull-all-nighter", PullAllNighter);
+}
+
+
 export {PullAllNighter};

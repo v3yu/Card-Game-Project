@@ -1,4 +1,6 @@
 import Card from "../Card.js";
+
+
 class SampleCard extends Card {
     constructor() {
         super({
@@ -19,4 +21,9 @@ class SampleCard extends Card {
     play(target) {
     }
 }
+if (!customElements.get("sample-card")) {
+    customElements.define("sample-card", SampleCard);
+}
+
+
 export {SampleCard};

@@ -1,4 +1,6 @@
 import Card from "../Card.js";
+
+
 class FakeSleep extends Card {
     constructor() {
         super({
@@ -15,4 +17,9 @@ class FakeSleep extends Card {
         player.ignoreStatusEffect(1);
     }
 }
+
+if (!customElements.get("fake-sleep")) {
+    customElements.define("fake-sleep", FakeSleep);
+}
+
 export {FakeSleep};

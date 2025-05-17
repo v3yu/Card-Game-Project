@@ -1,4 +1,6 @@
 import Card from "../Card.js";
+
+
 class SpaghettiCodeShield extends Card {
     constructor() {
         super({
@@ -18,4 +20,9 @@ class SpaghettiCodeShield extends Card {
         }
     }
 }
+if (!customElements.get("spaghetti-code-shield")) {
+    customElements.define("spaghetti-code-shield", SpaghettiCodeShield);
+}
+
+
 export {SpaghettiCodeShield};

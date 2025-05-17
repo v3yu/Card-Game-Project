@@ -1,5 +1,7 @@
 import Card from "../Card.js";
 
+
+
 class EarlySubmission extends Card {
     constructor() {
         super({
@@ -19,5 +21,9 @@ class EarlySubmission extends Card {
     player.applyEffect("Energy Boost", { energyGainNextTurn: 1 });
   }
 }
+if (!customElements.get("early-submission")) {
+  customElements.define("early-submission", EarlySubmission);
+}
+
 
 export {EarlySubmission};

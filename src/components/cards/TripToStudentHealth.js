@@ -1,5 +1,7 @@
 import Card from "../Card.js";
 
+
+
 class TripToStudentHealth extends Card {
   constructor() {
     super({
@@ -19,6 +21,9 @@ class TripToStudentHealth extends Card {
     player.heal(2);
     player.applyBlock(2);
   }
+}
+if (!customElements.get("trip-to-student-health")) {
+  customElements.define("trip-to-student-health", TripToStudentHealth);
 }
 
 export {TripToStudentHealth};

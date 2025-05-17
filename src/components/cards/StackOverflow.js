@@ -1,5 +1,7 @@
 import Card from "../Card.js";
 
+
+
 class StackOverflow extends Card {
   constructor() {
     super({
@@ -20,5 +22,9 @@ class StackOverflow extends Card {
     enemy.applyEffect("Shame", { energyLoss: 1 });
   }
 }
+if (!customElements.get("stack-overflow")) {
+  customElements.define("stack-overflow", StackOverflow);
+}
+
 
 export {StackOverflow};

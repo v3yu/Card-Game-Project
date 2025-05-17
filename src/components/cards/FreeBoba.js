@@ -1,5 +1,7 @@
 import Card from "../Card.js";
 
+
+
 class FreeBoba extends Card {
   constructor() {
     super({
@@ -20,5 +22,10 @@ class FreeBoba extends Card {
     player.drawCards(1);
   }
 }
+
+if (!customElements.get("free-boba")) {
+  customElements.define("free-boba", FreeBoba);
+}
+
 
 export {FreeBoba};

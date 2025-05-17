@@ -1,5 +1,6 @@
 import Card from "../Card.js";
 
+
 class ScrollRUCSD extends Card {
   constructor() {
     super({
@@ -19,6 +20,9 @@ class ScrollRUCSD extends Card {
     player.drawCards(2);
     player.applyEffect("Sleep Deprived", { duration: 3 });
   }
+}
+if (!customElements.get("scroll-rucsd")) {
+  customElements.define("scroll-rucsd", ScrollRUCSD);
 }
 
 export {ScrollRUCSD};

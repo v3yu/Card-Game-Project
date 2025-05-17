@@ -1,5 +1,7 @@
 import Card from "../Card.js";
 
+
+
 class LockIn extends Card {
     constructor() {
         super({
@@ -18,6 +20,10 @@ class LockIn extends Card {
   play(player) {
     player.applyEffect("Attack Boost", { damageIncrease: 2, duration: 2, uses: 2 });
   }
+}
+
+if (!customElements.get("lock-in")) {
+  customElements.define("lock-in", LockIn);
 }
 
 export {LockIn};
