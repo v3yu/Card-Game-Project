@@ -1,4 +1,4 @@
-import Card from "../components/Card";
+import Card from "../Card.js";
 
 class TripToStudentHealth extends Card {
   constructor() {
@@ -21,4 +21,4 @@ class TripToStudentHealth extends Card {
   }
 }
 
-export default TripToStudentHealth;
+export {TripToStudentHealth};

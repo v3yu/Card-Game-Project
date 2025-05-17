@@ -1,4 +1,4 @@
-import Card from "../components/Card";
+import Card from "../Card.js";
 
 class StackOverflow extends Card {
   constructor() {
@@ -21,4 +21,4 @@ class StackOverflow extends Card {
   }
 }
 
-export default StackOverflow;
+export {StackOverflow};

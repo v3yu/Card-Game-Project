@@ -1,4 +1,4 @@
-import Card from "../components/Card";
+import Card from "../Card.js";
 class InternshipBombard extends Card {
     constructor() {
         super({
@@ -19,4 +19,4 @@ class InternshipBombard extends Card {
         });
     }
 }
-export default InternshipBombard;
+export {InternshipBombard};
