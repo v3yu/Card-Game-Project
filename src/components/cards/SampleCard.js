@@ -1,4 +1,4 @@
-import Card from "../components/Card";
+import Card from "../Card.js";
 class SampleCard extends Card {
     constructor() {
         super({
@@ -19,4 +19,4 @@ class SampleCard extends Card {
     play(target) {
     }
 }
-export default SampleCard;
+export {SampleCard};

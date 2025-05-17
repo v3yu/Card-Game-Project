@@ -1,4 +1,4 @@
-import Card from "../components/Card";
+import Card from "../Card.js";
 
 class LockIn extends Card {
     constructor() {
@@ -20,4 +20,4 @@ class LockIn extends Card {
   }
 }
 
-export default LockIn;
+export {LockIn};

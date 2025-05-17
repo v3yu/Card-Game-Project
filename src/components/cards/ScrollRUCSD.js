@@ -1,4 +1,4 @@
-import Card from "../components/Card";
+import Card from "../Card.js";
 
 class ScrollRUCSD extends Card {
   constructor() {
@@ -21,4 +21,4 @@ class ScrollRUCSD extends Card {
   }
 }
 
-export default ScrollRUCSD;
+export {ScrollRUCSD};

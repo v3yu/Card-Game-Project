@@ -1,12 +1,12 @@
 export class Card extends HTMLElement {
 
-
-    constructor({name, type, cost, description, image}) {
+    constructor({name, type, cost, description, effect, image}) {
         super();
         this.name = name;
         this.type = type;
         this.cost = cost;
         this.description = description;
+        this.effect = effect;
         this.image = image;
 
         //create the card element
@@ -141,7 +141,7 @@ export class Card extends HTMLElement {
             <img src="${this.image}" alt="${this.name}">
         </figure>
     
-        <section class="effect">null</section>
+        <section class="effect">${this.effect}</section>
     
         <footer class="description">${this.description}</footer>
 `;
@@ -172,4 +172,5 @@ export class Card extends HTMLElement {
 
 }
 
-customElements.define('my-card', Card)
+customElements.define('my-card', Card);
+export default Card;

@@ -1,4 +1,4 @@
-import Card from "../componenets/Card";
+import Card from "../Card.js";
 
 class EarlySubmission extends Card {
     constructor() {
@@ -20,4 +20,4 @@ class EarlySubmission extends Card {
   }
 }
 
-export default EarlySubmission;
+export {EarlySubmission};

@@ -1,4 +1,4 @@
-import Card from "../components/Card";
+import Card from "../Card.js";
 
 class FreeBoba extends Card {
   constructor() {
@@ -21,4 +21,4 @@ class FreeBoba extends Card {
   }
 }
 
-export default FreeBoba;
+export {FreeBoba};
