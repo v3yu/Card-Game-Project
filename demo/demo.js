@@ -1,5 +1,5 @@
 
-import {SevereCrashOut} from '/src/components/cards/SevereCrashOut.js'
+import {SevereCrashOut} from '../src/components/cards/SevereCrashOut.js'
 import {CrashOut} from "../src/components/cards/CrashOut.js";
 import {EarlySubmission} from "../src/components/cards/EarlySubmission.js";
 import {FakeSleep} from "../src/components/cards/FakeSleep.js";

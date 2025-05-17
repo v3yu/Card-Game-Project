@@ -9,7 +9,7 @@ class SampleCard extends Card {
             cost: 0,
             description: "Card description",
             effect: "Card effect",
-            image: "../img/SampleCard.png",
+            image: "/src/img/SampleCard.png",
         });
     }
     /**
