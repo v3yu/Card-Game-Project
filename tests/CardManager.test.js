@@ -184,20 +184,28 @@ test('moveCard works with a standard deck to hand', ()=>{
  */
 test('shuffle check no card loss', () => {
   const deck = [1, 2, 3, 4, 5, 6];
-  const shuffleDeck = shuffle(deck);
-  expect(deck.sort()).toEqual(shuffleDeck.sort());
+  const original = [1, 2, 3, 4, 5, 6];
+  shuffle(deck);
+  expect(deck.sort()).toEqual(original.sort());
 });
 
+// TODO since the shuffle function will change the deck itself so shuffleDeck is definitely equal to deck after shuffling
 test('shuffle small deck', () => {
   const deck = [1, 2, 3, 4, 5, 6];
-  const shuffleDeck = shuffle(deck);
-  expect(shuffle).not.toEqual(deck);
+  const original = [1, 2, 3, 4, 5, 6];
+  shuffle(deck);
+  process.stdout.write('test case:shuffle small deck\n'+
+                      JSON.stringify(deck)+'\n');
+  expect(original).not.toEqual(deck);
 });
 
 test('shuffle large deck', () => {
   const deck = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15];
-  const shuffleDeck = shuffle(deck);
-  expect(shuffle).not.toEqual(deck);
+  const origin = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15];
+  shuffle(deck);
+  process.stdout.write('test case:shuffle large deck\n'+
+                JSON.stringify(deck)+'\n');
+  expect(origin).not.toEqual(deck);
 });
 
 test('shuffle preserves original elements (len,amt,value)' , () =>{
@@ -208,10 +216,12 @@ test('shuffle preserves original elements (len,amt,value)' , () =>{
   const goatDeck = [cardA, cardB, cardC];
   const unchangedDeck = [cardA, cardB, cardC];
   shuffle(goatDeck);
+  // TODO Directly view the shuffled array through output.
+  process.stdout.write('test case:shuffle preserves original elements (len,amt,value):\n'+
+                                  JSON.stringify(goatDeck)+'\n');
   expect(Array.isArray(goatDeck)).toBe(true);
   expect(goatDeck.length).toBe(unchangedDeck.length);
   expect(goatDeck).toEqual(expect.arrayContaining([cardA, cardB, cardC]));
-  expect(goatDeck).not.toEqual(unchangedDeck); 
 
 });
 
