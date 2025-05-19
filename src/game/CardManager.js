@@ -3,7 +3,6 @@
 export function shuffle(cards) {
   // Fisher-Yates shuffle algorithm
   for (let i = cards.length-1; i >= 0; i--) {
-    // TODO
     const idToSwap = Math.floor(Math.random() * (i+1));
     const spare = cards[idToSwap];
     cards[idToSwap] = cards[i];

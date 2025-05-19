@@ -163,7 +163,9 @@ export class Card extends HTMLElement {
 
     }
 
-    //auto render
+    /**
+     * auto render
+     */
     connectedCallback(){
         this.render();
     }
