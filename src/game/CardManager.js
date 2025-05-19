@@ -3,7 +3,7 @@
 export function shuffle(cards) {
   // Fisher-Yates shuffle algorithm
   for (let i = cards.length-1; i >= 0; i--) {
-    const idToSwap = Math.floor(Math.random() * i);
+    const idToSwap = Math.floor(Math.random() * (i+1));
     const spare = cards[idToSwap];
     cards[idToSwap] = cards[i];
     cards[i] = spare;
@@ -18,7 +18,7 @@ export function draw(cards, number) {
   //**Plan do some sort of for loop for i=0, i<number and deck.length>0. 
   // have some const equal to deck.shift(if deck is top-first) 
   // and then push to the hand from the constant variable*/
-  //TODO
+  // TODO
   
 }
 
