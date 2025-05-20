@@ -9,5 +9,9 @@
   "jest": {
     "transform": {},
     "verbose": true
+  },
+  "dependencies": {
+    "jest-environment-jsdom": "^29.7.0",
+    "jsdom": "^26.1.0"
   }
 }
