@@ -1,5 +1,5 @@
 import Hand from '../src/components/Hand.js';
-import CrashOut from '../src/components/cards/CrashOut.js';
+import {CrashOut} from '../src/components/cards/CrashOut.js';
 
 if (!customElements.get('hand-component')) {
     customElements.define('hand-component', Hand);
