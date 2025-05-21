@@ -80,4 +80,14 @@ describe('Player class', () => {
         expect(player.discard).toContain(card);
         expect(player.tempDiscard.length).toBe(0);
     });
+
+    test('Move discard to deck',()=>{
+        const card = {name:'TempCard'};
+        player.discard.push(card);
+        const tempDiscard = [...player.discard];
+        tempDiscard.push(dummyCard);
+        player.shuffleDiscardIntoDeck();
+        expect(player.deck).toEqual(expect.arrayContaining(tempDiscard));
+
+    })
 });
