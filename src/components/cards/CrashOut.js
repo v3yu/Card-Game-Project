@@ -1,4 +1,4 @@
-import Card from "../components/Card";
+import Card from "../Card";
 class CrashOut extends Card {
     constructor() {
         super({
