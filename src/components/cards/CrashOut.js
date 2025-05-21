@@ -1,4 +1,4 @@
-import Card from "../Card.js";
+import {Card} from '../Card.js';
 class CrashOut extends Card {
     constructor() {
         super({
