@@ -1,31 +1,52 @@
+import Card from "card";
+import Deck from "deck";
 
 class Discard extends HTMLElement {
+    /**
+     * Initialize an empty discard pile.
+     * @constructor
+     */
     constructor() {
+        super();
         this.discard = [];
     }
 
+    /**
+     * Adds a card to the discard pile.
+     * @param {Card} card The card to add.
+     */
     addCard(card) {
-        //Adds a card to the discard pile
-
+        this.discard.push(card);
     }
 
+    /**
+     * Removes a card from the discard pile.
+     * @param {Card} card The card to discard.
+     */
     removeCard(card) {
-        //Removes a card from the discard pile
-
+        this.discard = this.discard.filter(card => card.id !== card.id);
     }
 
+    /**
+     * Clears the discard pile.
+     */
     clear() {
-        //Clears the discard pile
+        this.discard.clear();
     }
 
+    /**
+     * Moves all cards from the discard into the deck.
+     * @param {Deck} deck The destination deck for the discard pile.
+     */
     shuffleDiscardIntoDeck(deck) {
-        // Moves all cards from the discard into the deck. 
-        // Should call CardManager.js’s shuffle method
-
+        // TODO
     }
 
+    /**
+     * Helper function to help render cards
+     */
     renderDiscardHelper() {
-        //Helper function to help render cards
+        // TODO
     }
 }
 
