@@ -1,5 +1,5 @@
 import Hand from '../src/components/Hand.js';
-import {CrashOut} from '../src/components/cards/CrashOut.js';
+import CrashOut from '../src/components/cards/CrashOut.js';
 
 describe('Hand class functionality', () => {
 	let hand;
