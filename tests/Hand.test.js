@@ -1,11 +1,16 @@
-import Hand from '../src/components/Hand.js';
-import {CrashOut} from '../src/components/cards/CrashOut.js';
+/**
+ * @jest-environment jsdom
+ */
 
+import Hand from '../src/components/Hand.js';
+import CrashOut from '../src/components/cards/CrashOut.js';
+
+// Register your custom element
 if (!customElements.get('hand-component')) {
     customElements.define('hand-component', Hand);
 }
 
-// Fake discard pile
+// Fake discard pile to test discard logic
 function createDiscardPile() {
     return {
         cards: [],
@@ -25,38 +30,37 @@ describe('Hand component', () => {
         discardPile = createDiscardPile();
         hand.discardPile = discardPile;
         document.body.appendChild(hand);
-    });
+      });
 
-    test('addCard adds a CrashOut card to the hand', () => {
+    test('addCard adds CrashOut to the hand', () => {
         const card = new CrashOut();
         hand.addCard(card);
         expect(hand.hand).toContain(card);
-    });
+      });
 
-    test('removeCard removes a CrashOut card from the hand', () => {
+    test('removeCard removes CrashOut from the hand', () => {
         const card = new CrashOut();
         hand.addCard(card);
         hand.removeCard(card);
         expect(hand.hand).not.toContain(card);
     });
 
-    test('playCard plays CrashOut and removes it from the hand', () => {
+    test('playCard calls play and removes CrashOut from the hand', () => {
         const card = new CrashOut();
         const enemy = {
             hp: 10,
             takeDamage(amount) {
                 this.hp -= amount;
-            }
+              }
         };
-    
         hand.addCard(card);
         hand.playCard(card, enemy);
     
         expect(hand.hand).not.toContain(card);
-        expect(enemy.hp).toBe(7);
+        expect(enemy.hp).toBe(7); 
     });
 
-    test('discardCard removes CrashOut from hand and adds to discard pile', () => {
+    test('discardCard removes CrashOut from hand and adds it to discard pile', () => {
         const card = new CrashOut();
         hand.addCard(card);
         hand.discardCard(card);
@@ -64,7 +68,7 @@ describe('Hand component', () => {
         expect(hand.hand).not.toContain(card);
         expect(discardPile.cards).toContain(card);
     });
-
+    
     test('discardHand discards all cards to discard pile', () => {
         const card1 = new CrashOut();
         const card2 = new CrashOut();
