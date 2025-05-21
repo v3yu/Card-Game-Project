@@ -3,7 +3,7 @@ import {shuffle,draw,moveCard,filterCards} from '../game/CardManager.js'
 
 //A player has: current health, max health, current energy,
 // max energy, block, zero or more status effects, a deck, a hand, and a discard.
-export class Player {
+export class Player extends HTMLElement{
 
   /**
    * Creates a player instance with health, energy, deck, hand, discard pile, and status effects and block.
@@ -16,21 +16,34 @@ export class Player {
    * @param {Array} [effect=[]] - An array of status effects (e.g., poison, weaken). Defaults to an empty array.
    */
   constructor(maxHealth, maxEnergy, deck, hand, discard, effect = []) {
-    this.maxHealth = maxHealth;
-    this.maxEnergy = maxEnergy;
-    this.deck = deck;
-    this.hand = hand;
+    super();
+    // Dynamically proxy the element's state so that whenever
+    // the following properties change, render() is automatically triggered to re-render.
+    this.state = new Proxy({
+      maxHealth : maxHealth,
+      maxEnergy : maxEnergy,
+      effect : effect,
+      currentHealth : maxHealth,
+      currentEnergy : maxEnergy,
+      block : 0,
+    }, {
+      set: (target, prop, value) => {
+        target[prop] = value;
+        this.render();   // 自动触发
+        return true;
+      }
+    });
+
     this.discard = discard;
-    this.effect = effect;
-    this.currentHealth = maxHealth;
-    this.currentEnergy = maxEnergy;
-
+    this.hand = hand;
     // initialize the block and death status
-    this.block = 0;
     this.isDead = false;
-
+    this.deck = deck;
     // temporary discard pile
     this.tempDiscard = [];
+
+
+
   }
 
   /**
@@ -38,12 +51,12 @@ export class Player {
    * @param {number} amount
    */
   takeDamage(amount) {
-    const effectiveDamage = Math.max(amount - this.block, 0);
-    this.block = Math.max(this.block - amount, 0);
-    this.currentHealth -= effectiveDamage;
+    const effectiveDamage = Math.max(amount - this.state.block, 0);
+    this.state.block = Math.max(this.state.block - amount, 0);
+    this.state.currentHealth -= effectiveDamage;
 
-    if (this.currentHealth <= 0) {
-      this.currentHealth = 0;
+    if (this.state.currentHealth <= 0) {
+      this.state.currentHealth = 0;
       this.die();
     }
   }
@@ -53,7 +66,7 @@ export class Player {
    * @param {number} amount
    */
   gainBlock(amount) {
-    this.block += amount;
+    this.state.block += amount;
   }
 
   /**
@@ -61,7 +74,7 @@ export class Player {
    * @param {number} amount
    */
   heal(amount) {
-    this.currentHealth = Math.min(this.currentHealth + amount, this.maxHealth);
+    this.state.currentHealth = Math.min(this.state.currentHealth + amount, this.state.maxHealth);
   }
 
 
@@ -78,11 +91,11 @@ export class Player {
    * @returns {boolean} - Returns true if the energy was successfully spent, false if not enough energy is available.
    */
   spendEnergy(amount) {
-    const nowEnergy = this.currentEnergy-amount;
+    const nowEnergy = this.state.currentEnergy-amount;
     if(nowEnergy<0){
       return false;
     }
-    this.currentEnergy = nowEnergy;
+    this.state.currentEnergy = nowEnergy;
     return true;
   }
 
@@ -90,7 +103,7 @@ export class Player {
    * Reset energy to MaxEnergy
    */
   resetEnergy() {
-    this.currentEnergy = this.maxEnergy;
+    this.state.currentEnergy = this.state.maxEnergy;
   }
 
   /**
@@ -134,4 +147,21 @@ export class Player {
     this.discard = [];
   }
 
+  /**
+   * render the player
+   */
+  render(){
+    const{maxHealth,maxEnergy,effect,
+      currentHealth,currentEnergy,block
+    } = this.state
+
+
+  }
+
+  connectedCallback(){
+    this.render();
+  }
+
 }
+
+customElements.define('my-player',Player);
