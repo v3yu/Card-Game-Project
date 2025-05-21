@@ -1,4 +1,5 @@
-import {Card} from '../Card.js';
+import Card from '../Card.js';
+
 class CrashOut extends Card {
     constructor() {
         super({
@@ -19,4 +20,5 @@ class CrashOut extends Card {
         enemy.takeDamage(3);
     }
 }
-export default CrashOut;
+
+export { CrashOut };
