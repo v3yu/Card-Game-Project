@@ -55,19 +55,6 @@ class Deck extends HTMLElement {
     showDeck() {
         return this.#deck;
     }
-
-    /**
-     * 
-     * @param {Card} card - card to be rendered
-     * @return {number} - -1 if card is not a card object, 0 on success
-     */
-    renderCard(card) {
-        if (!(card instanceof Card)) return -1;
-        const body = document.querySelector('body');
-        card.render();
-        body.append(card);
-        return 0;
-    }
 }
 
 customElements.define('player-deck', Deck);
