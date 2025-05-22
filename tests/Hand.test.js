@@ -1,3 +1,8 @@
+/**
+* @jest-environment jsdom
+*/
+
+import { jest } from '@jest/globals';
 import Hand from '../src/components/Hand.js';
 import { CrashOut } from '../src/components/cards/CrashOut.js';
 
