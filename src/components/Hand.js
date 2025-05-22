@@ -6,8 +6,9 @@ class Hand extends HTMLElement {
     
     constructor() {
         super();
-        this.hand = [];
-        this.discardPile = null;
+	this.attachShadow({ mode: 'open' });
+	this.hand = [];
+	this.discardPile = null;
     }
 
     /**
@@ -79,12 +80,12 @@ class Hand extends HTMLElement {
     */
     renderHandHelper() {
         //Helper function to help render cards
-        this.innerHTML = '';
+        this.shadowRoot.innerHTML = '';
 
         this.hand.forEach(card => {
-            const cardElement = card.render();
-            this.appendChild(cardElement);
-        });
+		const cardElement = card.render();
+		this.shadowRoot.appendChild(cardElement);
+	});
     }
 }
 
