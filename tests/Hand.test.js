@@ -25,7 +25,7 @@ describe('Hand class functionality', () => {
 		const card = new CrashOut();
 		hand.addCard(card);
 		expect(hand.hand).toContain(card);
-		expect(hand.children.length).toBe(1);
+		expect(hand.shadowRoot.querySelector('.handArea').children.length).toBe(1);
 	});
 
 	test('removeCard removes a card from the hand and updates render', () => {
@@ -33,7 +33,7 @@ describe('Hand class functionality', () => {
 		hand.addCard(card);
 		hand.removeCard(card);
 		expect(hand.hand).not.toContain(card);
-		expect(hand.children.length).toBe(0);
+		expect(hand.shadowRoot.querySelector('.handArea').children.length).toBe(0);
 	});
 
 	test('playCard plays the card and removes it from the hand', () => {
@@ -88,8 +88,9 @@ describe('Hand class functionality', () => {
 		hand.hand = [card1, card2];
 		hand.renderHandHelper();
 
-		expect(hand.children.length).toBe(2);
-		expect(hand.querySelector('.mock-card-1')).not.toBeNull();
-		expect(hand.querySelector('.mock-card-2')).not.toBeNull();
+		const handArea = hand.shadowRoot.querySelector('.handArea');
+		expect(handArea.children.length).toBe(2);
+		expect(handArea.querySelector('.mock-card-1')).not.toBeNull();
+		expect(handArea.querySelector('.mock-card-2')).not.toBeNull();
 	});
 });
