@@ -6,11 +6,12 @@ class Hand extends HTMLElement {
 
   constructor() {
     super();
-    this.hand = [];
     this.discardPile = null;
-    const shadow = this.attachShadow({mode: 'open'})
+    this.attachShadow({ mode: 'open' });
+    
     this.handArea = document.createElement('div');
     this.handArea.className = 'handArea';
+    
     const style = document.createElement('style');
     style.innerText = `
           .handArea{
@@ -25,9 +26,24 @@ class Hand extends HTMLElement {
             align-items: center;    
           }  
             `
-    shadow.append(this.handArea);
-    shadow.append(style)
+    this.shadowRoot.append(this.handArea, style);
   }
+
+  const internalHand = [];
+	this.hand = new Proxy(internalHand, {
+		set: (target, prop, value) => {
+			target[prop] = value;
+			if (!isNaN(prop) || prop === 'length') {
+				this.renderHandHelper();
+			}
+			return true;
+		},
+		deleteProperty: (target, prop) => {
+			delete target[prop];
+			this.renderHandHelper();
+			return true;
+		}
+	});
 
   /**
    * @param {Card} card - The card to be added.
@@ -36,7 +52,6 @@ class Hand extends HTMLElement {
   addCard(card) {
     //Adds a card to the hand
     this.hand.push(card);
-    this.renderHandHelper();
   }
 
   /**
@@ -50,7 +65,6 @@ class Hand extends HTMLElement {
     //Index has been found
     if (index !== -1) {
       this.hand.splice(index, 1);
-      this.renderHandHelper();
     }
   }
 
