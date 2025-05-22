@@ -26,14 +26,17 @@ describe('Hand class functionality', () => {
 		hand.remove();
 	});
 
-	test('addCard adds a card to the hand and calls renderHandHelper', () => {
+	test('addCard adds a card to hand', () => {
 		const card = new CrashOut();
+		const mockElement = document.createElement('div');
+		mockElement.className = 'mock-card';
+		card.render = jest.fn(() => mockElement); 
 		hand.addCard(card);
 		expect(hand.hand).toContain(card);
 		expect(hand.shadowRoot.querySelector('.handArea').children.length).toBe(1);
 	});
 
-	test('removeCard removes a card from the hand and updates render', () => {
+	test('removeCard removes a card from the hand', () => {
 		const card = new CrashOut();
 		hand.addCard(card);
 		hand.removeCard(card);
@@ -79,7 +82,7 @@ describe('Hand class functionality', () => {
 		expect(discardPile.cards).toContain(card2);
 	});
 
-	test('renderHandHelper replaces innerHTML and appends rendered cards', () => {
+	test('renderHandHelper updates handArea with new card', () => {
 		const card1 = new CrashOut();
 		const card2 = new CrashOut();
 
