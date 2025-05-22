@@ -25,11 +25,10 @@ class Hand extends HTMLElement {
             justify-content: flex-start; 
             align-items: center;    
           }  
-            `
+            `;
     this.shadowRoot.append(this.handArea, style);
-  }
-
-  const internalHand = [];
+	
+	const internalHand = [];
 	this.hand = new Proxy(internalHand, {
 		set: (target, prop, value) => {
 			target[prop] = value;
@@ -44,6 +43,7 @@ class Hand extends HTMLElement {
 			return true;
 		}
 	});
+}
 
   /**
    * @param {Card} card - The card to be added.
