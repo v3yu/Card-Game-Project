@@ -115,7 +115,7 @@ class Hand extends HTMLElement {
     this.handArea.innerHTML = '';
 
     this.hand.forEach(card => {
-      this.handArea.append(card.render());
+      this.handArea.append(card);
     });
   }
 }
