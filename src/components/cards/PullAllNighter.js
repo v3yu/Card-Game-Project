@@ -1,4 +1,5 @@
-import Card from "../components/Card";
+import Card from "../Card.js";
+
 class PullAllNighter extends Card {
     constructor() {
         super({
@@ -7,7 +8,7 @@ class PullAllNighter extends Card {
             cost: 1,
             description: "It's 3AM and the assignment's due at 8.",
             effect: "Deal 4 damage. Take 1 damage yourself.",
-            image: "src/img/PullAllNighter.png",
+            image: "/src/img/PullAllNighter.png",
         });
     }
 
@@ -18,4 +19,10 @@ class PullAllNighter extends Card {
         player.takeDamage(1);
     }
 }
-export default PullAllNighter;
+
+if (!customElements.get("pull-all-nighter")) {
+    customElements.define("pull-all-nighter", PullAllNighter);
+}
+
+
+export {PullAllNighter};

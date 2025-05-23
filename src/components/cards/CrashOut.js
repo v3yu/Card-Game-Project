@@ -1,4 +1,5 @@
-import Card from "../components/Card";
+import Card from "../Card.js";
+
 class CrashOut extends Card {
     constructor() {
         super({
@@ -7,7 +8,8 @@ class CrashOut extends Card {
             cost: 1,
             description: "You've been debugging for 6 hours straight.",
             effect: "Deal 3 damage.",
-            image: "src/img/CrashOut.png",
+            image: "/src/img/CrashOut.png",
+
         });
     }
     /**
@@ -19,4 +21,8 @@ class CrashOut extends Card {
         enemy.takeDamage(3);
     }
 }
-export default CrashOut;
+if (!customElements.get("crash-out")) {
+    customElements.define("crash-out", CrashOut);
+}
+
+export { CrashOut };

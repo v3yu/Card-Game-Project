@@ -1,4 +1,6 @@
-import Card from "../components/Card";
+import Card from "../Card.js";
+
+
 
 class FreeBoba extends Card {
   constructor() {
@@ -8,7 +10,7 @@ class FreeBoba extends Card {
       cost: 1,
       description: "AS doing something useful for once.",
       effect: "Heal 1 HP. Draw 1 card.",
-      image: "src/img/FreeBoba.png",
+      image: "/src/img/FreeBoba.png",
     });
   }
 
@@ -21,4 +23,9 @@ class FreeBoba extends Card {
   }
 }
 
-export default FreeBoba;
+if (!customElements.get("free-boba")) {
+  customElements.define("free-boba", FreeBoba);
+}
+
+
+export {FreeBoba};

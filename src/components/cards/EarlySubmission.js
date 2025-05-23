@@ -1,4 +1,6 @@
-import Card from "../componenets/Card";
+import Card from "../Card.js";
+
+
 
 class EarlySubmission extends Card {
     constructor() {
@@ -8,7 +10,7 @@ class EarlySubmission extends Card {
         cost: 0,
         desciption: "You actually turned something in early. Historic moment.",
         effect: "Next trun: gain +1 energy.",
-        image: "src/img/EarlySubmission.png",
+        image: "/src/img/EarlySubmission.png",
         });
     }
 
@@ -19,5 +21,9 @@ class EarlySubmission extends Card {
     player.applyEffect("Energy Boost", { energyGainNextTurn: 1 });
   }
 }
+if (!customElements.get("early-submission")) {
+  customElements.define("early-submission", EarlySubmission);
+}
 
-export default EarlySubmission;
+
+export {EarlySubmission};

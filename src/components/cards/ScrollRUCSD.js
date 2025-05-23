@@ -1,4 +1,5 @@
-import Card from "../components/Card";
+import Card from "../Card.js";
+
 
 class ScrollRUCSD extends Card {
   constructor() {
@@ -8,7 +9,7 @@ class ScrollRUCSD extends Card {
       cost: 1,
       description: "Memes > Midterms.",
       effect: "Draw 2 cards. Gain 'Sleep Deprived' status for 3 turns.",
-      image: "src/img/ScrollRUCSD.png",
+      image: "/src/img/ScrollRUCSD.png",
     });
   }
 
@@ -20,5 +21,8 @@ class ScrollRUCSD extends Card {
     player.applyEffect("Sleep Deprived", { duration: 3 });
   }
 }
+if (!customElements.get("scroll-rucsd")) {
+  customElements.define("scroll-rucsd", ScrollRUCSD);
+}
 
-export default ScrollRUCSD;
+export {ScrollRUCSD};

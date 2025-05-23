@@ -1,4 +1,6 @@
-import Card from "../components/Card";
+import Card from "../Card.js";
+
+
 class SampleCard extends Card {
     constructor() {
         super({
@@ -7,7 +9,7 @@ class SampleCard extends Card {
             cost: 0,
             description: "Card description",
             effect: "Card effect",
-            image: "src/img/SampleCard.png",
+            image: "/src/img/SampleCard.png",
         });
     }
     /**
@@ -19,4 +21,9 @@ class SampleCard extends Card {
     play(target) {
     }
 }
-export default SampleCard;
+if (!customElements.get("sample-card")) {
+    customElements.define("sample-card", SampleCard);
+}
+
+
+export {SampleCard};

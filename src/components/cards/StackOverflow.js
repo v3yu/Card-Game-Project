@@ -1,4 +1,6 @@
-import Card from "../components/Card";
+import Card from "../Card.js";
+
+
 
 class StackOverflow extends Card {
   constructor() {
@@ -8,7 +10,7 @@ class StackOverflow extends Card {
       cost: 1,
       description: "Well, the user whose code you copied probably copied it from someone else too.",
       effect: "Deal 4 damage. Apply 'Shame' (target loses 1 energy next turn).",
-      image: "src/img/StackOverflow.png",
+      image: "/src/img/StackOverflow.png",
     });
   }
 
@@ -20,5 +22,9 @@ class StackOverflow extends Card {
     enemy.applyEffect("Shame", { energyLoss: 1 });
   }
 }
+if (!customElements.get("stack-overflow")) {
+  customElements.define("stack-overflow", StackOverflow);
+}
 
-export default StackOverflow;
+
+export {StackOverflow};
