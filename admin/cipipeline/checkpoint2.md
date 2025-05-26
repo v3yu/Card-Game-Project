@@ -26,8 +26,8 @@ Since we have done a few sprints we are now using the branch structure that we p
 - We have not yet encountered any bugs in dev or main that require bugfix or hotfixes.
 
 # Demonstration of how it is implemented in GitHub Actions
-![](Screenshot showing a pull request that passed unit tests)
+![https://github.com/Team-Black-Hat-White-Hat/Card-Game-Project/blob/main/admin/cipipeline/passunittest.jpg](Screenshot showing a pull request that passed unit tests)
 Screenshot showing a pull request that passed automatic unit tests, but requires a review to be able to merge.
 
-![](Screenshot showing a pull request that failed unit tests)
+![https://github.com/Team-Black-Hat-White-Hat/Card-Game-Project/blob/main/admin/cipipeline/failunittest.jpg](Screenshot showing a pull request that failed unit tests)
 Screenshot showing a pull request that failed automatic unit tests, and so cannot merge (and also requires a review)
