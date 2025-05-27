@@ -73,6 +73,7 @@ class Discard extends HTMLElement {
     /**
      * Helper function to help render cards
      */
+    /** 
     renderDiscardHelper() {
         //Helper function to help render cards
         this.innerHTML = '';
@@ -82,6 +83,7 @@ class Discard extends HTMLElement {
             this.append(card); //attaches to discard-pile DOM
         }
     }
+    */
 }
 
 customElements.define('discard-pile', Discard);
