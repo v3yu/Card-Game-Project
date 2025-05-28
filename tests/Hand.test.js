@@ -85,20 +85,13 @@ describe('Hand class functionality', () => {
 	test('renderHandHelper updates handArea with new card', () => {
 		const card1 = new CrashOut();
 		const card2 = new CrashOut();
-
-		const mockRender1 = document.createElement('div');
-		const mockRender2 = document.createElement('div');
-		mockRender1.className = 'mock-card-1';
-		mockRender2.className = 'mock-card-2';
-		card1.render = jest.fn(() => mockRender1);
-		card2.render = jest.fn(() => mockRender2);
-
+	
 		hand.hand = [card1, card2];
 		hand.renderHandHelper();
-
+	
 		const handArea = hand.shadowRoot.querySelector('.handArea');
 		expect(handArea.children.length).toBe(2);
-		expect(handArea.querySelector('.mock-card-1')).not.toBeNull();
-		expect(handArea.querySelector('.mock-card-2')).not.toBeNull();
+		expect(handArea.children[0]).toBe(card1);
+		expect(handArea.children[1]).toBe(card2);
 	});
 });
