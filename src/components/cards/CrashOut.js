@@ -9,6 +9,7 @@ class CrashOut extends Card {
             description: "You've been debugging for 6 hours straight.",
             effect: "Deal 3 damage.",
             image: "/src/img/CrashOut.png",
+
         });
     }
     /**
