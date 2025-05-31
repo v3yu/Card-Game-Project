@@ -2,6 +2,12 @@ import {shuffle,draw,moveCard,filterCards} from '../game/CardManager.js'
 import deck from "./Deck.js";
 import hand from "./Hand.js";
 import discard from "./Discard.js";
+import Deck from "./Deck.js";
+import Hand from "./Hand.js";
+import Discard from "./Discard.js";
+import {Pile} from "./Pile.js";
+import Card from "./Card.js";
+
 
 //A player has: current health, max health, current energy,
 // max energy, block, zero or more status effects, a deck, a hand, and a discard.
@@ -17,7 +23,8 @@ export class Player extends HTMLElement{
    * @param {discard} discard - The player's discard pile.
    * @param {Array} [effect=[]] - An array of status effects (e.g., poison, weaken). Defaults to an empty array.
    */
-  constructor(maxHealth, maxEnergy, deck, hand, discard, effect = []) {
+  constructor(maxHealth, maxEnergy, deck=new Deck(), hand=new Hand(),
+              discard=new Discard(), effect = []) {
     super();
     // Dynamically proxy the element's state so that whenever
     // the following properties change, render() is automatically triggered to re-render.
@@ -41,8 +48,9 @@ export class Player extends HTMLElement{
     // initialize the block and death status
     this.isDead = false;
     this.deck = deck;
+
     // temporary discard pile
-    this.tempDiscard = [];
+    this.tempDiscard = new Pile();
 
 
 
@@ -111,9 +119,13 @@ export class Player extends HTMLElement{
   /**
    * Draw cards
    * @param {number} amount
+   * @returns {number} - Returns the number of cards drawn, or -1 if there are not enough cards in the deck.
    */
   drawCards(amount) {
-    // TODO drawCards after deck.js and hand.js is completed
+    if(amount>this.deck.size()) return -1;
+    for(let i=0;i<amount;i++){
+      this.hand.addCard(this.deck.drawCard())
+    }
   }
 
   // TODO No effect in MVP
@@ -121,34 +133,63 @@ export class Player extends HTMLElement{
 
   }
 
-  /**
-   * Move all cards from the temporary discard pile into the main discard pile
-   */
-  moveTempDiscardToDiscard() {
-    for(const card of this.tempDiscard){
-      moveCard(card,this.tempDiscard,this.discard);
-    }
-    this.tempDiscard = [];
-  }
+
 
   /**
    * Shuffle the deck
    */
   shuffleDeck() {
-    shuffle(this.deck);
+    this.deck.shuffle();
   }
 
   /**
    * Shuffle the discard pile into the deck
    */
   shuffleDiscardIntoDeck() {
-    for(let card of this.discard.getCard){
-      moveCard(card,this.discard.getCard,this.deck.getCard);
-    }
-    shuffle(this.deck.getCard)
+    this.discard.getCards().forEach(card=>{
+      moveCard(card,this.discard,this.deck)
+    })
+    this.deck.shuffle();
     this.discard.clear();
   }
 
+  /**
+   * Plays a card from the hand.
+   * @param {Card} card
+   * @param {Enemy} target
+   */
+  playCard(card, target) {
+
+    // Should call the specific card’s own card.play,
+    // then this.removeCard(card)
+    card.play(target);
+    this.discardCard(card);
+  }
+
+  /**
+   * Discards a card from the hand.
+   * @param {Card} card
+   */
+  discardCard(card) {
+    //Moves a card from the hand to the discard pile
+    moveCard(card,this.hand,this.tempDiscard)
+  }
+
+  /**
+   * Discards all cards in the hand and tempDiscard.
+   */
+  discardHand() {
+    // Discards all cards in the hand,
+    // called by playerManager at the end of a turn
+
+    while(this.hand.size()>0){
+      this.discardCard(this.hand.getCards()[0]);
+    }
+    while(this.tempDiscard.size()>0){
+      moveCard(this.tempDiscard.getCards()[0],this.tempDiscard,this.discard)
+    }
+
+  }
   /**
    * render the player
    */
