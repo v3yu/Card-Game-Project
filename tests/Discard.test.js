@@ -4,23 +4,18 @@
 
 import Discard from '../src/components/Discard.js';
 import Card from '../src/components/Card.js';
-import * as CardManager from '../src/components/CardManager.js';
+import * as CardManager from '../src/game/CardManager.js'
+import Deck from "../src/components/Deck.js";
 
-jest.spyOn(CardManager, 'shuffle').mockImplementation(arr => arr); // no-op shuffle
 
-let Deck;
 
-beforeAll(async () => {
-  const DeckModule = await import('../src/components/Deck.js');
-  Deck = DeckModule.default;
-});
 
 describe('Discard tests with real Card and shuffle()', () => {
   let discard, card1, card2;
 
   beforeEach(() => {
-    document.body.innerHTML = '<discard-pile></discard-pile>';
-    discard = document.querySelector('discard-pile');
+
+    discard = document.createElement('discard-pile');
 
     card1 = new Card({
       name: 'Free Boba',
@@ -42,13 +37,13 @@ describe('Discard tests with real Card and shuffle()', () => {
   });
 
   test('addCard works for valid Card', () => {
-    expect(discard.addCard(card1)).toBe(0);
-    expect(discard.discard).toContain(card1);
+    expect(discard.addCard(card1)).toBe(1);
+    expect(discard.getCards()).toContain(card1);
   });
 
   test('addCard returns -1 for invalid input', () => {
     expect(discard.addCard("fake")).toBe(-1);
-    expect(discard.discard.length).toBe(0);
+    expect(discard.size()).toBe(0);
   });
 
   test('removeCard works and returns index', () => {
@@ -56,7 +51,7 @@ describe('Discard tests with real Card and shuffle()', () => {
     discard.addCard(card2);
     const index = discard.removeCard(card1);
     expect(index).toBe(0);
-    expect(discard.discard).not.toContain(card1);
+    expect(discard.getCards()).not.toContain(card1);
   });
 
   test('removeCard returns -1 for card not in pile', () => {
@@ -66,7 +61,7 @@ describe('Discard tests with real Card and shuffle()', () => {
   test('clear() empties the discard pile', () => {
     discard.addCard(card1);
     discard.clear();
-    expect(discard.discard.length).toBe(0);
+    expect(discard.size()).toBe(0);
   });
 
   test('shuffleDiscardIntoDeck moves all cards and clears discard', () => {
@@ -74,17 +69,19 @@ describe('Discard tests with real Card and shuffle()', () => {
     discard.addCard(card1);
     discard.addCard(card2);
 
-    expect(deck.deckSize()).toBe(0);
+    expect(deck.size()).toBe(0);
     const result = discard.shuffleDiscardIntoDeck(deck);
     expect(result).toBe(0);
-    expect(deck.deckSize()).toBe(2);
-    expect(discard.discard.length).toBe(0);
+    expect(deck.size()).toBe(2);
+    expect(discard.size()).toBe(0);
   });
 
   test('shuffleDiscardIntoDeck returns -1 for invalid deck', () => {
     discard.addCard(card1);
     const result = discard.shuffleDiscardIntoDeck({});
     expect(result).toBe(-1);
-    expect(discard.discard.length).toBe(1);
+    expect(discard.size()).toBe(1);
   });
+
+
 });

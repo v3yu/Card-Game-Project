@@ -1,20 +1,24 @@
 import {Player} from '../src/components/Player.js';
-
+import {CrashOut} from "../src/components/cards/CrashOut.js";
+import {EarlySubmission} from "../src/components/cards/EarlySubmission.js";
+import Hand from "../src/components/Hand.js";
+import Discard from "../src/components/Discard.js";
+import Deck from "../src/components/Deck.js";
 
 describe('Player class', () => {
     let player;
     let dummyCard;
 
     beforeEach(() => {
-        dummyCard = { name: 'Strike' };
+        dummyCard = new CrashOut();
         player = new Player(
           100,   // maxHealth
           3,     // maxEnergy
-          [dummyCard], // deck
-          [],    // hand
-          [],    // discard
-          [],
+          new Deck(), // deck
+          new Hand(),    // hand
+          new Discard(),    // discard
         );
+        player.deck.addCard(dummyCard)
     });
 
     test('initialization sets correct values', () => {
@@ -24,9 +28,9 @@ describe('Player class', () => {
         expect(player.state.currentEnergy).toBe(3);
         expect(player.state.block).toBe(0);
         expect(player.isDead).toBe(false);
-        expect(player.deck.length).toBe(1);
-        expect(player.hand.length).toBe(0);
-        expect(player.discard.length).toBe(0);
+        expect(player.deck.deckSize()).toBe(1);
+        expect(player.hand.hand.length).toBe(0);
+        expect(player.discard.discard.length).toBe(0);
         expect(player.state.effect.length).toBe(0);
     });
 
@@ -74,20 +78,20 @@ describe('Player class', () => {
     });
 
     test('moveTempDiscardToDiscard moves cards to discard', () => {
-        const card = { name: 'TempCard' };
+        const card = new EarlySubmission();
         player.tempDiscard.push(card);
         player.moveTempDiscardToDiscard();
-        expect(player.discard).toContain(card);
+        expect(player.discard.getCard).toContain(card);
         expect(player.tempDiscard.length).toBe(0);
     });
 
     test('Move discard to deck',()=>{
-        const card = {name:'TempCard'};
-        player.discard.push(card);
-        const tempDiscard = [...player.discard];
+        const card = new EarlySubmission();
+        player.discard.addCard(card);
+        const tempDiscard = [...player.discard.discard];
         tempDiscard.push(dummyCard);
         player.shuffleDiscardIntoDeck();
-        expect(player.deck).toEqual(expect.arrayContaining(tempDiscard));
+        expect(player.deck.getCard).toEqual(expect.arrayContaining(tempDiscard));
 
     })
 });

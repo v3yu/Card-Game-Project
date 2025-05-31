@@ -1,5 +1,7 @@
 import {shuffle,draw,moveCard,filterCards} from '../game/CardManager.js'
-
+import deck from "./Deck.js";
+import hand from "./Hand.js";
+import discard from "./Discard.js";
 
 //A player has: current health, max health, current energy,
 // max energy, block, zero or more status effects, a deck, a hand, and a discard.
@@ -10,9 +12,9 @@ export class Player extends HTMLElement{
    *
    * @param {number} maxHealth - The player's maximum health.
    * @param {number} maxEnergy - The player's maximum energy.
-   * @param {Array} deck - The player's starting deck of cards.
-   * @param {Array} hand - The player's starting hand of cards.
-   * @param {Array} discard - The player's discard pile.
+   * @param {deck} deck - The player's starting deck of cards.
+   * @param {hand} hand - The player's starting hand of cards.
+   * @param {discard} discard - The player's discard pile.
    * @param {Array} [effect=[]] - An array of status effects (e.g., poison, weaken). Defaults to an empty array.
    */
   constructor(maxHealth, maxEnergy, deck, hand, discard, effect = []) {
@@ -140,11 +142,11 @@ export class Player extends HTMLElement{
    * Shuffle the discard pile into the deck
    */
   shuffleDiscardIntoDeck() {
-    for(let card of this.discard){
-      moveCard(card,this.discard,this.deck);
+    for(let card of this.discard.getCard){
+      moveCard(card,this.discard.getCard,this.deck.getCard);
     }
-    shuffle(this.deck);
-    this.discard = [];
+    shuffle(this.deck.getCard)
+    this.discard.clear();
   }
 
   /**

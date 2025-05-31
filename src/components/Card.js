@@ -1,6 +1,14 @@
 export class Card extends HTMLElement {
-
-    constructor({name, type, cost, description, effect, image}) {
+    /**
+     *
+     * @param {string} name
+     * @param {string} type
+     * @param {number} cost
+     * @param {string} description
+     * @param {string} effect
+     * @param {string} image
+     */
+    constructor({name, type=null, cost=null, description=null, effect=null, image=null}) {
         super();
         this.name = name;
         this.type = type;

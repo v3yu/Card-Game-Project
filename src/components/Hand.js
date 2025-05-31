@@ -1,17 +1,24 @@
 /**
  * @jest-environment jsdom
  */
+import {Pile} from "./Pile.js";
+import {Card} from './Card.js'
 
-class Hand extends HTMLElement {
+class Hand extends Pile {
 
   constructor() {
     super();
-    this.discardPile = null;
+
+    /**
+     * @deprecated
+     */
+    this.discardPile = new Pile();
+
     this.attachShadow({ mode: 'open' });
-    
+
     this.handArea = document.createElement('div');
     this.handArea.className = 'handArea';
-    
+
     const style = document.createElement('style');
     style.innerText = `
           .handArea{
@@ -27,9 +34,9 @@ class Hand extends HTMLElement {
           }  
             `;
     this.shadowRoot.append(this.handArea, style);
-	
-	const internalHand = [];
-	this.hand = new Proxy(internalHand, {
+
+
+	this.hand = new Proxy(this.cards, {
 		set: (target, prop, value) => {
 			target[prop] = value;
 			if (!isNaN(prop) || prop === 'length') {
@@ -46,33 +53,56 @@ class Hand extends HTMLElement {
 }
 
   /**
-   * @param {Card} card - The card to be added.
-   * @returns {void}
+   * Override addCard to trigger Proxy
+   * @param card
+   * @returns {number}
    */
   addCard(card) {
-    //Adds a card to the hand
-    this.hand.push(card);
+    const result = super.addCard(card);
+    this.hand[this.size() - 1] = card; //
+    return result;
   }
 
   /**
-   * @param {Card} card - The card to be removed.
-   * @returns {void}
+   * Override removeCard to trigger Proxy
+   * @param card
+   * @returns {number}
    */
-  removeCard(card) {
-    //Removes a card from the hand
-    const index = this.hand.indexOf(card);
 
-    //Index has been found
-    if (index !== -1) {
-      this.hand.splice(index, 1);
-    }
+  removeCard(card) {
+    if (!(card instanceof Card)) return -1;
+    const index = this.cards.indexOf(card);
+    if (index === -1) return -1;
+    delete this.hand[index];
+    this.compactHand();
+    return index;
   }
 
   /**
+   * Compress the array and remove the empty slots.
+   */
+  compactHand() {
+    const newHand = this.hand.filter(card => card instanceof Card);
+
+    for (let i = 0; i < this.hand.length; i++) {
+      delete this.hand[i];
+    }
+
+    this.cards.length = 0;
+
+    newHand.forEach((card, index) => {
+      this.hand[index] = card;
+    });
+  }
+
+
+/*
+  /!**
+   * @deprecated move to Player.js
    * @param {Card} card - The card to be played.
    * @param {Object} target - The target for the card's effect (e.g. an enemy).
    * @returns {void}
-   */
+   *!/
   playCard(card, target) {
     // Plays a card from the hand.
     // Should call the specific card’s own card.play,
@@ -81,31 +111,31 @@ class Hand extends HTMLElement {
     this.removeCard(card);
   }
 
-  /**
+  /!**
+   * @deprecated move to Player.js
    * @param {Card} card - The card to discard.
    * @returns {void}
-   */
+   *!/
   discardCard(card) {
     //Moves a card from the hand to the discard pile
     this.removeCard(card);
     this.discardPile.addCard(card);
   }
 
-  /**
+  /!**
+   * @deprecated move to Player.js
    * @returns {void}
-   */
+   *!/
   discardHand() {
     // Discards all cards in the hand,
     // called by playerManager at the end of a turn
-    const cardsToDiscard = [];
-    for (let i = 0; i < this.hand.length; i++) {
-      cardsToDiscard.push(this.hand[i]);
-    }
+    const cardsToDiscard = this.hand.filter(card => card instanceof Card);
+
 
     for (let i = 0; i < cardsToDiscard.length; i++) {
       this.discardCard(cardsToDiscard[i]);
     }
-  }
+  }*/
 
   /**
    * @returns {void}
@@ -118,6 +148,7 @@ class Hand extends HTMLElement {
       this.handArea.append(card);
     });
   }
+
 }
 
 export default Hand;
