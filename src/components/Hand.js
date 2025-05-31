@@ -90,6 +90,7 @@ class Hand extends Pile {
 
     this.cards.length = 0;
 
+    
     newHand.forEach((card, index) => {
       this.hand[index] = card;
     });
@@ -97,19 +98,6 @@ class Hand extends Pile {
 
 
 /*
-  /!**
-   * @deprecated move to Player.js
-   * @param {Card} card - The card to be played.
-   * @param {Object} target - The target for the card's effect (e.g. an enemy).
-   * @returns {void}
-   *!/
-  playCard(card, target) {
-    // Plays a card from the hand.
-    // Should call the specific card’s own card.play,
-    // then this.removeCard(card)
-    card.play(target);
-    this.removeCard(card);
-  }
 
   /!**
    * @deprecated move to Player.js
