@@ -60,6 +60,7 @@ const gamblerDeck = createStandardDeck();
 /**
  * 
  * filterCards() Function Tester
+ * Tester
  * 
  */
 test('filterCards filters by cost', () => {
