@@ -20,25 +20,23 @@ jobs:
       - name: Run ESlint
         run: npm run lint
   JSdoc:
-    env:
-      GH_TOKEN: ${{ secrets.YYS_TOCKEN }}
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
         with:
-          persist-credentials: true
+          persist-credentials: false
       - name: Install Dependencies
         run: npm install
       - name: Generate JSdoc
         run: npm run doc
       - name: Commit and push generated docs
+        env:
+          GH_TOKEN: ${{ secrets.YYS_TOCKEN }}
         run: |
-          git config user.name "github-actions[bot]"
-          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git config user.name "Yunsong CI Bot"
+          git config user.email "ci-bot@example.com"
+          git remote set-url origin https://x-access-token:${YYS_TOCKEN}@github.com/${{ github.repository }}
           git add docs/
           git commit -m "Auto-generate docs [CI]" || echo "No changes to commit"
           git push
-
-
-
-
+  
