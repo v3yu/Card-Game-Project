@@ -31,12 +31,12 @@ jobs:
         run: npm run doc
       - name: Commit and push generated docs
         env:
-          YYS_TOCKEN: ${{ secrets.YYS_TOCKEN }}
+          YYS_TOKEN: ${{ secrets.YYS_TOKEN }}
         run: |
           git config user.name "Yunsong CI Bot"
           git config user.email "ci-bot@example.com"
           git pull origin ${{ github.ref_name }} --rebase
-          git remote set-url origin https://x-access-token:${YYS_TOCKEN}@github.com/${{ github.repository }}
+          git remote set-url origin https://x-access-token:${YYS_TOKEN}@github.com/${{ github.repository }}
           git add docs/
           git commit -m "Auto-generate docs [CI]" || echo "No changes to commit"
           git push origin HEAD:${{ github.ref_name }}
