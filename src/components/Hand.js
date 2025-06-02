@@ -79,27 +79,8 @@ class Hand extends Pile {
     if (!(card instanceof Card)) return -1;
     const index = this.cards.indexOf(card);
     if (index === -1) return -1;
-    delete this.hand[index];
-    this.compactHand();
+    this.hand.splice(index, 1);
     return index;
-  }
-
-  /**
-   * Compress the array and remove the empty slots.
-   */
-  compactHand() {
-    const newHand = this.hand.filter(card => card instanceof Card);
-
-    for (let i = 0; i < this.hand.length; i++) {
-      delete this.hand[i];
-    }
-
-    this.cards.length = 0;
-
-    
-    newHand.forEach((card, index) => {
-      this.hand[index] = card;
-    });
   }
 
 
