@@ -2,17 +2,18 @@
  * base card class
  *
  * @class
-
  */
 export class Card extends HTMLElement {
     /**
+     * Constructor of Card, extended from HTMLElement.
      *
-     * @param {string} name
-     * @param {string} type
-     * @param {number} cost
-     * @param {string} description
-     * @param {string} effect
-     * @param {string} image
+     * @param {object} options - Configuration object for the card.
+     * @param {string} options.name - Name of the card.
+     * @param {string} [options.type] - Type of the card (optional).
+     * @param {number} [options.cost] - Cost of the card (optional).
+     * @param {string} [options.description] - Description of the card (optional).
+     * @param {string} [options.effect] - Effect of the card (optional).
+     * @param {string} [options.image] - Image of the card (optional).
      */
     constructor({name, type=null, cost=null, description=null, effect=null, image=null}) {
         super();
@@ -183,11 +184,15 @@ export class Card extends HTMLElement {
     }
 
     /**
+     *
      * A virtual function to be overridden by subclasses.
      *
-     * @param enemy
+     * @abstract
+     * @param {object} enemy -  The enemy to play the card against.
      */
+    // TODO replace the enemy from object to enemy
     play(enemy) {
+        void enemy;
     }
 
 }

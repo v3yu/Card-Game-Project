@@ -4,7 +4,7 @@ import {EarlySubmission} from '../src/components/cards/EarlySubmission.js';
 import Hand from '../src/components/Hand.js';
 import Discard from '../src/components/Discard.js';
 import Deck from '../src/components/Deck.js';
-import hand from '../src/components/Hand.js';
+
 
 describe('Player class', () => {
     let player;
@@ -84,7 +84,7 @@ describe('Player class', () => {
 
     test('drawCards draws correct number of cards', () => {
         const result = player.drawCards(2);
-        expect(result).toBeUndefined(); // Currently no return unless failure
+        expect(result).toBe(1);
         expect(player.hand.size()).toBe(2);
     });
 

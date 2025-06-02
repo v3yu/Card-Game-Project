@@ -1,6 +1,4 @@
-/**
- * @jest-environment jsdom
- */
+
 
 
 import Hand from '../src/components/Hand.js';
@@ -9,7 +7,6 @@ import {EarlySubmission} from '../src/components/cards/EarlySubmission.js';
 
 describe('Hand class functionality', () => {
 	let hand;
-	let discardPile;
 
 	beforeEach(() => {
 		hand = new Hand();

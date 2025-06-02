@@ -1,6 +1,3 @@
-/**
- * @jest-environment jsdom
- */
 
 import Deck from '../src/components/Deck.js';
 import {CrashOut} from '../src/components/cards/CrashOut.js';

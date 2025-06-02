@@ -1,10 +1,6 @@
-/**
- * @jest-environment jsdom
- */
 
 import Discard from '../src/components/Discard.js';
 import Card from '../src/components/Card.js';
-import * as CardManager from '../src/game/CardManager.js';
 import Deck from '../src/components/Deck.js';
 
 
@@ -15,7 +11,7 @@ describe('Discard tests with real Card and shuffle()', () => {
 
   beforeEach(() => {
 
-    discard = document.createElement('discard-pile');
+    discard = new Discard();
 
     card1 = new Card({
       name: 'Free Boba',
