@@ -1,6 +1,3 @@
-/**
- * @jest-environment jsdom
- */
 import {Pile} from './Pile.js';
 import {Card} from './Card.js';
 
@@ -59,8 +56,8 @@ class Hand extends Pile {
   /**
    * Override addCard to trigger Proxy
    *
-   * @param card
-   * @returns {number}
+   * @param {Card} card - Card you want to add
+   * @returns {number} - 1 for success -1 for failure
    */
   addCard(card) {
     const result = super.addCard(card);
@@ -82,6 +79,8 @@ class Hand extends Pile {
     this.hand.splice(index, 1);
     return index;
   }
+
+
 
 
 /*

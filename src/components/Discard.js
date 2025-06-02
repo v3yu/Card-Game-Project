@@ -1,6 +1,5 @@
-// src/components/Discard.js
-import Card from './Card.js';
-import { shuffle } from '../game/CardManager.js';
+
+
 import {Pile} from './Pile.js';
 
 /**
@@ -16,11 +15,10 @@ class Discard extends Pile {
 
 
 
-
-
   /**
    * Shuffle the discard pile into the given deck.
    *
+   * @class Deck
    * @param {Deck} deck - must have addCard method
    * @returns {number} 0 on success, -1 on invalid deck
    */

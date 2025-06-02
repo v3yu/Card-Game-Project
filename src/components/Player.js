@@ -39,7 +39,7 @@ export class Player extends HTMLElement{
     }, {
       set: (target, prop, value) => {
         target[prop] = value;
-        this.render();   // 自动触发
+        // this.render();
         return true;
       }
     });
@@ -60,8 +60,8 @@ export class Player extends HTMLElement{
   /**
    * The character takes damage
    *
-   * @param {number} amount
-   * @returns {void}
+   * @param {number} amount - The amount of damage to take.
+   * @returns {void} - Returns nothing.
    */
   takeDamage(amount) {
     const effectiveDamage = Math.max(amount - this.state.block, 0);
@@ -77,7 +77,7 @@ export class Player extends HTMLElement{
   /**
    * Gain block
    *
-   * @param {number} amount
+   * @param {number} amount - The amount of block to gain.
    * @returns {void}
    */
   gainBlock(amount) {
@@ -87,7 +87,7 @@ export class Player extends HTMLElement{
   /**
    * receive healing
    *
-   * @param {number} amount
+   * @param {number} amount - The amount of healing to receive.
    * @returns {void}
    */
   heal(amount) {
@@ -128,7 +128,7 @@ export class Player extends HTMLElement{
   /**
    * Draw cards
    *
-   * @param {number} amount
+   * @param {number} amount - The number of cards to draw.
    * @returns {number} - Returns the number of cards drawn, or -1 if there are not enough cards in the deck.
    */
   drawCards(amount) {
@@ -136,12 +136,13 @@ export class Player extends HTMLElement{
     for(let i=0;i<amount;i++){
       this.hand.addCard(this.deck.drawCard());
     }
+    return 1;
   }
 
   // TODO No effect in MVP
-  applyEffect(name, effects) {
-
-  }
+  // applyEffect(name, effects) {
+  //
+  // }
 
 
 
@@ -170,10 +171,11 @@ export class Player extends HTMLElement{
   /**
    * Plays a card from the hand.
    *
-   * @param {Card} card
-   * @param {Enemy} target
-   * @returns {void}
+   * @param {Card} card - The card to play.
+   * @param {object} target - The enemy to play the card against.
+   * @returns {void} - Returns nothing.
    */
+  // TODO replace the object with enemy
   playCard(card, target) {
 
     // Should call the specific card’s own card.play,
@@ -192,7 +194,7 @@ export class Player extends HTMLElement{
   /**
    * Discards a card from the hand.
    *
-   * @param {Card} card
+   * @param {Card} card - The card to discard.
    * @returns {void}
    */
   discardCard(card) {
@@ -219,13 +221,13 @@ export class Player extends HTMLElement{
    * @description render the player
    * @returns {void}
    */
-  render(){
-    const{maxHealth,maxEnergy,effect,
-      currentHealth,currentEnergy,block
-    } = this.state;
-
-
-  }
+  // TODO render the player
+  // render(){
+  //   const{maxHealth,maxEnergy,effect,
+  //     currentHealth,currentEnergy,block
+  //   } = this.state;
+  //
+  // }
 
   connectedCallback(){
     this.render();

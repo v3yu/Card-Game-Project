@@ -13,13 +13,14 @@ class SampleCard extends Card {
         });
     }
     /**
-     * @param {target} player/enemies/enemy - Target of ability
      * May be the player, an enemy, or all enemies.
      * The handlePlayerAction() function in PlayerManager.js checks if the player has enough energy to play the card.
      * So we don't need to check it here.
-     * @param target
+     *
+     * @param {object} target - Target of ability
      */
     play(target) {
+        void target;
     }
 }
 if (!customElements.get('sample-card')) {

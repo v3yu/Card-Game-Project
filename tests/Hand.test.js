@@ -1,6 +1,5 @@
-/**
- * @jest-environment jsdom
- */
+
+
 
 
 import Hand from '../src/components/Hand.js';
@@ -9,7 +8,6 @@ import {EarlySubmission} from '../src/components/cards/EarlySubmission.js';
 
 describe('Hand class functionality', () => {
 	let hand;
-	let discardPile;
 
 	beforeEach(() => {
 		hand = new Hand();
@@ -63,16 +61,15 @@ describe('Hand class functionality', () => {
 	test('renderHandHelper updates handArea with new card', () => {
 		const card1 = new CrashOut();
 		const card2 = new CrashOut();
-	
+
 		hand.addCard(card1);
 		hand.addCard(card2);
 
-	
+
 		const handArea = hand.shadowRoot.querySelector('.handArea');
 		expect(handArea.children.length).toBe(2);
 		expect(handArea.children[0]).toBe(card1);
 		expect(handArea.children[1]).toBe(card2);
 	});
-
 
 });

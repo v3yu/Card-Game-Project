@@ -2,8 +2,8 @@ import {Pile} from '../components/Pile.js';
 
 /**
  * @deprecated Use Deck.shuffle() instead
- * @param {Card[]} cards
- * @returns {Card}
+ * @param {Card[]} cards - An array of cards to shuffle.
+ * @returns {Card} -  The shuffled array of cards.
  */
 export function shuffle(cards) {
   // Fisher-Yates shuffle algorithm
@@ -16,28 +16,15 @@ export function shuffle(cards) {
   return cards;
 }
 
-//Function to draw specific amount of cards (pass-by-reference)
-/**
- *
- * @param cards
- * @param number
- */
-export function draw(cards, number) {
-  // Draw the specified number of cards from the deck
-  //Should call Deck.draw() for a card then Hand.add() to the hand
-  //**Plan do some sort of for loop for i=0, i<number and deck.length>0. 
-  // have some const equal to deck.shift(if deck is top-first) 
-  // and then push to the hand from the constant variable*/
-  // TODO
-  
-}
+
 
 /**
  * move one card from one pile to another
  *
- * @param {Card} card
- * @param {Pile} fromCollection
- * @param {Pile} toCollection
+ * @class Card
+ * @param {Card} card - the card to move
+ * @param {Pile} fromCollection - the pile to move the card from
+ * @param {Pile} toCollection -  the pile to move the card to
  */
 export function moveCard(card, fromCollection, toCollection) {
   // Moving cards between deck, hand, discard, etc.
@@ -54,9 +41,10 @@ export function moveCard(card, fromCollection, toCollection) {
 /**
  * Filters an array of cards based on a given condition.
  *
- * @param {Pile} pile
- * @param {function} condition
- * @returns {Card[]}
+ * @class Card
+ * @param {Pile} pile - An array of cards to filter.
+ * @param {Function} condition -  A function that returns true for cards that satisfy the condition.
+ * @returns {Card[]} - An array of cards that satisfy the condition.
  */
 export function filterCards(pile, condition) {
 // Filter cards based on a condition (e.g., type, rarity, etc.)
