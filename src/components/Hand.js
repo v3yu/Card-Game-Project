@@ -10,10 +10,7 @@ class Hand extends Pile {
   constructor() {
     super();
 
-    /**
-     * @deprecated
-     */
-    this.discardPile = new Pile();
+
 
     this.attachShadow({ mode: 'open' });
 
