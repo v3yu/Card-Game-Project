@@ -55,7 +55,7 @@ export function moveCard(card, fromCollection, toCollection) {
  * Filters an array of cards based on a given condition.
  *
  * @param {Pile} pile
- * @param condition
+ * @param {function} condition
  * @returns {Card[]}
  */
 export function filterCards(pile, condition) {
