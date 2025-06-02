@@ -1,15 +1,15 @@
-import Card from "../Card.js";
+import Card from '../Card.js';
 
 
 class SpaghettiCodeShield extends Card {
     constructor() {
         super({
-            name: "Spaghetti Code Shield",
-            type: "defense",
+            name: 'Spaghetti Code Shield',
+            type: 'defense',
             cost: 1,
-            description: "You disappeared into callback hell, 7 nested if-loops deep. No one can find you.",
-            effect: "+5 Block. If you didn’t attack this turn, block +1 more.",
-            image: "/src/img/SampleCard.png",
+            description: 'You disappeared into callback hell, 7 nested if-loops deep. No one can find you.',
+            effect: '+5 Block. If you didn’t attack this turn, block +1 more.',
+            image: '/src/img/SampleCard.png',
         });
     }
 
@@ -20,8 +20,8 @@ class SpaghettiCodeShield extends Card {
         }
     }
 }
-if (!customElements.get("spaghetti-code-shield")) {
-    customElements.define("spaghetti-code-shield", SpaghettiCodeShield);
+if (!customElements.get('spaghetti-code-shield')) {
+    customElements.define('spaghetti-code-shield', SpaghettiCodeShield);
 }
 
 

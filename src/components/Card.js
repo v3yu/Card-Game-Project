@@ -1,6 +1,20 @@
-export class Card extends HTMLElement {
+/**
+ * base card class
+ *
+ * @class
 
-    constructor({name, type, cost, description, effect, image}) {
+ */
+export class Card extends HTMLElement {
+    /**
+     *
+     * @param {string} name
+     * @param {string} type
+     * @param {number} cost
+     * @param {string} description
+     * @param {string} effect
+     * @param {string} image
+     */
+    constructor({name, type=null, cost=null, description=null, effect=null, image=null}) {
         super();
         this.name = name;
         this.type = type;
@@ -170,6 +184,7 @@ export class Card extends HTMLElement {
 
     /**
      * A virtual function to be overridden by subclasses.
+     *
      * @param enemy
      */
     play(enemy) {
@@ -177,7 +192,7 @@ export class Card extends HTMLElement {
 
 }
 
-if (!customElements.get("my-card")) {
-    customElements.define("my-card", Card);
+if (!customElements.get('my-card')) {
+    customElements.define('my-card', Card);
 }
 export default Card;

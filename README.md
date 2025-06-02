@@ -1,3 +1,5 @@
+# Team Update 1
+https://www.youtube.com/watch?v=M326jWUw2Co
 # Directory Guide
 ```Card Game Project  
 ├── src  

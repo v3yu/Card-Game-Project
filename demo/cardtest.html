@@ -1,25 +1,50 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-    <link href="style.css" rel="stylesheet">
-    <script src="demo.js" type="module"></script>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>UCSD Slay the Spire Battle</title>
+  <link rel="stylesheet" href="../src/styles/main.css"/>
+      <script src="demo.js" type="module"></script>
 </head>
 <body>
-<article class="card">
-    <span class="cost">3</span>
+  <div class="combat-scene">
+    <!-- Background -->
+    <div class="background-elements">
+      <div class="sunset"></div>
+      <div class="sand"></div>
+      <div class="sun"></div>
+    </div>
 
-    <header class="name">Fire Mage</header>
+    <!-- Player & Enemies -->
+    <div class="battle-area">
+        <div class="player">
+            <div class="character-container">
+              <div class="unit">Hero</div>
+              <div class="hp-bar"></div>
+            </div>
+          </div>
+        <div class="enemies">
+            <div class="character-container">
+                <div class="unit">Enemy 1</div>
+                <div class="hp-bar"></div>
+              </div>
+            <div class="character-container">
+                <div class="unit">Enemy 2</div>
+                <div class="hp-bar"></div>
+            </div>
+        </div>
+    </div>
 
-    <figure class="image-container">
-        <img src="../src/img/test.jpg" alt="A fiery mage casting a spell">
-    </figure>
+    <!-- Hand Area -->
+    <div class="hand-area">
 
-    <section class="effect">Deal 3</section>
+    </div>
 
-    <footer class="description">You've been debugging for 6 hours straight</footer>
-</article>
-
+    <!-- UI Buttons -->
+    <button class="draw-button">Draw</button>
+    <button class="discard-button">Discard</button>
+    <button class="end-turn-button">End Turn</button>
+  </div>
 </body>
 </html>
