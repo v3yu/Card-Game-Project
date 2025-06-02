@@ -4,7 +4,7 @@
     "includePattern": ".js$"
   },
   "opts": {
-    "destination": "./Jsdoc/docs",
+    "destination": "./docs",
     "recurse": true
   }
 }
