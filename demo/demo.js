@@ -2,7 +2,7 @@ import Hand from '../src/components/Hand.js';
 import {CrashOut} from '../src/components/cards/CrashOut.js';
 import {FreeBoba} from '../src/components/cards/FreeBoba.js';
 
-
+// no
 const handArea = document.querySelector('.hand-area');
 
 const hand = new Hand();
