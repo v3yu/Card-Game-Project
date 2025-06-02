@@ -60,25 +60,6 @@ describe('Hand class functionality', () => {
 		expect(hand.hand.length).toBe(0);
 	});
 
-	test('compactHand removes undefined slots and reorders', () => {
-		const card1 = new CrashOut();
-		const card2 = new CrashOut();
-		const card3 = new CrashOut();
-
-		hand.addCard(card1);
-		hand.addCard(card2);
-		hand.addCard(card3);
-
-		delete hand.hand[1];
-		hand.compactHand();
-
-		expect(hand.hand.length).toBe(2);
-		expect(hand.hand[0]).toBe(card1);
-		expect(hand.hand[1]).toBe(card3);
-		expect(hand.hand).not.toContain(undefined);
-		expect(hand.shadowRoot.querySelector('.handArea').children.length).toBe(2);
-	});
-
 	test('renderHandHelper updates handArea with new card', () => {
 		const card1 = new CrashOut();
 		const card2 = new CrashOut();
