@@ -1,16 +1,17 @@
-import {shuffle,draw,moveCard,filterCards} from '../game/CardManager.js'
-import deck from "./Deck.js";
-import hand from "./Hand.js";
-import discard from "./Discard.js";
-import Deck from "./Deck.js";
-import Hand from "./Hand.js";
-import Discard from "./Discard.js";
-import {Pile} from "./Pile.js";
-import Card from "./Card.js";
+import {moveCard} from '../game/CardManager.js';
+import Deck from './Deck.js';
+import Hand from './Hand.js';
+import Discard from './Discard.js';
+import {Pile} from './Pile.js';
+import Card from './Card.js';
 
 
 //A player has: current health, max health, current energy,
 // max energy, block, zero or more status effects, a deck, a hand, and a discard.
+/**
+ *  @description Represents a player in the game.
+ *  @class Player
+ */
 export class Player extends HTMLElement{
 
   /**
@@ -58,7 +59,9 @@ export class Player extends HTMLElement{
 
   /**
    * The character takes damage
+   *
    * @param {number} amount
+   * @returns {void}
    */
   takeDamage(amount) {
     const effectiveDamage = Math.max(amount - this.state.block, 0);
@@ -73,7 +76,9 @@ export class Player extends HTMLElement{
 
   /**
    * Gain block
+   *
    * @param {number} amount
+   * @returns {void}
    */
   gainBlock(amount) {
     this.state.block += amount;
@@ -81,7 +86,9 @@ export class Player extends HTMLElement{
 
   /**
    * receive healing
+   *
    * @param {number} amount
+   * @returns {void}
    */
   heal(amount) {
     this.state.currentHealth = Math.min(this.state.currentHealth + amount, this.state.maxHealth);
@@ -111,6 +118,8 @@ export class Player extends HTMLElement{
 
   /**
    * Reset energy to MaxEnergy
+   *
+   * @returns {void}
    */
   resetEnergy() {
     this.state.currentEnergy = this.state.maxEnergy;
@@ -118,13 +127,14 @@ export class Player extends HTMLElement{
 
   /**
    * Draw cards
+   *
    * @param {number} amount
    * @returns {number} - Returns the number of cards drawn, or -1 if there are not enough cards in the deck.
    */
   drawCards(amount) {
     if(amount>this.deck.size()) return -1;
     for(let i=0;i<amount;i++){
-      this.hand.addCard(this.deck.drawCard())
+      this.hand.addCard(this.deck.drawCard());
     }
   }
 
@@ -137,6 +147,8 @@ export class Player extends HTMLElement{
 
   /**
    * Shuffle the deck
+   *
+   * @returns {void}
    */
   shuffleDeck() {
     this.deck.shuffle();
@@ -144,35 +156,48 @@ export class Player extends HTMLElement{
 
   /**
    * Shuffle the discard pile into the deck
+   *
+   * @returns {void}
    */
   shuffleDiscardIntoDeck() {
     this.discard.getCards().forEach(card=>{
-      moveCard(card,this.discard,this.deck)
-    })
+      moveCard(card,this.discard,this.deck);
+    });
     this.deck.shuffle();
     this.discard.clear();
   }
 
   /**
    * Plays a card from the hand.
+   *
    * @param {Card} card
    * @param {Enemy} target
+   * @returns {void}
    */
   playCard(card, target) {
 
     // Should call the specific card’s own card.play,
     // then this.removeCard(card)
+    try{
+      if(!this.spendEnergy(card.cost)) throw new Error('you don\'t have enough energy');
+    }
+    catch (err){
+      alert(err.message);
+      return;
+    }
     card.play(target);
     this.discardCard(card);
   }
 
   /**
    * Discards a card from the hand.
+   *
    * @param {Card} card
+   * @returns {void}
    */
   discardCard(card) {
     //Moves a card from the hand to the discard pile
-    moveCard(card,this.hand,this.tempDiscard)
+    moveCard(card,this.hand,this.tempDiscard);
   }
 
   /**
@@ -186,17 +211,18 @@ export class Player extends HTMLElement{
       this.discardCard(this.hand.getCards()[0]);
     }
     while(this.tempDiscard.size()>0){
-      moveCard(this.tempDiscard.getCards()[0],this.tempDiscard,this.discard)
+      moveCard(this.tempDiscard.getCards()[0],this.tempDiscard,this.discard);
     }
 
   }
   /**
-   * render the player
+   * @description render the player
+   * @returns {void}
    */
   render(){
     const{maxHealth,maxEnergy,effect,
       currentHealth,currentEnergy,block
-    } = this.state
+    } = this.state;
 
 
   }

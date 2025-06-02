@@ -1,9 +1,13 @@
 /**
  * @jest-environment jsdom
  */
-import {Pile} from "./Pile.js";
-import {Card} from './Card.js'
+import {Pile} from './Pile.js';
+import {Card} from './Card.js';
 
+/**
+ * @class Hand
+ * @description The player's hand feature, including visual components and logic
+ */
 class Hand extends Pile {
 
   constructor() {
@@ -54,6 +58,7 @@ class Hand extends Pile {
 
   /**
    * Override addCard to trigger Proxy
+   *
    * @param card
    * @returns {number}
    */
@@ -65,6 +70,7 @@ class Hand extends Pile {
 
   /**
    * Override removeCard to trigger Proxy
+   *
    * @param card
    * @returns {number}
    */

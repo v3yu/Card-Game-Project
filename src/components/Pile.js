@@ -1,12 +1,14 @@
-import {Card} from "./Card.js";
+import {Card} from './Card.js';
 
 /**
- * The Pile class provides a unified interface for defining card piles such as deck, hand, and discard.
+ * @description The Pile class provides a unified interface for defining card piles such as deck, hand, and discard.
+ * @class Pile
  */
 export class Pile extends HTMLElement{
   /**
    * Used to store all the cards.
-   * @type {[Card]}
+   *
+   * @type {Card[]}
    */
   cards;
 
@@ -21,8 +23,9 @@ export class Pile extends HTMLElement{
 
   /**
    * add one card into the pile
+   *
    * @param {Card} card
-   * @return {number} 1 for success,-1 for  failure
+   * @returns {number} 1 for success,-1 for  failure
    */
   addCard(card){
     if(!(card instanceof Card)){
@@ -34,7 +37,8 @@ export class Pile extends HTMLElement{
 
   /**
    * add cards into the pile
-   * @param {[Card]} cards
+   *
+   * @param {Card[]} cards
    */
   addCards(cards){
     cards.forEach(card => {
@@ -44,6 +48,7 @@ export class Pile extends HTMLElement{
 
   /**
    * return cards array
+   *
    * @returns {Card[]}
    */
   getCards() {
@@ -72,6 +77,7 @@ export class Pile extends HTMLElement{
 
   /**
    * return the size of the pile
+   *
    * @returns {number}
    */
   size() {
@@ -80,7 +86,7 @@ export class Pile extends HTMLElement{
 
   /**
    * @param {Card} card - card that needs to be removed
-   * @return {number} - index of the card that was removed, or -1 if card wasn't found (or card is not a card object)
+   * @returns {number} - index of the card that was removed, or -1 if card wasn't found (or card is not a card object)
    */
   removeCard(card) {
     if (!(card instanceof Card)) return -1;
@@ -93,5 +99,5 @@ export class Pile extends HTMLElement{
 }
 
 if(!customElements.get('pile-element')){
-  customElements.define('pile-element', Pile)
+  customElements.define('pile-element', Pile);
 }

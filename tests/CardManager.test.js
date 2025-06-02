@@ -1,6 +1,6 @@
-import {shuffle, draw, moveCard, filterCards} from '../src/game/CardManager.js'
-import Card from "../src/components/Card.js";
-import {Pile} from "../src/components/Pile.js";
+import {shuffle, draw, moveCard, filterCards} from '../src/game/CardManager.js';
+import Card from '../src/components/Card.js';
+import {Pile} from '../src/components/Pile.js';
 
 /**
  * 
@@ -22,6 +22,9 @@ const cardsAttack = [
 ];
 const attackPile = new Pile(cardsAttack);
 
+/**
+ *
+ */
 function createStandardDeck() {
   const suits = ['Hearts', 'Diamonds', 'Clubs', 'Spades'];
   const ranks = [
@@ -81,7 +84,7 @@ test('filterCards filters by type', () => {
 
 test('filterCards filters by type with multiple', ()=>{
   const result= filterCards(attackPile, card => card.type === 'attack');
-  expect(result).toEqual(cardsAttack)
+  expect(result).toEqual(cardsAttack);
 });
 
 test('filterCards returns empty if no type match', () => {
