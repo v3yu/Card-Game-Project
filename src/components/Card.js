@@ -1,3 +1,9 @@
+/**
+ * base card class
+ *
+ * @class
+
+ */
 export class Card extends HTMLElement {
     /**
      *
@@ -178,6 +184,7 @@ export class Card extends HTMLElement {
 
     /**
      * A virtual function to be overridden by subclasses.
+     *
      * @param enemy
      */
     play(enemy) {
@@ -185,7 +192,7 @@ export class Card extends HTMLElement {
 
 }
 
-if (!customElements.get("my-card")) {
-    customElements.define("my-card", Card);
+if (!customElements.get('my-card')) {
+    customElements.define('my-card', Card);
 }
 export default Card;

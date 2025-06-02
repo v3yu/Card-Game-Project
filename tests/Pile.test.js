@@ -80,7 +80,7 @@ describe('Pile class', () => {
   test('returns -1 when removing an invalid object (not a Card)', () => {
     pile.addCard(card1);
 
-    const result = pile.removeCard("not a card");
+    const result = pile.removeCard('not a card');
     expect(result).toBe(-1);
     expect(pile.cards.length).toBe(1);
   });

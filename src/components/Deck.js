@@ -1,9 +1,8 @@
 import {Card} from './Card.js';
-import {Pile} from "./Pile.js";
+import {Pile} from './Pile.js';
 
 /**
  * @class Deck
- * @extends Pile
  * @description deck. The parent class Pile already provides a cards array that can be used directly.
  */
 class Deck extends Pile {

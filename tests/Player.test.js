@@ -1,10 +1,10 @@
 import {Player} from '../src/components/Player.js';
-import {CrashOut} from "../src/components/cards/CrashOut.js";
-import {EarlySubmission} from "../src/components/cards/EarlySubmission.js";
-import Hand from "../src/components/Hand.js";
-import Discard from "../src/components/Discard.js";
-import Deck from "../src/components/Deck.js";
-import hand from "../src/components/Hand.js";
+import {CrashOut} from '../src/components/cards/CrashOut.js';
+import {EarlySubmission} from '../src/components/cards/EarlySubmission.js';
+import Hand from '../src/components/Hand.js';
+import Discard from '../src/components/Discard.js';
+import Deck from '../src/components/Deck.js';
+import hand from '../src/components/Hand.js';
 
 describe('Player class', () => {
     let player;
@@ -104,7 +104,7 @@ describe('Player class', () => {
     test('discardHand moves all from hand to discard via tempDiscard', () => {
         player.hand.addCard(card1);
         player.hand.addCard(card2);
-        player.hand.addCard(card1)
+        player.hand.addCard(card1);
         player.discardHand();
         expect(player.hand.size()).toBe(0);
         expect(player.discard.getCards()).toContain(card1);

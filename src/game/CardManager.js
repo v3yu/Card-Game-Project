@@ -1,9 +1,9 @@
-import {Pile} from "../components/Pile.js";
+import {Pile} from '../components/Pile.js';
 
 /**
  * @deprecated Use Deck.shuffle() instead
  * @param {Card[]} cards
- * @returns {*}
+ * @returns {Card}
  */
 export function shuffle(cards) {
   // Fisher-Yates shuffle algorithm
@@ -17,6 +17,11 @@ export function shuffle(cards) {
 }
 
 //Function to draw specific amount of cards (pass-by-reference)
+/**
+ *
+ * @param cards
+ * @param number
+ */
 export function draw(cards, number) {
   // Draw the specified number of cards from the deck
   //Should call Deck.draw() for a card then Hand.add() to the hand
@@ -28,6 +33,7 @@ export function draw(cards, number) {
 }
 
 /**
+ * move one card from one pile to another
  *
  * @param {Card} card
  * @param {Pile} fromCollection
@@ -47,9 +53,10 @@ export function moveCard(card, fromCollection, toCollection) {
 
 /**
  * Filters an array of cards based on a given condition.
+ *
  * @param {Pile} pile
  * @param condition
- * @returns {*[]}
+ * @returns {Card[]}
  */
 export function filterCards(pile, condition) {
 // Filter cards based on a condition (e.g., type, rarity, etc.)

@@ -4,8 +4,8 @@
 
 import Discard from '../src/components/Discard.js';
 import Card from '../src/components/Card.js';
-import * as CardManager from '../src/game/CardManager.js'
-import Deck from "../src/components/Deck.js";
+import * as CardManager from '../src/game/CardManager.js';
+import Deck from '../src/components/Deck.js';
 
 
 
@@ -42,7 +42,7 @@ describe('Discard tests with real Card and shuffle()', () => {
   });
 
   test('addCard returns -1 for invalid input', () => {
-    expect(discard.addCard("fake")).toBe(-1);
+    expect(discard.addCard('fake')).toBe(-1);
     expect(discard.size()).toBe(0);
   });
 

@@ -1,11 +1,11 @@
 /**
-* @jest-environment jsdom
-*/
+ * @jest-environment jsdom
+ */
 
-import { jest } from '@jest/globals';
+
 import Hand from '../src/components/Hand.js';
 import { CrashOut } from '../src/components/cards/CrashOut.js';
-import {EarlySubmission} from "../src/components/cards/EarlySubmission.js";
+import {EarlySubmission} from '../src/components/cards/EarlySubmission.js';
 
 describe('Hand class functionality', () => {
 	let hand;
@@ -31,7 +31,7 @@ describe('Hand class functionality', () => {
 		const card1 = new CrashOut();
 		const card2 = new EarlySubmission();
 		hand.addCard(card1);
-		hand.addCard(card2)
+		hand.addCard(card2);
 		hand.removeCard(card1);
 		expect(hand.hand).not.toContain(card1);
 		expect(hand.shadowRoot.querySelector('.handArea').children.length).toBe(1);
