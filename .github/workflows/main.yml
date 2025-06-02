@@ -35,9 +35,9 @@ jobs:
         run: |
           git config user.name "Yunsong CI Bot"
           git config user.email "ci-bot@example.com"
-          git pull origin ${{ github.ref_name }} --rebase
-          git remote set-url origin https://x-access-token:${YYS_TOKEN}@github.com/${{ github.repository }}
           git add docs/
           git commit -m "Auto-generate docs [CI]" || echo "No changes to commit"
+          git pull origin ${{ github.ref_name }} --rebase
+          git remote set-url origin https://x-access-token:${YYS_TOKEN}@github.com/${{ github.repository }}
           git push origin HEAD:${{ github.ref_name }}
   
