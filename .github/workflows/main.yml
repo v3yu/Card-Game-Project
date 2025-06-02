@@ -20,6 +20,8 @@ jobs:
       - name: Run ESlint
         run: npm run lint
   JSdoc:
+    env:
+      GH_TOKEN: ${{ secrets.YYS_TOCKEN }}
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -34,7 +36,7 @@ jobs:
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git add docs/
-          git commit -m "🔄 Auto-generate docs [CI]" || echo "No changes to commit"
+          git commit -m "Auto-generate docs [CI]" || echo "No changes to commit"
           git push
 
 
