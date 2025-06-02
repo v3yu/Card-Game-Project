@@ -16,7 +16,7 @@ class Deck extends Pile {
 
 
     /**
-     * 
+     * Pop a card from deck
      * @returns {Card} - drawed card
      */
     drawCard() {
