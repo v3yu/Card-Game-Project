@@ -14,14 +14,110 @@ import Card from './Card.js';
  */
 export class Player extends HTMLElement{
 
+
+
+  style=`
+        body {
+            font-family: sans-serif;
+            background: #fff;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        .player-ui {
+            width: 300px;
+            padding: 10px;
+        }
+
+
+        .block-row {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            margin-bottom: 8px;
+            font-size: 16px;
+        }
+        .block-row  img{
+            width: 20px;
+        }
+
+
+        #enemyImg{
+            width: 100%;
+            align-items: center;
+        }
+
+        .hp-bar-container {
+            position: relative;
+            height: 24px;
+            border: 1px solid #aaa;
+            border-radius: 6px;
+            background-color: #ddd;
+            overflow: hidden;
+        }
+
+        .hp-bar {
+            height: 100%;
+            width: 100%;
+            background: linear-gradient(to right, #aef, #5cf);
+            transition: width 0.3s ease;
+        }
+
+        .hp-text {
+            position: absolute;
+            top: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            color: #000;
+            text-shadow: 1px 1px #fff;
+            pointer-events: none;
+        }
+
+        .effect-container{
+            width: 100%;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+        .effectIcon{
+            width: 10%;
+        }
+  `;
+
+  template = (t)=>`
+   <img src="/src/img/sprite.png" alt="player" id="enemyImg">
+    <div class="block-row">
+        <img src="/src/img/shieldicon.png" alt="block">
+        <span id="block">${t.state.block}</span>
+        <img src="/src/img/energyicon.png" alt="energy">
+        <span id="energy">${t.state.currentEnergy}/${t.state.maxEnergy}</span>
+    </div>
+    <div class="hp-bar-container">
+        <div class="hp-text">${t.state.currentHealth}/${t.state.maxHealth}</div>
+        <div class="hp-bar"></div>
+    </div>
+    <div class="effect-container">
+<!--  example  -->
+<!--        <img class="effectIcon" src="/src/img/attackUpIcon.png" alt="attackUp">-->
+<!--        <img class="effectIcon" src="/src/img/defenseDownIcon.png" alt="defenseDown">-->
+    </div>
+  `;
   /**
    * Creates a player instance with health, energy, deck, hand, discard pile, and status effects and block.
    *
    * @param {number} maxHealth - The player's maximum health.
    * @param {number} maxEnergy - The player's maximum energy.
-   * @param {deck} deck - The player's starting deck of cards.
-   * @param {hand} hand - The player's starting hand of cards.
-   * @param {discard} discard - The player's discard pile.
+   * @param {Deck} deck - The player's starting deck of cards.
+   * @param {Hand} hand - The player's starting hand of cards.
+   * @param {Discard} discard - The player's discard pile.
    * @param {Array} [effect=[]] - An array of status effects (e.g., poison, weaken). Defaults to an empty array.
    */
   constructor(maxHealth, maxEnergy, deck=new Deck(), hand=new Hand(),
@@ -53,7 +149,16 @@ export class Player extends HTMLElement{
     // temporary discard pile
     this.tempDiscard = new Pile();
 
+    // initial shadow root
+    const shadowRoot = this.attachShadow({mode: 'open'});
+    const style = document.createElement('style');
+    style.innerHTML = this.style;
+    shadowRoot.append(style);
 
+    // create root div element
+    this.div = document.createElement('div');
+    this.div.className = 'player-ui';
+    this.shadowRoot.append(this.div);
 
   }
 
@@ -221,13 +326,11 @@ export class Player extends HTMLElement{
    * @description render the player
    * @returns {void}
    */
-  // TODO render the player
-  // render(){
-  //   const{maxHealth,maxEnergy,effect,
-  //     currentHealth,currentEnergy,block
-  //   } = this.state;
-  //
-  // }
+  render(){
+    const playerUI = this.template(this);
+    this.shadowRoot.querySelector('.player-ui').innerHTML=playerUI;
+    this.shadowRoot.querySelector( '.hp-bar').style.width = `${this.state.currentHealth/this.state.maxHealth*100}%`;
+  }
 
   connectedCallback(){
     this.render();

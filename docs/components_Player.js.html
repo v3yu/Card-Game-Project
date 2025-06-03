@@ -42,14 +42,110 @@ import Card from './Card.js';
  */
 export class Player extends HTMLElement{
 
+
+
+  style=`
+        body {
+            font-family: sans-serif;
+            background: #fff;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        .player-ui {
+            width: 300px;
+            padding: 10px;
+        }
+
+
+        .block-row {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            margin-bottom: 8px;
+            font-size: 16px;
+        }
+        .block-row  img{
+            width: 20px;
+        }
+
+
+        #enemyImg{
+            width: 100%;
+            align-items: center;
+        }
+
+        .hp-bar-container {
+            position: relative;
+            height: 24px;
+            border: 1px solid #aaa;
+            border-radius: 6px;
+            background-color: #ddd;
+            overflow: hidden;
+        }
+
+        .hp-bar {
+            height: 100%;
+            width: 100%;
+            background: linear-gradient(to right, #aef, #5cf);
+            transition: width 0.3s ease;
+        }
+
+        .hp-text {
+            position: absolute;
+            top: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            color: #000;
+            text-shadow: 1px 1px #fff;
+            pointer-events: none;
+        }
+
+        .effect-container{
+            width: 100%;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+        .effectIcon{
+            width: 10%;
+        }
+  `;
+
+  template = (t)=>`
+   &lt;img src="/src/img/sprite.png" alt="player" id="enemyImg">
+    &lt;div class="block-row">
+        &lt;img src="/src/img/shieldicon.png" alt="block">
+        &lt;span id="block">${t.state.block}&lt;/span>
+        &lt;img src="/src/img/energyicon.png" alt="energy">
+        &lt;span id="energy">${t.state.currentEnergy}/${t.state.maxEnergy}&lt;/span>
+    &lt;/div>
+    &lt;div class="hp-bar-container">
+        &lt;div class="hp-text">${t.state.currentHealth}/${t.state.maxHealth}&lt;/div>
+        &lt;div class="hp-bar">&lt;/div>
+    &lt;/div>
+    &lt;div class="effect-container">
+&lt;!--  example  -->
+&lt;!--        &lt;img class="effectIcon" src="/src/img/attackUpIcon.png" alt="attackUp">-->
+&lt;!--        &lt;img class="effectIcon" src="/src/img/defenseDownIcon.png" alt="defenseDown">-->
+    &lt;/div>
+  `;
   /**
    * Creates a player instance with health, energy, deck, hand, discard pile, and status effects and block.
    *
    * @param {number} maxHealth - The player's maximum health.
    * @param {number} maxEnergy - The player's maximum energy.
-   * @param {deck} deck - The player's starting deck of cards.
-   * @param {hand} hand - The player's starting hand of cards.
-   * @param {discard} discard - The player's discard pile.
+   * @param {Deck} deck - The player's starting deck of cards.
+   * @param {Hand} hand - The player's starting hand of cards.
+   * @param {Discard} discard - The player's discard pile.
    * @param {Array} [effect=[]] - An array of status effects (e.g., poison, weaken). Defaults to an empty array.
    */
   constructor(maxHealth, maxEnergy, deck=new Deck(), hand=new Hand(),
@@ -81,7 +177,16 @@ export class Player extends HTMLElement{
     // temporary discard pile
     this.tempDiscard = new Pile();
 
+    // initial shadow root
+    const shadowRoot = this.attachShadow({mode: 'open'});
+    const style = document.createElement('style');
+    style.innerHTML = this.style;
+    shadowRoot.append(style);
 
+    // create root div element
+    this.div = document.createElement('div');
+    this.div.className = 'player-ui';
+    this.shadowRoot.append(this.div);
 
   }
 
@@ -249,13 +354,11 @@ export class Player extends HTMLElement{
    * @description render the player
    * @returns {void}
    */
-  // TODO render the player
-  // render(){
-  //   const{maxHealth,maxEnergy,effect,
-  //     currentHealth,currentEnergy,block
-  //   } = this.state;
-  //
-  // }
+  render(){
+    const playerUI = this.template(this);
+    this.shadowRoot.querySelector('.player-ui').innerHTML=playerUI;
+    this.shadowRoot.querySelector( '.hp-bar').style.width = `${this.state.currentHealth/this.state.maxHealth*100}%`;
+  }
 
   connectedCallback(){
     this.render();
@@ -273,13 +376,13 @@ customElements.define('my-player',Player);</code></pre>
 </div>
 
 <nav>
-    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="Card.html">Card</a></li><li><a href="Deck.html">Deck</a></li><li><a href="Discard.html">Discard</a></li><li><a href="Hand.html">Hand</a></li><li><a href="Pile.html">Pile</a></li><li><a href="Pile_Pile.html">Pile</a></li><li><a href="Player.html">Player</a></li><li><a href="Player_Player.html">Player</a></li></ul><h3>Global</h3><ul><li><a href="global.html#endTurn">endTurn</a></li><li><a href="global.html#handlePlayerAction">handlePlayerAction</a></li><li><a href="global.html#isPlayerDead">isPlayerDead</a></li><li><a href="global.html#shuffle">shuffle</a></li><li><a href="global.html#spawnPlayer">spawnPlayer</a></li><li><a href="global.html#startTurn">startTurn</a></li></ul>
+    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="Card.html">Card</a></li><li><a href="Deck.html">Deck</a></li><li><a href="Discard.html">Discard</a></li><li><a href="Enemy.html">Enemy</a></li><li><a href="Hand.html">Hand</a></li><li><a href="Pile.html">Pile</a></li><li><a href="Pile_Pile.html">Pile</a></li><li><a href="Player.html">Player</a></li><li><a href="Player_Player.html">Player</a></li></ul><h3>Global</h3><ul><li><a href="global.html#endTurn">endTurn</a></li><li><a href="global.html#handlePlayerAction">handlePlayerAction</a></li><li><a href="global.html#isPlayerDead">isPlayerDead</a></li><li><a href="global.html#shuffle">shuffle</a></li><li><a href="global.html#spawnPlayer">spawnPlayer</a></li><li><a href="global.html#startTurn">startTurn</a></li></ul>
 </nav>
 
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 4.0.4</a> on Tue Jun 03 2025 17:43:17 GMT+0000 (Coordinated Universal Time)
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 4.0.4</a> on Tue Jun 03 2025 17:52:02 GMT+0000 (Coordinated Universal Time)
 </footer>
 
 <script> prettyPrint(); </script>
