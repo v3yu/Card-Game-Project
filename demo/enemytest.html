@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <title>Enemy UI - Panda</title>
+    <style>
+        body {
+            font-family: sans-serif;
+            background: #fff;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        .enemy-ui {
+            width: 300px;
+            padding: 10px;
+        }
+
+
+        .block-row {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            margin-bottom: 8px;
+            font-size: 16px;
+        }
+        .block-row  img{
+            width: 20px;
+        }
+
+
+        #enemyImg{
+            width: 100%;
+            align-items: center;
+        }
+
+        .hp-bar-container {
+            position: relative;
+            height: 24px;
+            border: 1px solid #aaa;
+            border-radius: 6px;
+            background-color: #ddd;
+            overflow: hidden;
+        }
+
+        .hp-bar {
+            height: 100%;
+            width: 40%;
+            background: linear-gradient(to right, #aef, #5cf);
+            transition: width 0.3s ease;
+        }
+
+        .hp-text {
+            position: absolute;
+            top: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            color: #000;
+            text-shadow: 1px 1px #fff;
+            pointer-events: none;
+        }
+
+        .effect-container{
+            width: 100%;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+        .effectIcon{
+            width: 10%;
+        }
+    </style>
+</head>
+<body>
+
+<div class="enemy-ui">
+    <img src="/src/img/sprite.png" alt="enemy" id="enemyImg">
+    <div class="block-row">
+        <img src="/src/img/shieldicon.png" alt="block">
+        <span id="block">3</span>
+    </div>
+    <div class="hp-bar-container">
+        <div class="hp-text">100/100</div>
+        <div class="hp-bar"></div>
+    </div>
+    <div class="effect-container">
+        <img class="effectIcon" src="/src/img/attackUpIcon.png" alt="attackUp">
+        <img class="effectIcon" src="/src/img/defenseDownIcon.png" alt="defenseDown">
+    </div>
+</div>
+
+</body>
+</html>

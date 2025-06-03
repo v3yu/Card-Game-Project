@@ -1,7 +1,7 @@
 import Hand from '../src/components/Hand.js';
 import {CrashOut} from '../src/components/cards/CrashOut.js';
 import {FreeBoba} from '../src/components/cards/FreeBoba.js';
-
+import {Enemy} from '../src/components/Enemy.js';
 // no
 const handArea = document.querySelector('.hand-area');
 
@@ -15,7 +15,6 @@ hand.addCard(crashOutCard);
 hand.addCard(crashOutCard2);
 hand.addCard(freeBobaCard);
 
-//remove
-//hand.removeCard(freeBobaCard);
-
-hand.renderHandHelper();
+const enemy = new Enemy({name : 'Enemy', HP: 10, Img: '/src/img/sprite.png'});
+document.querySelector('.character-container').append(enemy) ;
+enemy.takeDamage(5);
