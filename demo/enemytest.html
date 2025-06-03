@@ -13,7 +13,7 @@
             height: 100vh;
         }
 
-        .enemy-ui {
+        .player-ui {
             width: 300px;
             padding: 10px;
         }
@@ -47,7 +47,7 @@
 
         .hp-bar {
             height: 100%;
-            width: 40%;
+            width: 100%;
             background: linear-gradient(to right, #aef, #5cf);
             transition: width 0.3s ease;
         }
@@ -81,11 +81,13 @@
 </head>
 <body>
 
-<div class="enemy-ui">
+<div class="player-ui">
     <img src="/src/img/sprite.png" alt="enemy" id="enemyImg">
     <div class="block-row">
         <img src="/src/img/shieldicon.png" alt="block">
         <span id="block">3</span>
+        <img src="/src/img/energyicon.png" alt="energy">
+        <span id="energy">3</span>
     </div>
     <div class="hp-bar-container">
         <div class="hp-text">100/100</div>
