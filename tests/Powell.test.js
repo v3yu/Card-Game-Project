@@ -5,20 +5,6 @@ import Hand from '../src/components/Hand.js';
 import Discard from '../src/components/Discard.js';
 import Deck from '../src/components/Deck.js';
 
-
-/**
- * simulate the Player class
- */
-class MockPlayer {
-    constructor() {
-        this.damageTaken = 0;
-    }
-
-    takeDamage(amount) {
-        this.damageTaken += amount;
-    }
-}
-
 describe('Instance on enemy - Powell', () => {
     let enemy;
     let player;
@@ -31,48 +17,48 @@ describe('Instance on enemy - Powell', () => {
         document.body.appendChild(enemy);
     });
 
-    test('test basic attack', () => {
+    test('basic attack', () => {
         enemy.pAttack(10);
         expect(player.state.currentHealth).toBe(90);
     });
 
-    test('test gaining block', () => {
+    test('gaining block', () => {
         enemy.gainBlock(10);
         expect(enemy.block).toBe(10);
     });
 
-    test('test magic missile attack', () => {
+    test('magic missile attack', () => {
         enemy.magicMissile();
         expect(player.state.currentHealth).toBe(97);
         expect(enemy.lastMove).toBe(enemy.magicMissile);
     });
 
-    test('test cringe dad joke attack', () => {
+    test('cringe dad joke attack', () => {
         enemy.cringeDadJoke();
         expect(player.state.currentHealth).toBe(98);
         expect(enemy.lastMove).toBe(enemy.cringeDadJoke);
     });
 
-    test('test ancient web spell attack', () => {
+    test('ancient web spell attack', () => {
         enemy.ancientWebSpell();
         expect(enemy.block).toBe(3);
         expect(enemy.attackBuff).toBe(1.5);
         expect(enemy.lastMove).toBe(enemy.ancientWebSpell);
     });
 
-    test('test obscure reference attack', () => {
+    test('obscure reference attack', () => {
         enemy.obscureReference();
         expect(enemy.lastMove).toBe(enemy.obscureReference);
     });
 
-    test('test jargon tornado attack', () => {
+    test('jargon tornado attack', () => {
         enemy.jargonTornado();
         expect(enemy.HP).toBe(108);
         expect(player.state.currentHealth).toBe(96);
         expect(enemy.lastMove).toBe(enemy.jargonTornado);
     });
 
-    test('test cse 110 midterm attack', () => {
+    test('cse 110 midterm attack', () => {
         enemy.cse110Midterm();
         expect(player.state.currentHealth).toBe(89);
         expect(enemy.lastMove).toBe(enemy.cse110Midterm);

@@ -22,7 +22,7 @@ export class Powell extends Enemy {
   /**
    * Applies block to this enemy
    * 
-   * @param {Number} value 
+   * @param {number} value 
    */
   gainBlock(value) {
     this.block = value;
@@ -31,7 +31,7 @@ export class Powell extends Enemy {
   /**
    * Attack function, which takes attack buff into account
    * 
-   * @param {Number} value - damage of the attack used
+   * @param {number} value - damage of the attack used
    */
   pAttack(value) {
     this.attack(this.player, value * this.attackBuff);
@@ -97,10 +97,10 @@ export class Powell extends Enemy {
   /**
    * Simple AI that decides which move to use based on the flow of the game
    * 
-   * @param {Number} enemyHP - current HP of this enemy
-   * @param {Number} enemyMaxHP - max HP of this enemy
-   * @param {Number} playerHP - current HP of player
-   * @param {Number} playerMaxHP - max HP of player
+   * @param {number} enemyHP - current HP of this enemy
+   * @param {number} enemyMaxHP - max HP of this enemy
+   * @param {number} playerHP - current HP of player
+   * @param {number} playerMaxHP - max HP of player
    */
   takeTurn(enemyHP, enemyMaxHP, playerHP, playerMaxHP) {
     const m = Math.random();
