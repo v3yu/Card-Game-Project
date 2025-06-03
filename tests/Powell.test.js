@@ -5,7 +5,7 @@ import Hand from '../src/components/Hand.js';
 import Discard from '../src/components/Discard.js';
 import Deck from '../src/components/Deck.js';
 
-describe('Instance on enemy - Powell', () => {
+describe('Instance of enemy - Powell', () => {
     let enemy;
     let player;
 

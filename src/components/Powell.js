@@ -1,4 +1,4 @@
-import { Enemy } from "./Enemy.js";
+import { Enemy } from './Enemy.js';
 
 export class Powell extends Enemy {
 
@@ -22,7 +22,7 @@ export class Powell extends Enemy {
   /**
    * Applies block to this enemy
    * 
-   * @param {number} value 
+   * @param {number} value - block value
    */
   gainBlock(value) {
     this.block = value;
