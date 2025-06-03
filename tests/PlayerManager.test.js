@@ -9,10 +9,10 @@ import {
 
 import jest from 'jest-mock';
 import {Player} from '../src/components/Player.js';
-import {SampleCard} from "../src/components/cards/SampleCard.js";
-import Hand from "../src/components/Hand.js";
-import Discard from "../src/components/Discard.js";
-import Deck from "../src/components/Deck.js";
+import {SampleCard} from '../src/components/cards/SampleCard.js';
+import Hand from '../src/components/Hand.js';
+import Discard from '../src/components/Discard.js';
+import Deck from '../src/components/Deck.js';
 import { it } from '@jest/globals';
 
 describe('PlayerManager', () => {
@@ -98,7 +98,7 @@ describe('PlayerManager', () => {
             player = null;
             expect(isPlayerDead(player)).toBe(null);
         }
-        )
+        );
 
         it('should return true if player health is 0', () => {
             const player = spawnPlayer(10, 2, deck, hand, discard, []);
