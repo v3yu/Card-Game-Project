@@ -16,9 +16,9 @@ import {Player} from '../src/components/Player.js';
 // hand.addCard(crashOutCard2);
 // hand.addCard(freeBobaCard);
 
-const enemy = new Enemy({name : 'Enemy', HP: 10, Img: '/src/img/sprite.png'});
+const enemy = new Enemy({name : 'Enemy', HP: 100, Img: '/src/img/sprite.png'});
 document.querySelector('.enemies .character-container').append(enemy) ;
-enemy.takeDamage(5);
+
 
 const player = new Player(10, 3);
 document.querySelector('.player .character-container').append(player);
