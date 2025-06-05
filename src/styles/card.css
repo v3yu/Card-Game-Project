@@ -1,0 +1,156 @@
+body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+    background: linear-gradient(to bottom, #1a1a2e, #2e2e4e);
+    font-family: 'Georgia', serif;
+}
+
+.card {
+    width: 260px;
+    height: 360px;
+    background: linear-gradient(to bottom, #d8bfd8, #f7e4bc, #d8bfd8), url('https://www.transparenttextures.com/patterns/parchment.png');
+    background-blend-mode: overlay;
+    border: 10px double #4b0082;
+    border-style: double;
+    border-width: 10px 10px 10px 10px;
+    border-radius: 20px;
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.6), inset 0 0 12px rgba(75, 0, 130, 0.4);
+    position: relative;
+    overflow: visible;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 0;
+    transition: transform 0.2s ease;
+}
+
+.card:hover {
+    transform: translateY(-5px);
+    animation: electricGlow 2.5s infinite ease; /* Changed to 'ease' for smoother transition */
+}
+
+@keyframes electricGlow {
+    0% {
+        box-shadow: 0 6px 12px rgba(0, 0, 0, 0.5), 0 0 12px rgba(0, 183, 235, 0.6), 0 0 20px rgba(0, 229, 255, 0.4);
+    }
+    30% {
+        box-shadow: 0 6px 12px rgba(0, 0, 0, 0.5), 0 0 15px rgba(0, 183, 235, 0.8), 0 0 25px rgba(0, 229, 255, 0.6);
+    }
+    50% {
+        box-shadow: 0 6px 12px rgba(0, 0, 0, 0.5), 0 0 18px rgba(0, 183, 235, 1), 0 0 30px rgba(0, 229, 255, 0.7);
+    }
+    70% {
+        box-shadow: 0 6px 12px rgba(0, 0, 0, 0.5), 0 0 15px rgba(0, 183, 235, 0.8), 0 0 25px rgba(0, 229, 255, 0.6);
+    }
+    100% {
+        box-shadow: 0 6px 12px rgba(0, 0, 0, 0.5), 0 0 12px rgba(0, 183, 235, 0.6), 0 0 20px rgba(0, 229, 255, 0.4);
+    }
+}
+
+.card-banner {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 50px;
+    background: url('https://www.transparenttextures.com/patterns/parchment.png'), linear-gradient(to right, #4b0082, #800080);
+    border-bottom: 6px double #d8bfd8;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 16px;
+    font-weight: bold;
+    color: #d8bfd8;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.4);
+    /* border-radius: 10px 10px 0 0; */
+    overflow: hidden;
+}
+
+.card-cost {
+    position: absolute;
+    top: -20px;
+    left: -20px;
+    width: 35px;
+    height: 35px;
+    background: linear-gradient(to bottom, #4b0082, #800080);
+    border: 3px double #d8bfd8;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: #d8bfd8;
+    font-weight: bold;
+    font-size: 20px;
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
+    box-shadow: 0 0 8px rgba(75, 0, 130, 0.7);
+    animation: pulse 2s infinite ease-in-out;
+    z-index: 3;
+}
+
+@keyframes pulse {
+    0% { box-shadow: 0 0 8px rgba(75, 0, 130, 0.7); }
+    50% { box-shadow: 0 0 12px rgba(147, 112, 219, 1); }
+    100% { box-shadow: 0 0 8px rgba(75, 0, 130, 0.7); }
+}
+
+.card-image {
+    width: 90%;
+    height: 150px;
+    background: linear-gradient(to bottom, #2e1b13, #1c110a);
+    border: 3px double #4b0082;
+    border-radius: 8px;
+    margin: 60px 0 15px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-style: italic;
+    color: #d8bfd8;
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.7);
+    box-shadow: inset 0 0 10px rgba(75, 0, 130, 0.3);
+    animation: imageFade 4s infinite alternate ease-in-out;
+    position: relative;
+    z-index: 1;
+}
+
+@keyframes imageFade {
+    0% { opacity: 0.9; }
+    100% { opacity: 1; }
+}
+
+.card-type {
+    position: absolute;
+    top: 180px;
+    text-align: center;
+    max-width: 208px;
+    /* left: 10%; */
+    /* transform: translateX(-50%); */
+    font-size: 12px;
+    color: #d8bfd8;
+    background: linear-gradient(to right, #4b0082, #800080);
+    padding: 4px 10px;
+    border-radius: 5px;
+    border: 1px solid #d8bfd8;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
+    z-index: 2;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+.card-description {
+    font-size: 14px;
+    color: #4b0082;
+    width: 100%;
+    text-align: center;
+    padding: 14px;
+    padding-top: 14px;
+    flex-grow: 1;
+    line-height: 1.5;
+    font-family: 'Georgia', serif;
+    text-shadow: 1px 1px 2px rgba(147, 112, 219, 0.3);
+    background: linear-gradient(to bottom, transparent, rgba(75, 0, 130, 0.2));
+    border-radius: 5px;
+}

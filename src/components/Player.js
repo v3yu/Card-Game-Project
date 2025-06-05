@@ -1,26 +1,123 @@
-import {shuffle,draw,moveCard,filterCards} from '../game/CardManager.js'
-import deck from "./Deck.js";
-import hand from "./Hand.js";
-import discard from "./Discard.js";
-import Deck from "./Deck.js";
-import Hand from "./Hand.js";
-import Discard from "./Discard.js";
-import {Pile} from "./Pile.js";
-import Card from "./Card.js";
+import {moveCard} from '../game/CardManager.js';
+import Deck from './Deck.js';
+import Hand from './Hand.js';
+import Discard from './Discard.js';
+import {Pile} from './Pile.js';
+import Card from './Card.js';
 
 
 //A player has: current health, max health, current energy,
 // max energy, block, zero or more status effects, a deck, a hand, and a discard.
+/**
+ *  @description Represents a player in the game.
+ *  @class Player
+ */
 export class Player extends HTMLElement{
 
+
+
+  style=`
+        body {
+            font-family: sans-serif;
+            background: #fff;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        .player-ui {
+            width: 300px;
+            padding: 10px;
+        }
+
+
+        .block-row {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            margin-bottom: 8px;
+            font-size: 16px;
+        }
+        .block-row  img{
+            width: 20px;
+        }
+
+
+        #enemyImg{
+            width: 100%;
+            align-items: center;
+        }
+
+        .hp-bar-container {
+            position: relative;
+            height: 24px;
+            border: 1px solid #aaa;
+            border-radius: 6px;
+            background-color: #ddd;
+            overflow: hidden;
+        }
+
+        .hp-bar {
+            height: 100%;
+            width: 100%;
+            background: linear-gradient(to right, #aef, #5cf);
+            transition: width 0.3s ease;
+        }
+
+        .hp-text {
+            position: absolute;
+            top: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            color: #000;
+            text-shadow: 1px 1px #fff;
+            pointer-events: none;
+        }
+
+        .effect-container{
+            width: 100%;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+        .effectIcon{
+            width: 10%;
+        }
+  `;
+
+  template = (t)=>`
+   <img src="/src/img/sprite.png" alt="player" id="enemyImg">
+    <div class="block-row">
+        <img src="/src/img/shieldicon.png" alt="block">
+        <span id="block">${t.state.block}</span>
+        <img src="/src/img/energyicon.png" alt="energy">
+        <span id="energy">${t.state.currentEnergy}/${t.state.maxEnergy}</span>
+    </div>
+    <div class="hp-bar-container">
+        <div class="hp-text">${t.state.currentHealth}/${t.state.maxHealth}</div>
+        <div class="hp-bar"></div>
+    </div>
+    <div class="effect-container">
+<!--  example  -->
+<!--        <img class="effectIcon" src="/src/img/attackUpIcon.png" alt="attackUp">-->
+<!--        <img class="effectIcon" src="/src/img/defenseDownIcon.png" alt="defenseDown">-->
+    </div>
+  `;
   /**
    * Creates a player instance with health, energy, deck, hand, discard pile, and status effects and block.
    *
    * @param {number} maxHealth - The player's maximum health.
    * @param {number} maxEnergy - The player's maximum energy.
-   * @param {deck} deck - The player's starting deck of cards.
-   * @param {hand} hand - The player's starting hand of cards.
-   * @param {discard} discard - The player's discard pile.
+   * @param {Deck} deck - The player's starting deck of cards.
+   * @param {Hand} hand - The player's starting hand of cards.
+   * @param {Discard} discard - The player's discard pile.
    * @param {Array} [effect=[]] - An array of status effects (e.g., poison, weaken). Defaults to an empty array.
    */
   constructor(maxHealth, maxEnergy, deck=new Deck(), hand=new Hand(),
@@ -38,7 +135,7 @@ export class Player extends HTMLElement{
     }, {
       set: (target, prop, value) => {
         target[prop] = value;
-        this.render();   // 自动触发
+        // this.render();
         return true;
       }
     });
@@ -52,13 +149,24 @@ export class Player extends HTMLElement{
     // temporary discard pile
     this.tempDiscard = new Pile();
 
+    // initial shadow root
+    const shadowRoot = this.attachShadow({mode: 'open'});
+    const style = document.createElement('style');
+    style.innerHTML = this.style;
+    shadowRoot.append(style);
 
+    // create root div element
+    this.div = document.createElement('div');
+    this.div.className = 'player-ui';
+    this.shadowRoot.append(this.div);
 
   }
 
   /**
    * The character takes damage
-   * @param {number} amount
+   *
+   * @param {number} amount - The amount of damage to take.
+   * @returns {void} - Returns nothing.
    */
   takeDamage(amount) {
     const effectiveDamage = Math.max(amount - this.state.block, 0);
@@ -73,7 +181,9 @@ export class Player extends HTMLElement{
 
   /**
    * Gain block
-   * @param {number} amount
+   *
+   * @param {number} amount - The amount of block to gain.
+   * @returns {void}
    */
   gainBlock(amount) {
     this.state.block += amount;
@@ -81,7 +191,9 @@ export class Player extends HTMLElement{
 
   /**
    * receive healing
-   * @param {number} amount
+   *
+   * @param {number} amount - The amount of healing to receive.
+   * @returns {void}
    */
   heal(amount) {
     this.state.currentHealth = Math.min(this.state.currentHealth + amount, this.state.maxHealth);
@@ -111,6 +223,8 @@ export class Player extends HTMLElement{
 
   /**
    * Reset energy to MaxEnergy
+   *
+   * @returns {void}
    */
   resetEnergy() {
     this.state.currentEnergy = this.state.maxEnergy;
@@ -118,25 +232,29 @@ export class Player extends HTMLElement{
 
   /**
    * Draw cards
-   * @param {number} amount
+   *
+   * @param {number} amount - The number of cards to draw.
    * @returns {number} - Returns the number of cards drawn, or -1 if there are not enough cards in the deck.
    */
   drawCards(amount) {
     if(amount>this.deck.size()) return -1;
     for(let i=0;i<amount;i++){
-      this.hand.addCard(this.deck.drawCard())
+      this.hand.addCard(this.deck.drawCard());
     }
+    return 1;
   }
 
   // TODO No effect in MVP
-  applyEffect(name, effects) {
-
-  }
+  // applyEffect(name, effects) {
+  //
+  // }
 
 
 
   /**
    * Shuffle the deck
+   *
+   * @returns {void}
    */
   shuffleDeck() {
     this.deck.shuffle();
@@ -144,35 +262,49 @@ export class Player extends HTMLElement{
 
   /**
    * Shuffle the discard pile into the deck
+   *
+   * @returns {void}
    */
   shuffleDiscardIntoDeck() {
     this.discard.getCards().forEach(card=>{
-      moveCard(card,this.discard,this.deck)
-    })
+      moveCard(card,this.discard,this.deck);
+    });
     this.deck.shuffle();
     this.discard.clear();
   }
 
   /**
    * Plays a card from the hand.
-   * @param {Card} card
-   * @param {Enemy} target
+   *
+   * @param {Card} card - The card to play.
+   * @param {object} target - The enemy to play the card against.
+   * @returns {void} - Returns nothing.
    */
+  // TODO replace the object with enemy
   playCard(card, target) {
 
     // Should call the specific card’s own card.play,
     // then this.removeCard(card)
+    try{
+      if(!this.spendEnergy(card.cost)) throw new Error('you don\'t have enough energy');
+    }
+    catch (err){
+      alert(err.message);
+      return;
+    }
     card.play(target);
     this.discardCard(card);
   }
 
   /**
    * Discards a card from the hand.
-   * @param {Card} card
+   *
+   * @param {Card} card - The card to discard.
+   * @returns {void}
    */
   discardCard(card) {
     //Moves a card from the hand to the discard pile
-    moveCard(card,this.hand,this.tempDiscard)
+    moveCard(card,this.hand,this.tempDiscard);
   }
 
   /**
@@ -186,19 +318,18 @@ export class Player extends HTMLElement{
       this.discardCard(this.hand.getCards()[0]);
     }
     while(this.tempDiscard.size()>0){
-      moveCard(this.tempDiscard.getCards()[0],this.tempDiscard,this.discard)
+      moveCard(this.tempDiscard.getCards()[0],this.tempDiscard,this.discard);
     }
 
   }
   /**
-   * render the player
+   * @description render the player
+   * @returns {void}
    */
   render(){
-    const{maxHealth,maxEnergy,effect,
-      currentHealth,currentEnergy,block
-    } = this.state
-
-
+    const playerUI = this.template(this);
+    this.shadowRoot.querySelector('.player-ui').innerHTML=playerUI;
+    this.shadowRoot.querySelector( '.hp-bar').style.width = `${this.state.currentHealth/this.state.maxHealth*100}%`;
   }
 
   connectedCallback(){

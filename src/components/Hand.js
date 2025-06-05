@@ -1,18 +1,16 @@
-/**
- * @jest-environment jsdom
- */
-import {Pile} from "./Pile.js";
-import {Card} from './Card.js'
+import {Pile} from './Pile.js';
+import {Card} from './Card.js';
 
+/**
+ * @class Hand
+ * @description The player's hand feature, including visual components and logic
+ */
 class Hand extends Pile {
 
   constructor() {
     super();
 
-    /**
-     * @deprecated
-     */
-    this.discardPile = new Pile();
+
 
     this.attachShadow({ mode: 'open' });
 
@@ -54,8 +52,9 @@ class Hand extends Pile {
 
   /**
    * Override addCard to trigger Proxy
-   * @param card
-   * @returns {number}
+   *
+   * @param {Card} card - Card you want to add
+   * @returns {number} - 1 for success -1 for failure
    */
   addCard(card) {
     const result = super.addCard(card);
@@ -65,6 +64,7 @@ class Hand extends Pile {
 
   /**
    * Override removeCard to trigger Proxy
+   *
    * @param card
    * @returns {number}
    */
@@ -73,28 +73,11 @@ class Hand extends Pile {
     if (!(card instanceof Card)) return -1;
     const index = this.cards.indexOf(card);
     if (index === -1) return -1;
-    delete this.hand[index];
-    this.compactHand();
+    this.hand.splice(index, 1);
     return index;
   }
 
-  /**
-   * Compress the array and remove the empty slots.
-   */
-  compactHand() {
-    const newHand = this.hand.filter(card => card instanceof Card);
 
-    for (let i = 0; i < this.hand.length; i++) {
-      delete this.hand[i];
-    }
-
-    this.cards.length = 0;
-
-    
-    newHand.forEach((card, index) => {
-      this.hand[index] = card;
-    });
-  }
 
 
 /*

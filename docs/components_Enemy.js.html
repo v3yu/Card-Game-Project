@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: components/Enemy.js</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Source: components/Enemy.js</h1>
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>import {Player} from './Player.js';
+/**
+ * The enemy of game
+ * An enemy has a name, HP, attack power, and abilities
+ */
+export class Enemy extends HTMLElement{
+
+   template = (t)=> `
+      &lt;img src="${t.Img}" alt="enemy" id="enemyImg">
+      &lt;div class="hp-bar-container">
+           &lt;div class="hp-text">${t.HP}/${t.maxHP}&lt;/div>
+          &lt;div class="hp-bar">&lt;/div>
+      &lt;/div>
+   `;
+  /**
+   * css style of enemy
+   *
+   * @type {string}
+   */
+  style = `
+  
+        .enemy-ui {
+            width: 300px;
+            padding: 10px;
+        }
+
+        .hp-bar-container {
+            position: relative;
+            height: 24px;
+            border: 1px solid #aaa;
+            border-radius: 6px;
+            background-color: #ddd;
+            overflow: hidden;
+        }
+        #enemyImg{
+            width: 100%;
+            align-items: center;
+        }
+
+        .hp-bar {
+            height: 100%;
+            width: 100%;
+            background: linear-gradient(to right, #aef, #5cf);
+            transition: width 0.3s ease;
+        }
+        
+        
+         .hp-text {
+            position: absolute;
+            top: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            color: #000;
+            text-shadow: 1px 1px #fff;
+            pointer-events: none;
+        }
+  `;
+
+  /**
+   * enemyUI
+   */
+  enemyUI;
+
+  /**
+   * Creates a new Enemy instance.*
+   * This constructor initializes the enemy's name, current HP, maximum HP, and image.
+   * It also sets up the Shadow DOM to visually display the enemy's status.
+   *
+   * @class
+   * @param {object} options - The initialization options.
+   * @param {string} options.name - The name of the enemy.
+   * @param {number} options.HP - The initial health points (HP) of the enemy.
+   * @param {string} options.Img - The image URL representing the enemy.
+   */
+  constructor({name,HP,Img}) {
+    super();
+    // initialize the enemy attribute
+    this.name = name;
+    this.HP=HP;
+    this.Img = Img;
+    this.maxHP=HP;
+    // initialize the html
+    const shadowRoot = this.attachShadow({mode: 'open'});
+    const style = document.createElement('style');
+    this.enemyUI = document.createElement('div');
+    this.enemyUI.className = 'enemy-ui';
+    style.innerText = this.style;
+    shadowRoot.append(style);
+
+
+
+
+  }
+
+  /**
+   *  Take damage
+   *
+   * @param {number} damage -  The amount of damage to take
+   */
+  takeDamage(damage) {
+    this.HP = Math.max(this.HP - damage, 0);
+    this.shadowRoot.querySelector( '.hp-bar').style.width = `${this.HP/this.maxHP*100}%`;
+    this.shadowRoot.querySelector( '.hp-text').innerText = `${this.HP}/${this.maxHP}`;
+    if(this.HP===0){
+      this.die();
+    }
+  }
+
+  /**
+   *  Die, direct to victorious page
+   */
+  die(){
+    // TODO use app.js to control it
+     console.log(this.name + ' has died.');
+  }
+
+   /**
+    * Attack
+    *
+    * @param {Player} player - The player being attacked.
+    *  @param {number} amount -  The amount of damage to deal.
+    */
+  attack(player,amount){
+    player.takeDamage(amount);
+
+  }
+
+  /**
+   * apply some effects such as attack down or block down
+   *
+   * @param {object} effect - effect entity
+   */
+  applyEffect(effect){
+    void effect;
+    // TODO after we can run the battle we will implement effect system
+  }
+
+  /**
+   * render the enemy
+   */
+  render(){
+    this.enemyUI.innerHTML = this.template(this);
+    this.shadowRoot.append(this.enemyUI);
+  }
+
+  connectedCallback(){
+    this.render();
+  }
+}
+
+if(!customElements.get('custom-enemy')){
+  customElements.define('custom-enemy',Enemy);
+}</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="Card.html">Card</a></li><li><a href="Deck.html">Deck</a></li><li><a href="Discard.html">Discard</a></li><li><a href="Enemy.html">Enemy</a></li><li><a href="Hand.html">Hand</a></li><li><a href="Pile.html">Pile</a></li><li><a href="Pile_Pile.html">Pile</a></li><li><a href="Player.html">Player</a></li><li><a href="Player_Player.html">Player</a></li><li><a href="Powell_Powell.html">Powell</a></li></ul><h3>Global</h3><ul><li><a href="global.html#deletePlayer">deletePlayer</a></li><li><a href="global.html#endTurn">endTurn</a></li><li><a href="global.html#getPlayer">getPlayer</a></li><li><a href="global.html#handlePlayerAction">handlePlayerAction</a></li><li><a href="global.html#isPlayerDead">isPlayerDead</a></li><li><a href="global.html#shuffle">shuffle</a></li><li><a href="global.html#spawnPlayer">spawnPlayer</a></li><li><a href="global.html#startTurn">startTurn</a></li></ul>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 4.0.4</a> on Thu Jun 05 2025 06:03:44 GMT+0000 (Coordinated Universal Time)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>

@@ -1,6 +1,6 @@
-import {shuffle, draw, moveCard, filterCards} from '../src/game/CardManager.js'
-import Card from "../src/components/Card.js";
-import {Pile} from "../src/components/Pile.js";
+import {shuffle, moveCard, filterCards} from '../src/game/CardManager.js';
+import Card from '../src/components/Card.js';
+import {Pile} from '../src/components/Pile.js';
 
 /**
  * 
@@ -22,44 +22,13 @@ const cardsAttack = [
 ];
 const attackPile = new Pile(cardsAttack);
 
-function createStandardDeck() {
-  const suits = ['Hearts', 'Diamonds', 'Clubs', 'Spades'];
-  const ranks = [
-  { rank: 'A', value: 1 },
-  { rank: '2', value: 2 },
-  { rank: '3', value: 3 },
-  { rank: '4', value: 4 },
-  { rank: '5', value: 5 },
-  { rank: '6', value: 6 },
-  { rank: '7', value: 7 },
-  { rank: '8', value: 8 },
-  { rank: '9', value: 9 },
-  { rank: '10', value: 10 },
-  { rank: 'J', value: 11 },
-  { rank: 'Q', value: 12 },
-  { rank: 'K', value: 13 }
-  ];
 
-  const deckoCards = [];
 
-  for(const suit of suits) {
-    for (const { rank, value } of ranks) {
-      deckoCards.push({
-      rank,
-      suit,
-      value,
-      name: `${rank} of ${suit}`
-      });
-    }
-  }
-  return deckoCards;
-} 
-
-const gamblerDeck = createStandardDeck();
 
 /**
  * 
  * filterCards() Function Tester
+ * Tester
  * 
  */
 test('filterCards filters by cost', () => {
@@ -80,7 +49,7 @@ test('filterCards filters by type', () => {
 
 test('filterCards filters by type with multiple', ()=>{
   const result= filterCards(attackPile, card => card.type === 'attack');
-  expect(result).toEqual(cardsAttack)
+  expect(result).toEqual(cardsAttack);
 });
 
 test('filterCards returns empty if no type match', () => {

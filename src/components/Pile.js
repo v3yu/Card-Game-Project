@@ -1,18 +1,21 @@
-import {Card} from "./Card.js";
+import {Card} from './Card.js';
 
 /**
- * The Pile class provides a unified interface for defining card piles such as deck, hand, and discard.
+ * @description The Pile class provides a unified interface for defining card piles such as deck, hand, and discard.
+ * @class Pile
  */
 export class Pile extends HTMLElement{
   /**
    * Used to store all the cards.
-   * @type {[Card]}
+   *
+   * @type {Card[]}
    */
   cards;
 
   /**
+   * Create a new Pile
    *
-   * @param {Card[]} cards
+   * @param {Card[]} cards -  an array of cards to be added to the pile
    */
   constructor(cards=[]) {
     super();
@@ -21,8 +24,9 @@ export class Pile extends HTMLElement{
 
   /**
    * add one card into the pile
-   * @param {Card} card
-   * @return {number} 1 for success,-1 for  failure
+   *
+   * @param {Card} card -  card to be added
+   * @returns {number} 1 for success,-1 for  failure
    */
   addCard(card){
     if(!(card instanceof Card)){
@@ -34,7 +38,8 @@ export class Pile extends HTMLElement{
 
   /**
    * add cards into the pile
-   * @param {[Card]} cards
+   *
+   * @param {Card[]} cards - cards to be added
    */
   addCards(cards){
     cards.forEach(card => {
@@ -44,7 +49,8 @@ export class Pile extends HTMLElement{
 
   /**
    * return cards array
-   * @returns {Card[]}
+   *
+   * @returns {Card[]} -  cards array
    */
   getCards() {
     return this.cards;
@@ -59,6 +65,8 @@ export class Pile extends HTMLElement{
 
   /**
    *  shuffle the pile
+   *
+   *  @returns {Card[]} - shuffled cards array
    */
   shuffle(){
     for (let i = this.cards.length-1; i >= 0; i--) {
@@ -72,7 +80,8 @@ export class Pile extends HTMLElement{
 
   /**
    * return the size of the pile
-   * @returns {number}
+   *
+   * @returns {number} -  size of the pile
    */
   size() {
     return this.cards.filter(card => card instanceof Card).length;
@@ -80,7 +89,7 @@ export class Pile extends HTMLElement{
 
   /**
    * @param {Card} card - card that needs to be removed
-   * @return {number} - index of the card that was removed, or -1 if card wasn't found (or card is not a card object)
+   * @returns {number} - index of the card that was removed, or -1 if card wasn't found (or card is not a card object)
    */
   removeCard(card) {
     if (!(card instanceof Card)) return -1;
@@ -93,5 +102,5 @@ export class Pile extends HTMLElement{
 }
 
 if(!customElements.get('pile-element')){
-  customElements.define('pile-element', Pile)
+  customElements.define('pile-element', Pile);
 }
