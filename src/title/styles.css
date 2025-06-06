@@ -1,1 +1,94 @@
+body {
+	background-image: url(assets/background.png);
+	background-repeat: no-repeat;
+	background-position: center;
+	background-attachment: fixed;
+	background-size: cover;
+
+	font-family: 'Gabriela';
+	font-style: normal;
+}
+
+.panda img {
+	width: 50rem;
+	position: absolute;
+	left: 0px;
+	bottom: 5px;
+}
+
+.team_2_logo img{
+	width: 30rem;
+	position: absolute;
+	top: 16rem;
+	right: 8rem;
+}
+
+.menu {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  z-index: 1;         /* appears above background */
+  position: relative; /* avoids clashing with absolute items */
+}
+
+.title_1 {
+  font-size: 10rem;
+  margin-bottom: 2rem;   /* reduce spacing between title_1 and title_2 */
+  line-height: 1.1;         /* compress vertical spacing */
+
+	font-weight: 400;
+	line-height: 82px;
+	
+	color: #CF2F2F;
+
+	text-shadow: 0px 12px 12px rgba(0, 0, 0, 0.25);
+}
+
+.title_1 h1 {
+	text-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+}
+
+.title_2 {
+  font-size: 4.6rem;
+  margin-top: 0;            /* remove default spacing above */
+  line-height: 1.1;
+}
+
+.title {
+  text-align: center;
+  margin-bottom: 1rem;
+}
+
+.buttons {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2.5rem;
+  margin-top: 1rem;
+}
+
+.buttons button {
+	width: 300px;
+	height: 90px;
+	flex-shrink: 0;
+
+	border-radius: 10px;
+	border: 3px solid #000;
+	background: #664D24;
+	box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
+
+	color: #FFF;
+	text-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+	-webkit-text-stroke-width: 2px;
+	-webkit-text-stroke-color: #000;
+	font-family: "Inknut Antiqua";
+	font-size: 60px;
+	font-style: normal;
+	line-height: normal;
+}
+
+
+
+
 
