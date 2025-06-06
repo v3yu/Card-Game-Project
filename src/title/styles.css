@@ -10,13 +10,15 @@ body {
 }
 
 .panda img {
-	width: 35vw;
+	height:80vh;
+	width: 40vw;
 	position: absolute;
 	left: 0px;
-	bottom: 5px;
+	bottom: 0px;
 }
 
 .team_2_logo img{
+	height:60vh;
 	width: 30vw;
 	position: absolute;
 	right: 0px;
