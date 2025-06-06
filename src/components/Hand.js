@@ -28,6 +28,8 @@ class Hand extends Pile {
             box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);  
             justify-content: flex-start; 
             align-items: center;    
+            width: 80vw
+            overflow-x: scroll;
           }  
             `;
     this.shadowRoot.append(this.handArea, style);

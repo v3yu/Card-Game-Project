@@ -130,6 +130,8 @@ body {
     gap: 10px;
     z-index: 3;
     padding: 10px 0;
+    align-items:center;
+    width: 80%;
   }
     
   .card {
@@ -143,12 +145,12 @@ body {
   
   .draw-button, .discard-button {
     position: absolute;
-    width: 80px;
-    height: 80px;
-    background-color: #F58025;
+    width: 7vw;
+    height: 3vw;
+    background:linear-gradient(45deg, #4b0082, #800080);
     border: none;
-    border-radius: 6px;
-    color: white;
+    border-radius: 5vw;
+    color: rgb(255, 255, 255);
     font-weight: bold;
     cursor: pointer;
     z-index: 4;
@@ -156,19 +158,27 @@ body {
 
   }
 
+  .draw-button:hover, .discard-button:hover {
+    transform: scale(1.05);
+  }
+
   .end-turn-button {
     position: absolute;
-    bottom: 150px;
-    right: 70px;
-    width: 135px;
-    height: 40px;
-    background-color: #F58025;
-    border: none;
-    border-radius: 6px;
-    color: white;
+    bottom: 10%;
+    left: 92%;
+        width: 7vw;
+    height: 3vw;
+    background: linear-gradient(45deg, #4b0082, #800080);
+    border:none;
+    border-radius: 5vw;
+    color: rgb(255, 255, 255);
     font-weight: bold;
     cursor: pointer;
     z-index: 4;
+  }
+
+  .end-turn-button:hover {
+    transform: scale(1.05);
   }
   
   .draw-button {

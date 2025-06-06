@@ -60,10 +60,31 @@ export class Card extends HTMLElement {
             <div class="card-banner">${this.name}</div>
             <div class="card-cost">${this.cost}</div>
             <img class="card-image" src="${this.image}" alt="${this.name}"/>
-            <div class="card-type">${this.effect}</div>
+            <button class="card-type">${this.effect}</button>
             <div class="card-description">${this.description}</div>
         `;
 
+        //card hover and click effect
+const cardTypeBtn = this.div.querySelector('.card-type');
+cardTypeBtn?.addEventListener('click', (e) => {
+    console.log('Card button clicked');
+    e.stopPropagation();
+    const isSelected = this.div.classList.contains('selected');
+    // Deselect all cards
+    document.querySelectorAll('my-card').forEach(cardElem => {
+        const shadow = cardElem.shadowRoot;
+        if (!shadow) return;
+        const cardDiv = shadow.querySelector('.card');
+        const btn = shadow.querySelector('.card-type');
+        if (cardDiv) cardDiv.classList.remove('selected');
+        if (btn) btn.classList.remove('selected');
+    });
+    // Select only if not already selected
+    if (!isSelected) {
+        this.div.classList.add('selected');
+        cardTypeBtn.classList.add('selected');
+    }
+});
         // Schedule animation trigger in the next frame to ensure layout is updated
         requestAnimationFrame(() => {
             // Add the 'dealing' class to start the dealCard animation

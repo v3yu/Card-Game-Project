@@ -11,10 +11,16 @@ handArea.append(hand);
 const crashOutCard = new CrashOut();
 const freeBobaCard = new FreeBoba();
 const crashOutCard2 = new CrashOut();
+const crashOutCard3 = new CrashOut();
+const crashOutCard4 = new CrashOut();
+const crashOutCard5 = new CrashOut();
 
 hand.addCard(crashOutCard);
 hand.addCard(crashOutCard2);
 hand.addCard(freeBobaCard);
+hand.addCard(crashOutCard3);
+hand.addCard(crashOutCard4);
+hand.addCard(crashOutCard5);
 
 const powell = new Powell();
 document.querySelectorAll('.character-container')[1].append(powell);
