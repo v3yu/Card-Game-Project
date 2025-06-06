@@ -9,7 +9,7 @@ class SpaghettiCodeShield extends Card {
             cost: 1,
             description: 'You disappeared into callback hell, 7 nested if-loops deep. No one can find you.',
             effect: '+5 Block. If you didn’t attack this turn, block +1 more.',
-            image: '/src/img/SampleCard.png',
+            image: '/src/img/SpaghettiCodeShield.png',
         });
     }
 
