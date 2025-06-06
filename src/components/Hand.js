@@ -23,8 +23,7 @@ class Hand extends Pile {
             display: flex;
             flex-direction: row;
             gap: 10px;                    
-            padding: 12px;                
-            background-color: #f5f5f5;    
+            padding: 12px;                 
             border-radius: 8px;           
             box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);  
             justify-content: flex-start; 
