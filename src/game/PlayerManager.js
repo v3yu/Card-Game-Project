@@ -4,6 +4,7 @@ let player = null;
 
 /**
  * Spawns a new player with the given parameters.
+ *
  * @param {number} maxHealth
  * @param {number} maxEnergy
  * @param {Deck} deck
@@ -39,6 +40,8 @@ export function endTurn() {
 /**
  * Checks if the player is dead (0 HP).
  * If the player does not exist, returns null.
+ *
+ * @param player
  * @returns {boolean}
  */
 export function isPlayerDead(player) {
@@ -48,12 +51,16 @@ export function isPlayerDead(player) {
     return player.state.currentHealth <= 0;
 }
 
+/**
+ *
+ */
 export function deletePlayer() {
   player = null;
 }
 
 /**
  * Handles a player action (e.g., playing a card).
+ *
  * @param {string} action
  * @param {...any} args
  */
@@ -68,6 +75,9 @@ export function handlePlayerAction(action, ...args) {
 }
 
 //export the player instance
+/**
+ *
+ */
 export function getPlayer() {
   return player;
 }

@@ -19,7 +19,7 @@ describe('Player\'s deck element', () => {
     const deck = document.createElement('player-deck');
     const adding = deck.addCard(testCard);
     expect(adding).toBe(1);
-    expect(JSON.stringify(deck.getCards())).toBe('[{"name":"Crash Out","type":"attack","cost":1,"description":"You\'ve been debugging for 6 hours straight.","effect":"Deal 3 damage.","image":"/src/img/CrashOut.png","article":{}}]');
+    expect(JSON.stringify(deck.getCards())).toBe('[{"name":"Crash Out","type":"attack","cost":1,"description":"You\'ve been debugging for 6 hours straight.","effect":"Deal 3 damage.","image":"/src/img/CrashOut.png","div":{}}]');
   });
 
   test('adding fake card to the deck', () => {
@@ -34,7 +34,7 @@ describe('Player\'s deck element', () => {
     const realCard = new CrashOut();
     const deck = document.createElement('player-deck');
     deck.addCard(realCard);
-    expect(JSON.stringify(deck.getCards())).toBe('[{"name":"Crash Out","type":"attack","cost":1,"description":"You\'ve been debugging for 6 hours straight.","effect":"Deal 3 damage.","image":"/src/img/CrashOut.png","article":{}}]');
+    expect(JSON.stringify(deck.getCards())).toBe('[{"name":"Crash Out","type":"attack","cost":1,"description":"You\'ve been debugging for 6 hours straight.","effect":"Deal 3 damage.","image":"/src/img/CrashOut.png","div":{}}]');
     const removing = deck.removeCard(realCard);
     expect(removing).toBe(0);
     expect(JSON.stringify(deck.getCards())).toBe('[]');
@@ -44,10 +44,10 @@ describe('Player\'s deck element', () => {
     const realCard = new CrashOut();
     const deck = document.createElement('player-deck');
     deck.addCard(realCard);
-    expect(JSON.stringify(deck.getCards())).toBe('[{"name":"Crash Out","type":"attack","cost":1,"description":"You\'ve been debugging for 6 hours straight.","effect":"Deal 3 damage.","image":"/src/img/CrashOut.png","article":{}}]');
+    expect(JSON.stringify(deck.getCards())).toBe('[{"name":"Crash Out","type":"attack","cost":1,"description":"You\'ve been debugging for 6 hours straight.","effect":"Deal 3 damage.","image":"/src/img/CrashOut.png","div":{}}]');
     const removing = deck.removeCard('fake card');
     expect(removing).toBe(-1);
-    expect(JSON.stringify(deck.getCards())).toBe('[{"name":"Crash Out","type":"attack","cost":1,"description":"You\'ve been debugging for 6 hours straight.","effect":"Deal 3 damage.","image":"/src/img/CrashOut.png","article":{}}]');
+    expect(JSON.stringify(deck.getCards())).toBe('[{"name":"Crash Out","type":"attack","cost":1,"description":"You\'ve been debugging for 6 hours straight.","effect":"Deal 3 damage.","image":"/src/img/CrashOut.png","div":{}}]');
   });
 
   test('drawing from empty deck', () => {
@@ -79,7 +79,7 @@ describe('Player\'s deck element', () => {
     const testCard = new CrashOut();
     deck.addCard(testCard);
     deck.addCard(testCard);
-    expect(JSON.stringify(deck.getCards())).toBe('[{"name":"Crash Out","type":"attack","cost":1,"description":"You\'ve been debugging for 6 hours straight.","effect":"Deal 3 damage.","image":"/src/img/CrashOut.png","article":{}},{"name":"Crash Out","type":"attack","cost":1,"description":"You\'ve been debugging for 6 hours straight.","effect":"Deal 3 damage.","image":"/src/img/CrashOut.png","article":{}}]');
+    expect(JSON.stringify(deck.getCards())).toBe('[{"name":"Crash Out","type":"attack","cost":1,"description":"You\'ve been debugging for 6 hours straight.","effect":"Deal 3 damage.","image":"/src/img/CrashOut.png","div":{}},{"name":"Crash Out","type":"attack","cost":1,"description":"You\'ve been debugging for 6 hours straight.","effect":"Deal 3 damage.","image":"/src/img/CrashOut.png","div":{}}]');
   });
 
 
