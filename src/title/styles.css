@@ -108,10 +108,11 @@ body {
 }
 
 #volume-controls {
-	column-gap: 5%;
+	position: absolute;
+	row-gap: 5%;
 	display: none;
 	grid-template-areas: 'slider icon';
-	grid-template-columns: 80% 15%;
+	grid-template-rows: 80% 15%;
 	z-index: 3;
 }
 
@@ -138,5 +139,18 @@ body {
 	z-index: 3;
 }
 
+
+
+.volSettings {
+	display: none;
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%, -50%);
+	width: 30vw;
+	height: 20vh;
+	background:rgb(194, 188, 188);
+	z-index: 3;
+}
 
 
