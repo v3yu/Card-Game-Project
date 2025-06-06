@@ -64,42 +64,47 @@ export class Card extends HTMLElement {
             <div class="card-description">${this.description}</div>
         `;
 
-        //card hover and click effect
+//card hover and click effect
 const cardTypeBtn = this.div.querySelector('.card-type');
 cardTypeBtn?.addEventListener('click', (e) => {
     console.log('Card button clicked');
     e.stopPropagation();
     const isSelected = this.div.classList.contains('selected');
-    // Deselect all cards
-    document.querySelectorAll('my-card').forEach(cardElem => {
-        const shadow = cardElem.shadowRoot;
-        if (!shadow) return;
-        const cardDiv = shadow.querySelector('.card');
-        const btn = shadow.querySelector('.card-type');
-        if (cardDiv) cardDiv.classList.remove('selected');
-        if (btn) btn.classList.remove('selected');
-    });
-    // Select only if not already selected
-    if (!isSelected) {
+    if (isSelected) {
+        // Deselect this card
+        this.div.classList.remove('selected');
+        cardTypeBtn.classList.remove('selected');
+    } else {
+        // Deselect all cards first
+        document.querySelectorAll('my-card').forEach(cardElem => {
+            const shadow = cardElem.shadowRoot;
+            if (!shadow) return;
+            const cardDiv = shadow.querySelector('.card');
+            const btn = shadow.querySelector('.card-type');
+            if (cardDiv) cardDiv.classList.remove('selected');
+            if (btn) btn.classList.remove('selected');
+        });
+        // Select this card
         this.div.classList.add('selected');
         cardTypeBtn.classList.add('selected');
     }
 });
-        // Schedule animation trigger in the next frame to ensure layout is updated
-        requestAnimationFrame(() => {
-            // Add the 'dealing' class to start the dealCard animation
-            this.article.classList.add('dealing');
 
-            // Define a one-time callback to remove the class after the animation ends
-            const onAnimationEnd = () => {
-                this.article.classList.remove('dealing');
+// Schedule animation trigger in the next frame to ensure layout is updated
+requestAnimationFrame(() => {
+    // Add the 'dealing' class to start the dealCard animation
+    this.div.classList.add('dealing');
 
-                // Remove class after animation ends (runs only once)
-                this.article.removeEventListener('animationend', onAnimationEnd);
-            };
+    // Define a one-time callback to remove the class after the animation ends
+    const onAnimationEnd = () => {
+        this.div.classList.remove('dealing');
 
-            this.article.addEventListener('animationend', onAnimationEnd);
-        });
+        // Remove class after animation ends (runs only once)
+        this.div.removeEventListener('animationend', onAnimationEnd);
+    };
+
+    this.div.addEventListener('animationend', onAnimationEnd);
+});
 
     }
 
