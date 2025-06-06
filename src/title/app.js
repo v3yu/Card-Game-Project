@@ -23,9 +23,20 @@ function toggleVolume(){
 
 function dimScreen(){
     document.getElementById('overlay').style.display = 'block';
+    document.getElementById('exit').style.display = 'block';
+}
+
+function unDimScreen(){
+    document.getElementById('overlay').style.display = 'none';
+    document.getElementById('exit').style.display = 'none';
 }
 
 document.getElementById('settings').addEventListener('click', () => {
-    toggleVolume();
     dimScreen();
+    toggleVolume();
 });
+
+document.getElementById('exit').addEventListener('click', () => {
+    unDimScreen();
+    toggleVolume();
+})
