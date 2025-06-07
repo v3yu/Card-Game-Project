@@ -25,6 +25,17 @@ export class Battle {
       this.player.playCard(card, this.enemy);
       this.eventBus.publish('checkGameOver');
     });
+
+
+    // Bind a single event listener to the hand container once at initialization
+    const handArea = document.querySelector('.hand-area');
+    handArea.addEventListener('card-clicked', event => {
+      const card = event.detail;
+      // Publish the 'cardPlayed' event or directly invoke the playCard method
+      this.eventBus.publish('cardPlayed', { card });
+    });
+
+
   }
 
   /**
@@ -42,8 +53,7 @@ export class Battle {
    */
   waitForPlayerAction() {
 
-    console.log('player\'s turn')
-    console.log(this.player.deck.getCards())
+    console.log(this.player.deck.size()+this.player.hand.size()+this.player.discard.size()+this.player.tempDiscard.size())
     try{
 
       if(this.player.drawCards(5)===-1){
@@ -55,26 +65,16 @@ export class Battle {
       this.player.shuffleDiscardIntoDeck();
       this.player.drawCards(5);
     }
-
     const endTurnBtn = document.querySelector('.end-turn-button');
     endTurnBtn.addEventListener('click', () => this.eventBus.publish('endTurn'));
 
-    this.player.hand.getCards().forEach(card => {
-      const handler = () => this.eventBus.publish('cardPlayed', { card });
-      card.addEventListener('click', handler);
-
-    });
   }
 
   /**
    * Enemy AI turn logic, then ends turn
    */
   enemyAction() {
-    console.log('enemy\'s turn')
-    this.enemy.takeTurn(
-      this.enemy.HP, this.enemy.maxHP,
-      this.player.state.currentHealth, this.player.state.maxHealth
-    );
+    this.enemy.pAttack(10);
     // check whether player is dead
     this.eventBus.publish('checkGameOver');
     this.eventBus.publish('endTurn');

@@ -34,8 +34,16 @@ export class Card extends HTMLElement {
 
         shadow.append(this.div);
         // shadow.append(style);
-    }
 
+        this.shadowRoot.addEventListener('click', () => {
+            // Dispatch a custom event that bubbles and crosses the shadow boundary
+            this.dispatchEvent(new CustomEvent('card-clicked', {
+                detail: this,      // pass the component instance itself
+                bubbles: true,     // bubble up through the DOM
+                composed: true     // cross the shadow boundary
+            }));
+        });
+    }
 
     /**
      * render the card in specific HtmlElement

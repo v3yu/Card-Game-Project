@@ -3,7 +3,7 @@ import Deck from './Deck.js';
 import Hand from './Hand.js';
 import Discard from './Discard.js';
 import {Pile} from './Pile.js';
-import Card from './Card.js';
+import discard from "./Discard.js";
 
 
 //A player has: current health, max health, current energy,
@@ -135,7 +135,7 @@ export class Player extends HTMLElement{
     }, {
       set: (target, prop, value) => {
         target[prop] = value;
-        // this.render();
+        this.render();
         return true;
       }
     });
@@ -213,13 +213,20 @@ export class Player extends HTMLElement{
    * @returns {boolean} - Returns true if the energy was successfully spent, false if not enough energy is available.
    */
   spendEnergy(amount) {
-    const nowEnergy = this.state.currentEnergy-amount;
-    if(nowEnergy<0){
+    console.group(`🪙 Spending ${amount} energy`);
+    console.log('Before spend:', this.state.currentEnergy);
+    console.trace();  // 打印调用栈
+    const nowEnergy = this.state.currentEnergy - amount;
+    if (nowEnergy < 0) {
+      console.groupEnd();
       return false;
     }
     this.state.currentEnergy = nowEnergy;
+    console.log(' After spend:', this.state.currentEnergy);
+    console.groupEnd();
     return true;
   }
+
 
   /**
    * Reset energy to MaxEnergy
@@ -266,9 +273,9 @@ export class Player extends HTMLElement{
    * @returns {void}
    */
   shuffleDiscardIntoDeck() {
-    this.discard.getCards().forEach(card=>{
-      moveCard(card,this.discard,this.deck);
-    });
+    while(this.discard.size()>0){
+      moveCard(this.discard.getCards()[0],this.discard,this.deck);
+    }
     this.deck.shuffle();
     this.discard.clear();
   }
@@ -286,13 +293,13 @@ export class Player extends HTMLElement{
     // then this.removeCard(card)
     try{
       if(!this.spendEnergy(card.cost)) throw new Error('you don\'t have enough energy');
+      card.play(target);
+      this.discardCard(card);
     }
     catch (err){
       alert(err.message);
-      return;
     }
-    card.play(target);
-    this.discardCard(card);
+
   }
 
   /**
@@ -326,8 +333,7 @@ export class Player extends HTMLElement{
    * @returns {void}
    */
   render(){
-    const playerUI = this.template(this);
-    this.shadowRoot.querySelector('.player-ui').innerHTML=playerUI;
+    this.shadowRoot.querySelector('.player-ui').innerHTML=this.template(this);
     this.shadowRoot.querySelector( '.hp-bar').style.width = `${this.state.currentHealth/this.state.maxHealth*100}%`;
   }
 

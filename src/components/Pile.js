@@ -84,7 +84,7 @@ export class Pile extends HTMLElement{
    * @returns {number} -  size of the pile
    */
   size() {
-    return this.cards.filter(card => card instanceof Card).length;
+    return this.cards.length;
   }
 
   /**
