@@ -1,5 +1,3 @@
-
-
 import {Pile} from './Pile.js';
 
 /**
@@ -15,11 +13,6 @@ class Discard extends Pile {
   constructor(cards=[]) {
     super(cards);
   }
-
-
-
-
-
   /**
    * Shuffle the discard pile into the given deck.
    *
@@ -37,8 +30,8 @@ class Discard extends Pile {
     return 0;
   }
 
-
 }
-
-customElements.define('discard-pile', Discard);
 export default Discard;
+if (!customElements.get('discard-pile')) {
+  customElements.define('discard-pile', Discard);
+}

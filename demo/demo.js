@@ -31,3 +31,16 @@ battle.startBattle();
 //   console.log(discard.cards);
 //   })
 // });
+// Discard modal references
+const discardButton = document.querySelector('.discard-button');
+const discardModal = document.querySelector('.discard-modal');
+const discardCardsDiv = document.getElementById('discard-cards');
+const closeDiscardModal = document.querySelector('.close-discard-modal');
+
+const discardModalInstance = new DiscardModal({
+    discardButton,
+    discardModal,
+    discardCardsDiv,
+    closeDiscardModal,
+    discardPile
+});

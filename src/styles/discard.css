@@ -1,0 +1,39 @@
+  .close-discard-modal {
+      float: right;
+      width: 3vw;
+      height: 2vw;
+      background: linear-gradient(45deg, #4b0082, #800080);
+      border: none;
+      border-radius: 5vw;
+      color: rgb(255, 255, 255);
+      font-weight: bold;
+      cursor: pointer;
+      z-index: 5;
+  }
+
+  .discard-modal {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      background: rgba(0, 0, 0, 0.7);
+      z-index: 1000;
+      align-items: center;
+      justify-content: center;
+  }
+
+  #discard-modal-content {
+      padding: 20px;
+      border-radius: 10px;
+      max-width: 90vw;
+      max-height: 80vh;
+      overflow: auto;
+  }
+
+  #discard-cards {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 10px;
+  }
