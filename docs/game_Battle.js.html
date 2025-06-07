@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: game/Battle.js</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Source: game/Battle.js</h1>
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>// Battle.js
+// Refactored battle system using the EventBus for decoupled event handling
+import { EventBus } from './EventBus.js';
+import {isPlayerDead} from './PlayerManager.js';
+
+export class Battle {
+  /**
+   * @param {Player} player - The player instance
+   * @param {Enemy} enemy - The enemy instance
+   * @param {EventBus} eventBus - Optional external event bus (for testing or shared bus)
+   */
+  constructor(player, enemy, eventBus = new EventBus()) {
+    this.player = player;
+    this.enemy = enemy;
+    this.eventBus = eventBus;
+    this.turnCount = 1;
+    this.currentActor = 'player';
+    this.battleOver = false;
+
+    // Subscribe internal handlers
+    this.eventBus.subscribe('startTurn', () => this.startTurn());
+    this.eventBus.subscribe('endTurn', () => this.handleTurnEnd());
+    this.eventBus.subscribe('checkGameOver', ()=>this.checkGameOver());
+    this.eventBus.subscribe('cardPlayed', ({ card }) => {
+      this.player.playCard(card, this.enemy);
+      this.eventBus.publish('checkGameOver');
+    });
+  }
+
+  /**
+   * Begin the battle by rendering characters and starting the first turn
+   */
+  startBattle() {
+    document.querySelector('.player .character-container').append(this.player);
+    document.querySelector('.enemies .character-container').append(this.enemy);
+    this.eventBus.publish('startTurn');
+  }
+
+  /**
+   * Handle player action phase: draw cards, render hand, and attach listeners
+   */
+  waitForPlayerAction() {
+
+    try{
+
+      if(this.player.drawCards(5)===-1){
+        throw new Error('no enough cards');
+      }
+    }
+    catch (e){
+      console.log(e.message);
+      this.player.shuffleDiscardIntoDeck();
+      this.player.drawCards(5);
+    }
+
+    const endTurnBtn = document.querySelector('.end-turn-button');
+    endTurnBtn.addEventListener('click', () => this.eventBus.publish('endTurn'));
+
+    this.player.hand.getCards().forEach(card => {
+      const handler = () => this.eventBus.publish('cardPlayed', { card });
+      card.addEventListener('click', handler);
+
+    });
+  }
+
+  /**
+   * Enemy AI turn logic, then ends turn
+   */
+  enemyAction() {
+    this.enemy.takeTurn(
+      this.enemy.HP, this.enemy.maxHP,
+      this.player.currentHealth, this.player.maxHealth
+    );
+    // check whether player is dead
+    this.eventBus.publish('checkGameOver');
+    this.eventBus.publish('endTurn');
+  }
+
+  /**
+   * Internal handler for ending a turn: triggers effects, switches actor, and starts the next turn
+   */
+  handleTurnEnd() {
+    // Trigger end-of-turn effects
+    // this.eventBus.publish('onTurnEnd', { actor: this.currentActor });
+
+    // discard all cards if this is the end of player
+    if(this.currentActor==='player'){
+      this.player.discardHand();
+    }
+
+    // Switch actor
+    this.currentActor = this.currentActor === 'player' ? 'enemy' : 'player';
+
+    // Increment overall turn count only when switching back to player
+    if (this.currentActor === 'player') {
+      this.turnCount++;
+    }
+
+    // Begin next turn
+    this.eventBus.publish('startTurn');
+  }
+
+  /**
+   * Start-of-turn logic: trigger effects and delegate to appropriate actor
+   */
+  startTurn() {
+    if (this.battleOver) return;
+
+    // update effect
+    // this.eventBus.publish('onTurnStart', { actor: this.currentActor });
+
+    if (this.currentActor === 'player') {
+      this.waitForPlayerAction();
+    } else {
+      this.enemyAction();
+    }
+  }
+
+  /**
+   * if one of the player or enemy is dead, game over
+   */
+  checkGameOver() {
+    if(isPlayerDead(this.player)){
+      this.battleOver = true;
+      this.player.die();
+    }
+
+    // TODO add enemy dead check
+    // if(isEnemyDead(this.enemy)){
+    //   this.battleOver = true;
+    //   this.enemy.die();
+    // }
+  }
+
+  /**
+   * Clean up all event listeners (optional)
+   */
+  destroy() {
+    this.eventBus.unsubscribe('startTurn', this.startTurn);
+    this.eventBus.unsubscribe('endTurn', this.handleTurnEnd);
+    this.eventBus.unsubscribe('cardPlayed', this.player.playCard);
+  }
+
+
+}</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="Battle_Battle.html">Battle</a></li><li><a href="Card.html">Card</a></li><li><a href="Deck.html">Deck</a></li><li><a href="Discard.html">Discard</a></li><li><a href="Enemy.html">Enemy</a></li><li><a href="Hand.html">Hand</a></li><li><a href="Pile.html">Pile</a></li><li><a href="Pile_Pile.html">Pile</a></li><li><a href="Player.html">Player</a></li><li><a href="Player_Player.html">Player</a></li><li><a href="Powell_Powell.html">Powell</a></li></ul><h3>Global</h3><ul><li><a href="global.html#deletePlayer">deletePlayer</a></li><li><a href="global.html#endTurn">endTurn</a></li><li><a href="global.html#getPlayer">getPlayer</a></li><li><a href="global.html#handlePlayerAction">handlePlayerAction</a></li><li><a href="global.html#isPlayerDead">isPlayerDead</a></li><li><a href="global.html#shuffle">shuffle</a></li><li><a href="global.html#spawnPlayer">spawnPlayer</a></li><li><a href="global.html#startTurn">startTurn</a></li></ul>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 4.0.4</a> on Sat Jun 07 2025 00:03:24 GMT+0000 (Coordinated Universal Time)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>
