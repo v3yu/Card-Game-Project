@@ -1,19 +1,21 @@
-import Card from "../components/Card";
+import Card from '../Card.js';
+
+
 
 class FreeBoba extends Card {
   constructor() {
     super({
-      name: "Free Boba",
-      type: "support",
+      name: 'Free Boba',
+      type: 'support',
       cost: 1,
-      description: "AS doing something useful for once.",
-      effect: "Heal 1 HP. Draw 1 card.",
-      image: "src/img/FreeBoba.png",
+      description: 'AS doing something useful for once.',
+      effect: 'Heal 1 HP. Draw 1 card.',
+      image: '/src/img/FreeBoba.png',
     });
   }
 
   /**
-   * @param {Object} player - The player receiving the effect.
+   * @param {object} player - The player receiving the effect.
    */
   play(player) {
     player.heal(1);
@@ -21,4 +23,9 @@ class FreeBoba extends Card {
   }
 }
 
-export default FreeBoba;
+if (!customElements.get('free-boba')) {
+  customElements.define('free-boba', FreeBoba);
+}
+
+
+export {FreeBoba};

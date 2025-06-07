@@ -1,0 +1,158 @@
+import {Player} from './Player.js';
+/**
+ * The enemy of game
+ * An enemy has a name, HP, attack power, and abilities
+ */
+export class Enemy extends HTMLElement{
+
+   template = (t)=> `
+      <img src="${t.Img}" alt="enemy" id="enemyImg">
+      <div class="hp-bar-container">
+           <div class="hp-text">${t.HP}/${t.maxHP}</div>
+          <div class="hp-bar"></div>
+      </div>
+   `;
+  /**
+   * css style of enemy
+   *
+   * @type {string}
+   */
+  style = `
+  
+        .enemy-ui {
+            width: 300px;
+            padding: 10px;
+        }
+
+        .hp-bar-container {
+            position: relative;
+            height: 24px;
+            border: 1px solid #aaa;
+            border-radius: 6px;
+            background-color: #ddd;
+            overflow: hidden;
+        }
+        #enemyImg{
+            width: 100%;
+            align-items: center;
+        }
+
+        .hp-bar {
+            height: 100%;
+            width: 100%;
+            background: linear-gradient(to right, #aef, #5cf);
+            transition: width 0.3s ease;
+        }
+        
+        
+         .hp-text {
+            position: absolute;
+            top: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            color: #000;
+            text-shadow: 1px 1px #fff;
+            pointer-events: none;
+        }
+  `;
+
+  /**
+   * enemyUI
+   */
+  enemyUI;
+
+  /**
+   * Creates a new Enemy instance.*
+   * This constructor initializes the enemy's name, current HP, maximum HP, and image.
+   * It also sets up the Shadow DOM to visually display the enemy's status.
+   *
+   * @class
+   * @param {object} options - The initialization options.
+   * @param {string} options.name - The name of the enemy.
+   * @param {number} options.HP - The initial health points (HP) of the enemy.
+   * @param {string} options.Img - The image URL representing the enemy.
+   */
+  constructor({name,HP,Img}) {
+    super();
+    // initialize the enemy attribute
+    this.name = name;
+    this.HP=HP;
+    this.Img = Img;
+    this.maxHP=HP;
+    // initialize the html
+    const shadowRoot = this.attachShadow({mode: 'open'});
+    const style = document.createElement('style');
+    this.enemyUI = document.createElement('div');
+    this.enemyUI.className = 'enemy-ui';
+    style.innerText = this.style;
+    shadowRoot.append(style);
+
+
+
+
+  }
+
+  /**
+   *  Take damage
+   *
+   * @param {number} damage -  The amount of damage to take
+   */
+  takeDamage(damage) {
+    this.HP = Math.max(this.HP - damage, 0);
+    this.shadowRoot.querySelector( '.hp-bar').style.width = `${this.HP/this.maxHP*100}%`;
+    this.shadowRoot.querySelector( '.hp-text').innerText = `${this.HP}/${this.maxHP}`;
+    if(this.HP===0){
+      this.die();
+    }
+  }
+
+  /**
+   *  Die, direct to victorious page
+   */
+  die(){
+    // TODO use app.js to control it
+     console.log(this.name + ' has died.');
+  }
+
+   /**
+    * Attack
+    *
+    * @param {Player} player - The player being attacked.
+    *  @param {number} amount -  The amount of damage to deal.
+    */
+  attack(player,amount){
+    player.takeDamage(amount);
+
+  }
+
+  /**
+   * apply some effects such as attack down or block down
+   *
+   * @param {object} effect - effect entity
+   */
+  applyEffect(effect){
+    void effect;
+    // TODO after we can run the battle we will implement effect system
+  }
+
+  /**
+   * render the enemy
+   */
+  render(){
+    this.enemyUI.innerHTML = this.template(this);
+    this.shadowRoot.append(this.enemyUI);
+  }
+
+  connectedCallback(){
+    this.render();
+  }
+}
+
+if(!customElements.get('custom-enemy')){
+  customElements.define('custom-enemy',Enemy);
+}

@@ -1,3 +1,75 @@
-test('dummy test', () => {
-    expect(true).toBe(true);
+
+
+
+
+import Hand from '../src/components/Hand.js';
+import { CrashOut } from '../src/components/cards/CrashOut.js';
+import {EarlySubmission} from '../src/components/cards/EarlySubmission.js';
+
+describe('Hand class functionality', () => {
+	let hand;
+
+	beforeEach(() => {
+    hand = new Hand();
+    document.body.appendChild(hand);
+  });
+
+  afterEach(() => {
+    hand.remove();
+  });
+
+  test('addCard adds a card to cards', () => {
+    const card = new CrashOut();
+    hand.addCard(card);
+    expect(hand.cards).toContain(card);
+    expect(hand.shadowRoot.querySelector('.handArea').children.length).toBe(1);
+  });
+
+  test('removeCard removes a card from the cards', () => {
+    const card1 = new CrashOut();
+    const card2 = new EarlySubmission();
+    hand.addCard(card1);
+    hand.addCard(card2);
+    hand.removeCard(card1);
+    expect(hand.cards).not.toContain(card1);
+    expect(hand.shadowRoot.querySelector('.handArea').children.length).toBe(1);
+  });
+
+  test('removeCard removes the card and triggers compactHand', () => {
+    const card1 = new CrashOut();
+    const card2 = new CrashOut();
+
+    hand.addCard(card1);
+    hand.addCard(card2);
+
+    const result = hand.removeCard(card1);
+
+    expect(result).toBe(0);
+    expect(hand.cards).not.toContain(card1);
+    expect(hand.cards.length).toBe(1);
+    expect(hand.cards[0]).toBe(card2);
+    expect(hand.shadowRoot.querySelector('.handArea').children.length).toBe(1); // DOM 同步
+  });
+
+  test('removeCard returns -1 when card not found', () => {
+    const card = new CrashOut();
+    const result = hand.removeCard(card);
+    expect(result).toBe(-1);
+    expect(hand.cards.length).toBe(0);
+  });
+
+  test('renderHandHelper updates handArea with new card', () => {
+    const card1 = new CrashOut();
+    const card2 = new CrashOut();
+
+    hand.addCard(card1);
+    hand.addCard(card2);
+
+
+    const handArea = hand.shadowRoot.querySelector('.handArea');
+    expect(handArea.children.length).toBe(2);
+    expect(handArea.children[0]).toBe(card1);
+    expect(handArea.children[1]).toBe(card2);
+  });
+
 });
