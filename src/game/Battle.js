@@ -2,6 +2,7 @@
 // Refactored battle system using the EventBus for decoupled event handling
 import { EventBus } from './EventBus.js';
 import {isPlayerDead} from './PlayerManager.js';
+import DiscardModal from '../components/DiscardModal.js';
 
 export class Battle {
   /**
@@ -47,6 +48,21 @@ export class Battle {
     document.querySelector('.enemies .character-container').append(this.enemy);
     document.querySelector('.hand-area').append(this.player.hand);
     this.eventBus.publish('startTurn');
+
+
+    const discardButton = document.querySelector('.discard-button');
+    const discardModal = document.querySelector('.discard-modal');
+    const discardCardsDiv = document.getElementById('discard-cards');
+    const closeDiscardModal = document.querySelector('.close-discard-modal');
+
+    /* eslint-disable no-unused-vars */
+    const discardModalInstance = new DiscardModal({
+      discardButton,
+      discardModal,
+      discardCardsDiv,
+      closeDiscardModal,
+      discardPile: this.player.discard
+    });
   }
 
   /**
