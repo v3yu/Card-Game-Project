@@ -153,4 +153,13 @@ body {
 	z-index: 3;
 }
 
+#tutorial-image {
+	position: fixed;
+	display: none;
+	width: 85%;
+	height: 85%;
+	bottom: 8%;
+  right: 7.5%;
+	z-index: 3;
+}
 

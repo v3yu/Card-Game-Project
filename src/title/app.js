@@ -37,10 +37,27 @@ function unDimScreen(){
     hideSettings();
 }
 
+let tutorial = document.getElementById('tutorial-image');
+
+function showTutorial() {
+    tutorial.style.display = 'grid';
+}
+
+function hideTutorial() {
+    tutorial.style.display = 'none';
+}
+
+
 document.getElementById('settings').addEventListener('click', () => {
     dimScreen();
 });
 
+document.getElementById('tutorial').addEventListener('click', () => {
+    dimScreen();
+    showTutorial();
+});
+
 document.getElementById('exit').addEventListener('click', () => {
     unDimScreen();
+    hideTutorial();
 })
