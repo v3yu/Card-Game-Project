@@ -75,7 +75,7 @@ export class Battle {
    * Enemy AI turn logic, then ends turn
    */
   enemyAction() {
-    this.enemy.pAttack(10);
+    this.enemy.takeTurn(this.enemy.HP, this.enemy.maxHP, this.player.HP, this.player.maxHP);
     // check whether player is dead
     this.eventBus.publish('checkGameOver');
     this.eventBus.publish('endTurn');
