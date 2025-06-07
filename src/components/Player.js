@@ -7,7 +7,7 @@ import Card from './Card.js';
 
 
 //A player has: current health, max health, current energy,
-// max energy, block, zero or more status effects, a deck, a hand, and a discard.
+// max energy, block, zero or more status effects, a deck, a cards, and a discard.
 /**
  *  @description Represents a player in the game.
  *  @class Player
@@ -111,12 +111,12 @@ export class Player extends HTMLElement{
     </div>
   `;
   /**
-   * Creates a player instance with health, energy, deck, hand, discard pile, and status effects and block.
+   * Creates a player instance with health, energy, deck, cards, discard pile, and status effects and block.
    *
    * @param {number} maxHealth - The player's maximum health.
    * @param {number} maxEnergy - The player's maximum energy.
    * @param {Deck} deck - The player's starting deck of cards.
-   * @param {Hand} hand - The player's starting hand of cards.
+   * @param {Hand} hand - The player's starting cards of cards.
    * @param {Discard} discard - The player's discard pile.
    * @param {Array} [effect=[]] - An array of status effects (e.g., poison, weaken). Defaults to an empty array.
    */
@@ -274,7 +274,7 @@ export class Player extends HTMLElement{
   }
 
   /**
-   * Plays a card from the hand.
+   * Plays a card from the cards.
    *
    * @param {Card} card - The card to play.
    * @param {Enemy} target - The enemy to play the card against.
@@ -296,21 +296,21 @@ export class Player extends HTMLElement{
   }
 
   /**
-   * Discards a card from the hand.
+   * Discards a card from the cards.
    *
    * @param {Card} card - The card to discard.
    * @returns {void}
    */
   discardCard(card) {
-    //Moves a card from the hand to the discard pile
+    //Moves a card from the cards to the discard pile
     moveCard(card,this.hand,this.tempDiscard);
   }
 
   /**
-   * Discards all cards in the hand and tempDiscard.
+   * Discards all cards in the cards and tempDiscard.
    */
   discardHand() {
-    // Discards all cards in the hand,
+    // Discards all cards in the cards,
     // called by playerManager at the end of a turn
 
     while(this.hand.size()>0){

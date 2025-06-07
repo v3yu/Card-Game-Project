@@ -65,7 +65,7 @@ export class Battle {
   }
 
   /**
-   * Handle player action phase: draw cards, render hand, and attach listeners
+   * Handle player action phase: draw cards, render cards, and attach listeners
    */
   waitForPlayerAction() {
 
@@ -84,7 +84,7 @@ export class Battle {
     const endTurnBtn = document.querySelector('.end-turn-button');
     endTurnBtn.addEventListener('click', () => this.eventBus.publish('endTurn'));
 
-    this.player.hand.getCards().forEach(card => {
+    this.player.cards.getCards().forEach(card => {
       const handler = () => this.eventBus.publish('cardPlayed', { card });
       card.addEventListener('click', handler);
 

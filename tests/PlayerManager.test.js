@@ -42,7 +42,7 @@ describe('PlayerManager', () => {
             let player = spawnPlayer(10, 2, deck, hand, discard, []);
             const resetSpy = jest.spyOn(player, 'resetEnergy');
             const drawSpy = jest.spyOn(player, 'drawCards');
-            // Ensure the player has no cards in hand before starting turn
+            // Ensure the player has no cards in cards before starting turn
             expect(player.hand.cards.length).toBe(0);
             // Add some cards to the deck
             deck.addCard(new SampleCard());
@@ -53,7 +53,7 @@ describe('PlayerManager', () => {
             startTurn();
             expect(resetSpy).toHaveBeenCalled();
             expect(drawSpy).toHaveBeenCalledWith(5);
-            // Ensure the player has 5 cards in hand after starting turn
+            // Ensure the player has 5 cards in cards after starting turn
             expect(player.hand.cards.length).toBe(5);
         });
 
@@ -63,18 +63,18 @@ describe('PlayerManager', () => {
     });
 
     describe('endTurn', () => {
-        it('should discard hand if player exists', () => {
+        it('should discard cards if player exists', () => {
             const player = spawnPlayer(10, 2, deck, hand, discard, []);
             const discardSpy = jest.spyOn(player, 'discardHand');
-            // Add some cards to the player's hand
+            // Add some cards to the player's cards
             player.hand.addCard(new SampleCard());
             player.hand.addCard(new SampleCard());
-            // Ensure the player has cards in hand before ending turn
+            // Ensure the player has cards in cards before ending turn
             expect(player.hand.cards.length).toBeGreaterThan(0);
             // Call endTurn which should trigger discardHand
             endTurn();
             expect(discardSpy).toHaveBeenCalled();
-            // Ensure the player's hand is empty after discarding
+            // Ensure the player's cards is empty after discarding
             expect(player.hand.cards.length).toBe(0);
             // Check that the discard pile has the cards
             expect(player.discard.cards.length).toBeGreaterThan(0);

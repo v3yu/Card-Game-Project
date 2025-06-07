@@ -3,12 +3,16 @@ import {Card} from './Card.js';
 
 /**
  * @class Hand
- * @description The player's hand feature, including visual components and logic
+ * @description The player's cards feature, including visual components and logic
  */
 class Hand extends Pile {
 
-  constructor() {
-    super();
+  /**
+   * use a pile of cards to initialize the cards
+   * @param {Card[]} cards
+   */
+  constructor(cards=[]) {
+    super(cards);
 
 
 
@@ -33,7 +37,7 @@ class Hand extends Pile {
     this.shadowRoot.append(this.handArea, style);
 
 
-	this.hand = new Proxy(this.cards, {
+	this.cards = new Proxy(this.cards, {
 		set: (target, prop, value) => {
 			target[prop] = value;
 			if (!isNaN(prop) || prop === 'length') {
@@ -57,7 +61,7 @@ class Hand extends Pile {
    */
   addCard(card) {
     const result = super.addCard(card);
-    this.hand[this.size() - 1] = card; //
+    this.cards[this.size() - 1] = card; //
     return result;
   }
 
@@ -72,11 +76,13 @@ class Hand extends Pile {
     if (!(card instanceof Card)) return -1;
     const index = this.cards.indexOf(card);
     if (index === -1) return -1;
-    this.hand.splice(index, 1);
+    this.cards.splice(index, 1);
     return index;
   }
 
-
+connectedCallback() {
+    this.renderHandHelper();
+  }
 
 
 /*
@@ -87,7 +93,7 @@ class Hand extends Pile {
    * @returns {void}
    *!/
   discardCard(card) {
-    //Moves a card from the hand to the discard pile
+    //Moves a card from the cards to the discard pile
     this.removeCard(card);
     this.discardPile.addCard(card);
   }
@@ -97,9 +103,9 @@ class Hand extends Pile {
    * @returns {void}
    *!/
   discardHand() {
-    // Discards all cards in the hand,
+    // Discards all cards in the cards,
     // called by playerManager at the end of a turn
-    const cardsToDiscard = this.hand.filter(card => card instanceof Card);
+    const cardsToDiscard = this.cards.filter(card => card instanceof Card);
 
 
     for (let i = 0; i < cardsToDiscard.length; i++) {
@@ -114,7 +120,7 @@ class Hand extends Pile {
     //Helper function to help render cards
     this.handArea.innerHTML = '';
 
-    this.hand.forEach(card => {
+    this.cards.forEach(card => {
       this.handArea.append(card);
     });
   }

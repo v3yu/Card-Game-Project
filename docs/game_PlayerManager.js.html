@@ -36,13 +36,13 @@ let player = null;
  * @param {number} maxHealth
  * @param {number} maxEnergy
  * @param {Deck} deck
- * @param {Hand} hand
+ * @param {Hand} cards
  * @param {Discard} discard
  * @param {Array} effect
  * @returns {Player}
  */
-export function spawnPlayer(maxHealth, maxEnergy, deck, hand, discard, effect = []) {
-  player = new Player(maxHealth, maxEnergy, deck, hand, discard, effect);
+export function spawnPlayer(maxHealth, maxEnergy, deck, cards, discard, effect = []) {
+  player = new Player(maxHealth, maxEnergy, deck, cards, discard, effect);
   return player;
 }
 
@@ -58,7 +58,7 @@ export function startTurn() {
 
 /**
  * Called at the end of the player's turn.
- * Discards the player's hand.
+ * Discards the player's cards.
  */
 export function endTurn() {
   if (!player) return;

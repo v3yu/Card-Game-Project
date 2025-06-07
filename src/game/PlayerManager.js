@@ -30,7 +30,7 @@ export function startTurn() {
 
 /**
  * Called at the end of the player's turn.
- * Discards the player's hand.
+ * Discards the player's cards.
  */
 export function endTurn() {
   if (!player) return;

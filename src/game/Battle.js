@@ -6,7 +6,7 @@ import {isPlayerDead} from './PlayerManager.js';
 export class Battle {
   /**
    * @param {Player} player - The player instance
-   * @param {Enemy} enemy - The enemy instance
+   * @param {Powell} enemy - The enemy instance
    * @param {EventBus} eventBus - Optional external event bus (for testing or shared bus)
    */
   constructor(player, enemy, eventBus = new EventBus()) {
@@ -33,14 +33,17 @@ export class Battle {
   startBattle() {
     document.querySelector('.player .character-container').append(this.player);
     document.querySelector('.enemies .character-container').append(this.enemy);
+    document.querySelector('.hand-area').append(this.player.hand)
     this.eventBus.publish('startTurn');
   }
 
   /**
-   * Handle player action phase: draw cards, render hand, and attach listeners
+   * Handle player action phase: draw cards, render cards, and attach listeners
    */
   waitForPlayerAction() {
 
+    console.log('player\'s turn')
+    console.log(this.player.deck.getCards())
     try{
 
       if(this.player.drawCards(5)===-1){
@@ -67,9 +70,10 @@ export class Battle {
    * Enemy AI turn logic, then ends turn
    */
   enemyAction() {
+    console.log('enemy\'s turn')
     this.enemy.takeTurn(
       this.enemy.HP, this.enemy.maxHP,
-      this.player.currentHealth, this.player.maxHealth
+      this.player.state.currentHealth, this.player.state.maxHealth
     );
     // check whether player is dead
     this.eventBus.publish('checkGameOver');
@@ -85,7 +89,10 @@ export class Battle {
 
     // discard all cards if this is the end of player
     if(this.currentActor==='player'){
+      console.log('end player turn')
       this.player.discardHand();
+      this.player.resetEnergy();
+      document.querySelector('.end-turn-button').removeEventListener('click', this.handleTurnEnd)
     }
 
     // Switch actor
@@ -104,6 +111,7 @@ export class Battle {
    * Start-of-turn logic: trigger effects and delegate to appropriate actor
    */
   startTurn() {
+
     if (this.battleOver) return;
 
     // update effect

@@ -1,7 +1,7 @@
 import {Card} from './Card.js';
 
 /**
- * @description The Pile class provides a unified interface for defining card piles such as deck, hand, and discard.
+ * @description The Pile class provides a unified interface for defining card piles such as deck, cards, and discard.
  * @class Pile
  */
 export class Pile extends HTMLElement{
