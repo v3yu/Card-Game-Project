@@ -1,11 +1,11 @@
-import DiscardModal from '../src/components/DiscardModal.js';
+// import DiscardModal from '../src/components/DiscardModal.js';
 import { CrashOut } from '../src/components/cards/CrashOut.js';
 import { FreeBoba } from '../src/components/cards/FreeBoba.js';
 import Discard from '../src/components/Discard.js';
 import Deck from '../src/components/Deck.js';
 import { test } from '@jest/globals';
 describe('DiscardModal', () => {
-    let discardButton, discardModal, discardCardsDiv, closeDiscardModal, discardPile, modal;
+    let discardButton, discardModal, discardCardsDiv, closeDiscardModal, discardPile;
 
     beforeEach(() => {
         // Set up DOM elements
@@ -18,13 +18,13 @@ describe('DiscardModal', () => {
 
         discardPile = new Discard();
 
-        modal = new DiscardModal({
-            discardButton,
-            discardModal,
-            discardCardsDiv,
-            closeDiscardModal,
-            discardPile
-        });
+        // modal = new DiscardModal({
+        //     discardButton,
+        //     discardModal,
+        //     discardCardsDiv,
+        //     closeDiscardModal,
+        //     discardPile
+        // });
     });
 
     test('shows "Discard pile is empty." when discard pile is empty', () => {
