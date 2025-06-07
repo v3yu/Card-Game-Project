@@ -35,7 +35,7 @@ import Card from './Card.js';
 
 
 //A player has: current health, max health, current energy,
-// max energy, block, zero or more status effects, a deck, a cards, and a discard.
+// max energy, block, zero or more status effects, a deck, a hand, and a discard.
 /**
  *  @description Represents a player in the game.
  *  @class Player
@@ -139,16 +139,16 @@ export class Player extends HTMLElement{
     &lt;/div>
   `;
   /**
-   * Creates a player instance with health, energy, deck, cards, discard pile, and status effects and block.
+   * Creates a player instance with health, energy, deck, hand, discard pile, and status effects and block.
    *
    * @param {number} maxHealth - The player's maximum health.
    * @param {number} maxEnergy - The player's maximum energy.
    * @param {Deck} deck - The player's starting deck of cards.
-   * @param {Hand} cards - The player's starting cards of cards.
+   * @param {Hand} hand - The player's starting hand of cards.
    * @param {Discard} discard - The player's discard pile.
    * @param {Array} [effect=[]] - An array of status effects (e.g., poison, weaken). Defaults to an empty array.
    */
-  constructor(maxHealth, maxEnergy, deck=new Deck(), cards=new Hand(),
+  constructor(maxHealth, maxEnergy, deck=new Deck(), hand=new Hand(),
               discard=new Discard(), effect = []) {
     super();
     // Dynamically proxy the element's state so that whenever
@@ -169,7 +169,7 @@ export class Player extends HTMLElement{
     });
 
     this.discard = discard;
-    this.cards = cards;
+    this.hand = hand;
     // initialize the block and death status
     this.isDead = false;
     this.deck = deck;
@@ -267,7 +267,7 @@ export class Player extends HTMLElement{
   drawCards(amount) {
     if(amount>this.deck.size()) return -1;
     for(let i=0;i&lt;amount;i++){
-      this.cards.addCard(this.deck.drawCard());
+      this.hand.addCard(this.deck.drawCard());
     }
     return 1;
   }
@@ -302,13 +302,12 @@ export class Player extends HTMLElement{
   }
 
   /**
-   * Plays a card from the cards.
+   * Plays a card from the hand.
    *
    * @param {Card} card - The card to play.
-   * @param {object} target - The enemy to play the card against.
+   * @param {Enemy} target - The enemy to play the card against.
    * @returns {void} - Returns nothing.
    */
-  // TODO replace the object with enemy
   playCard(card, target) {
 
     // Should call the specific card’s own card.play,
@@ -325,25 +324,25 @@ export class Player extends HTMLElement{
   }
 
   /**
-   * Discards a card from the cards.
+   * Discards a card from the hand.
    *
    * @param {Card} card - The card to discard.
    * @returns {void}
    */
   discardCard(card) {
-    //Moves a card from the cards to the discard pile
-    moveCard(card,this.cards,this.tempDiscard);
+    //Moves a card from the hand to the discard pile
+    moveCard(card,this.hand,this.tempDiscard);
   }
 
   /**
-   * Discards all cards in the cards and tempDiscard.
+   * Discards all cards in the hand and tempDiscard.
    */
   discardHand() {
-    // Discards all cards in the cards,
+    // Discards all cards in the hand,
     // called by playerManager at the end of a turn
 
-    while(this.cards.size()>0){
-      this.discardCard(this.cards.getCards()[0]);
+    while(this.hand.size()>0){
+      this.discardCard(this.hand.getCards()[0]);
     }
     while(this.tempDiscard.size()>0){
       moveCard(this.tempDiscard.getCards()[0],this.tempDiscard,this.discard);
@@ -376,13 +375,13 @@ customElements.define('my-player',Player);</code></pre>
 </div>
 
 <nav>
-    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="Card.html">Card</a></li><li><a href="Deck.html">Deck</a></li><li><a href="Discard.html">Discard</a></li><li><a href="Enemy.html">Enemy</a></li><li><a href="Hand.html">Hand</a></li><li><a href="Pile.html">Pile</a></li><li><a href="Pile_Pile.html">Pile</a></li><li><a href="Player.html">Player</a></li><li><a href="Player_Player.html">Player</a></li><li><a href="Powell_Powell.html">Powell</a></li></ul><h3>Global</h3><ul><li><a href="global.html#deletePlayer">deletePlayer</a></li><li><a href="global.html#endTurn">endTurn</a></li><li><a href="global.html#getPlayer">getPlayer</a></li><li><a href="global.html#handlePlayerAction">handlePlayerAction</a></li><li><a href="global.html#isPlayerDead">isPlayerDead</a></li><li><a href="global.html#shuffle">shuffle</a></li><li><a href="global.html#spawnPlayer">spawnPlayer</a></li><li><a href="global.html#startTurn">startTurn</a></li></ul>
+    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="Battle_Battle.html">Battle</a></li><li><a href="Card.html">Card</a></li><li><a href="Deck.html">Deck</a></li><li><a href="Discard.html">Discard</a></li><li><a href="Enemy.html">Enemy</a></li><li><a href="Hand.html">Hand</a></li><li><a href="Pile.html">Pile</a></li><li><a href="Pile_Pile.html">Pile</a></li><li><a href="Player.html">Player</a></li><li><a href="Player_Player.html">Player</a></li><li><a href="Powell_Powell.html">Powell</a></li></ul><h3>Global</h3><ul><li><a href="global.html#deletePlayer">deletePlayer</a></li><li><a href="global.html#endTurn">endTurn</a></li><li><a href="global.html#getPlayer">getPlayer</a></li><li><a href="global.html#handlePlayerAction">handlePlayerAction</a></li><li><a href="global.html#isPlayerDead">isPlayerDead</a></li><li><a href="global.html#shuffle">shuffle</a></li><li><a href="global.html#spawnPlayer">spawnPlayer</a></li><li><a href="global.html#startTurn">startTurn</a></li></ul>
 </nav>
 
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 4.0.4</a> on Sat Jun 07 2025 00:13:04 GMT+0000 (Coordinated Universal Time)
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 4.0.4</a> on Sat Jun 07 2025 00:55:32 GMT+0000 (Coordinated Universal Time)
 </footer>
 
 <script> prettyPrint(); </script>
