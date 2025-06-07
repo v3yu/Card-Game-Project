@@ -44,7 +44,7 @@ export class Battle {
   startBattle() {
     document.querySelector('.player .character-container').append(this.player);
     document.querySelector('.enemies .character-container').append(this.enemy);
-    document.querySelector('.hand-area').append(this.player.hand)
+    document.querySelector('.hand-area').append(this.player.hand);
     this.eventBus.publish('startTurn');
   }
 
@@ -53,7 +53,7 @@ export class Battle {
    */
   waitForPlayerAction() {
 
-    console.log(this.player.deck.size()+this.player.hand.size()+this.player.discard.size()+this.player.tempDiscard.size())
+    console.log(this.player.deck.size()+this.player.hand.size()+this.player.discard.size()+this.player.tempDiscard.size());
     try{
 
       if(this.player.drawCards(5)===-1){
@@ -89,10 +89,10 @@ export class Battle {
 
     // discard all cards if this is the end of player
     if(this.currentActor==='player'){
-      console.log('end player turn')
+      console.log('end player turn');
       this.player.discardHand();
       this.player.resetEnergy();
-      document.querySelector('.end-turn-button').removeEventListener('click', this.handleTurnEnd)
+      document.querySelector('.end-turn-button').removeEventListener('click', this.handleTurnEnd);
     }
 
     // Switch actor

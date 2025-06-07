@@ -1,5 +1,5 @@
 import {Pile} from '../components/Pile.js';
-import Hand from "../components/Hand.js";
+import Hand from '../components/Hand.js';
 
 /**
  * @deprecated Use Deck.shuffle() instead

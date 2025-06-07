@@ -3,7 +3,6 @@ import Deck from './Deck.js';
 import Hand from './Hand.js';
 import Discard from './Discard.js';
 import {Pile} from './Pile.js';
-import discard from "./Discard.js";
 
 
 //A player has: current health, max health, current energy,
@@ -283,6 +282,7 @@ export class Player extends HTMLElement{
   /**
    * Plays a card from the cards.
    *
+   * @class Enemy
    * @param {Card} card - The card to play.
    * @param {Enemy} target - The enemy to play the card against.
    * @returns {void} - Returns nothing.
@@ -304,7 +304,7 @@ export class Player extends HTMLElement{
 
   /**
    * Discards a card from the cards.
-   *
+   * @class Card
    * @param {Card} card - The card to discard.
    * @returns {void}
    */

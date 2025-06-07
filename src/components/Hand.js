@@ -9,7 +9,8 @@ class Hand extends Pile {
 
   /**
    * use a pile of cards to initialize the cards
-   * @param {Card[]} cards
+   *
+   * @param {Card[]} cards - The cards to initialize the hand with
    */
   constructor(cards=[]) {
     super(cards);
