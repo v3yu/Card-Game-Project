@@ -96,10 +96,12 @@ body {
   
   .player {
     display: flex;
-    justify-content: center;
-    align-items: center;
+    flex-direction: column; 
+    justify-content: flex-end;
+    align-items: center; 
     width: 30%;
   }
+
   
   .enemies {
     display: flex;
