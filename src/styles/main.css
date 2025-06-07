@@ -86,7 +86,7 @@ body {
 
 .battle-area {
     position: absolute;
-    bottom: 25vh;
+    bottom: 28vh;
     width: 100%;
     display: flex;
     justify-content: space-between;
@@ -125,7 +125,7 @@ body {
     position: absolute;
     left: 50%;
     transform: translate(-50%, 0);
-    bottom: -15vh;
+    bottom: -12vh;
     transform: translateX(-50%);
     display: flex;
     gap: 10px;
