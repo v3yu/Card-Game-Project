@@ -7,9 +7,13 @@ import {Pile} from './Pile.js';
  */
 class Deck extends Pile {
 
-    
-    constructor() {
-        super();
+    /**
+     * use a pile of cards to initialize Deck
+     *
+     * @param {Card[]} cards - cards to initialize the deck
+     */
+    constructor(cards = []) {
+        super(cards);
     }
 
 

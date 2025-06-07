@@ -15,7 +15,7 @@ describe('Player class', () => {
           100,   // maxHealth
           3,     // maxEnergy
           new Deck(), // deck
-          new Hand(),    // hand
+          new Hand(),    // cards
           new Discard(),    // discard
         );
         card1 = new CrashOut();
@@ -32,7 +32,7 @@ describe('Player class', () => {
         expect(player.state.block).toBe(0);
         expect(player.isDead).toBe(false);
         expect(player.deck.size()).toBe(2);
-        expect(player.hand.hand.length).toBe(0);
+        expect(player.hand.cards.length).toBe(0);
         expect(player.discard.size()).toBe(0);
         expect(player.state.effect.length).toBe(0);
     });
@@ -94,14 +94,14 @@ describe('Player class', () => {
         expect(player.hand.size()).toBe(0);
     });
 
-    test('discardCard moves card from hand to tempDiscard', () => {
+    test('discardCard moves card from cards to tempDiscard', () => {
         player.hand.addCard(card1);
         player.discardCard(card1);
         expect(player.hand.getCards()).not.toContain(card1);
         expect(player.tempDiscard.getCards()).toContain(card1);
     });
 
-    test('discardHand moves all from hand to discard via tempDiscard', () => {
+    test('discardHand moves all from cards to discard via tempDiscard', () => {
         player.hand.addCard(card1);
         player.hand.addCard(card2);
         player.hand.addCard(card1);

@@ -31,11 +31,10 @@ import Deck from './Deck.js';
 import Hand from './Hand.js';
 import Discard from './Discard.js';
 import {Pile} from './Pile.js';
-import Card from './Card.js';
 
 
 //A player has: current health, max health, current energy,
-// max energy, block, zero or more status effects, a deck, a hand, and a discard.
+// max energy, block, zero or more status effects, a deck, a cards, and a discard.
 /**
  *  @description Represents a player in the game.
  *  @class Player
@@ -139,12 +138,12 @@ export class Player extends HTMLElement{
     &lt;/div>
   `;
   /**
-   * Creates a player instance with health, energy, deck, hand, discard pile, and status effects and block.
+   * Creates a player instance with health, energy, deck, cards, discard pile, and status effects and block.
    *
    * @param {number} maxHealth - The player's maximum health.
    * @param {number} maxEnergy - The player's maximum energy.
    * @param {Deck} deck - The player's starting deck of cards.
-   * @param {Hand} hand - The player's starting hand of cards.
+   * @param {Hand} hand - The player's starting cards of cards.
    * @param {Discard} discard - The player's discard pile.
    * @param {Array} [effect=[]] - An array of status effects (e.g., poison, weaken). Defaults to an empty array.
    */
@@ -163,7 +162,7 @@ export class Player extends HTMLElement{
     }, {
       set: (target, prop, value) => {
         target[prop] = value;
-        // this.render();
+        this.render();
         return true;
       }
     });
@@ -241,13 +240,20 @@ export class Player extends HTMLElement{
    * @returns {boolean} - Returns true if the energy was successfully spent, false if not enough energy is available.
    */
   spendEnergy(amount) {
-    const nowEnergy = this.state.currentEnergy-amount;
-    if(nowEnergy&lt;0){
+    console.group(`🪙 Spending ${amount} energy`);
+    console.log('Before spend:', this.state.currentEnergy);
+    console.trace();  // 打印调用栈
+    const nowEnergy = this.state.currentEnergy - amount;
+    if (nowEnergy &lt; 0) {
+      console.groupEnd();
       return false;
     }
     this.state.currentEnergy = nowEnergy;
+    console.log(' After spend:', this.state.currentEnergy);
+    console.groupEnd();
     return true;
   }
+
 
   /**
    * Reset energy to MaxEnergy
@@ -294,52 +300,52 @@ export class Player extends HTMLElement{
    * @returns {void}
    */
   shuffleDiscardIntoDeck() {
-    this.discard.getCards().forEach(card=>{
-      moveCard(card,this.discard,this.deck);
-    });
+    while(this.discard.size()>0){
+      moveCard(this.discard.getCards()[0],this.discard,this.deck);
+    }
     this.deck.shuffle();
     this.discard.clear();
   }
 
   /**
-   * Plays a card from the hand.
+   * Plays a card from the cards.
    *
+   * @class Enemy
    * @param {Card} card - The card to play.
-   * @param {object} target - The enemy to play the card against.
+   * @param {Enemy} target - The enemy to play the card against.
    * @returns {void} - Returns nothing.
    */
-  // TODO replace the object with enemy
   playCard(card, target) {
 
     // Should call the specific card’s own card.play,
     // then this.removeCard(card)
     try{
       if(!this.spendEnergy(card.cost)) throw new Error('you don\'t have enough energy');
+      card.play(target);
+      this.discardCard(card);
     }
     catch (err){
       alert(err.message);
-      return;
     }
-    card.play(target);
-    this.discardCard(card);
+
   }
 
   /**
-   * Discards a card from the hand.
-   *
+   * Discards a card from the cards.
+   * @class Card
    * @param {Card} card - The card to discard.
    * @returns {void}
    */
   discardCard(card) {
-    //Moves a card from the hand to the discard pile
+    //Moves a card from the cards to the discard pile
     moveCard(card,this.hand,this.tempDiscard);
   }
 
   /**
-   * Discards all cards in the hand and tempDiscard.
+   * Discards all cards in the cards and tempDiscard.
    */
   discardHand() {
-    // Discards all cards in the hand,
+    // Discards all cards in the cards,
     // called by playerManager at the end of a turn
 
     while(this.hand.size()>0){
@@ -355,8 +361,7 @@ export class Player extends HTMLElement{
    * @returns {void}
    */
   render(){
-    const playerUI = this.template(this);
-    this.shadowRoot.querySelector('.player-ui').innerHTML=playerUI;
+    this.shadowRoot.querySelector('.player-ui').innerHTML=this.template(this);
     this.shadowRoot.querySelector( '.hp-bar').style.width = `${this.state.currentHealth/this.state.maxHealth*100}%`;
   }
 
@@ -376,13 +381,13 @@ customElements.define('my-player',Player);</code></pre>
 </div>
 
 <nav>
-    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="Card.html">Card</a></li><li><a href="Deck.html">Deck</a></li><li><a href="Discard.html">Discard</a></li><li><a href="Enemy.html">Enemy</a></li><li><a href="Hand.html">Hand</a></li><li><a href="Pile.html">Pile</a></li><li><a href="Pile_Pile.html">Pile</a></li><li><a href="Player.html">Player</a></li><li><a href="Player_Player.html">Player</a></li><li><a href="Powell_Powell.html">Powell</a></li></ul><h3>Global</h3><ul><li><a href="global.html#deletePlayer">deletePlayer</a></li><li><a href="global.html#endTurn">endTurn</a></li><li><a href="global.html#getPlayer">getPlayer</a></li><li><a href="global.html#handlePlayerAction">handlePlayerAction</a></li><li><a href="global.html#isPlayerDead">isPlayerDead</a></li><li><a href="global.html#shuffle">shuffle</a></li><li><a href="global.html#spawnPlayer">spawnPlayer</a></li><li><a href="global.html#startTurn">startTurn</a></li></ul>
+    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="Battle_Battle.html">Battle</a></li><li><a href="Card.html">Card</a></li><li><a href="Crad.html">Crad</a></li><li><a href="Deck.html">Deck</a></li><li><a href="Discard.html">Discard</a></li><li><a href="Enemy.html">Enemy</a></li><li><a href="Hand.html">Hand</a></li><li><a href="Pile.html">Pile</a></li><li><a href="Pile_Pile.html">Pile</a></li><li><a href="Player.html">Player</a></li><li><a href="Player_Player.html">Player</a></li><li><a href="Powell_Powell.html">Powell</a></li></ul><h3>Global</h3><ul><li><a href="global.html#deletePlayer">deletePlayer</a></li><li><a href="global.html#endTurn">endTurn</a></li><li><a href="global.html#getPlayer">getPlayer</a></li><li><a href="global.html#handlePlayerAction">handlePlayerAction</a></li><li><a href="global.html#isPlayerDead">isPlayerDead</a></li><li><a href="global.html#shuffle">shuffle</a></li><li><a href="global.html#spawnPlayer">spawnPlayer</a></li><li><a href="global.html#startTurn">startTurn</a></li></ul>
 </nav>
 
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 4.0.4</a> on Fri Jun 06 2025 03:42:58 GMT+0000 (Coordinated Universal Time)
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 4.0.4</a> on Sat Jun 07 2025 22:13:30 GMT+0000 (Coordinated Universal Time)
 </footer>
 
 <script> prettyPrint(); </script>

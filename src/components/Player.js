@@ -3,11 +3,10 @@ import Deck from './Deck.js';
 import Hand from './Hand.js';
 import Discard from './Discard.js';
 import {Pile} from './Pile.js';
-import Card from './Card.js';
 
 
 //A player has: current health, max health, current energy,
-// max energy, block, zero or more status effects, a deck, a hand, and a discard.
+// max energy, block, zero or more status effects, a deck, a cards, and a discard.
 /**
  *  @description Represents a player in the game.
  *  @class Player
@@ -111,12 +110,12 @@ export class Player extends HTMLElement{
     </div>
   `;
   /**
-   * Creates a player instance with health, energy, deck, hand, discard pile, and status effects and block.
+   * Creates a player instance with health, energy, deck, cards, discard pile, and status effects and block.
    *
    * @param {number} maxHealth - The player's maximum health.
    * @param {number} maxEnergy - The player's maximum energy.
    * @param {Deck} deck - The player's starting deck of cards.
-   * @param {Hand} hand - The player's starting hand of cards.
+   * @param {Hand} hand - The player's starting cards of cards.
    * @param {Discard} discard - The player's discard pile.
    * @param {Array} [effect=[]] - An array of status effects (e.g., poison, weaken). Defaults to an empty array.
    */
@@ -135,7 +134,7 @@ export class Player extends HTMLElement{
     }, {
       set: (target, prop, value) => {
         target[prop] = value;
-        // this.render();
+        this.render();
         return true;
       }
     });
@@ -213,13 +212,20 @@ export class Player extends HTMLElement{
    * @returns {boolean} - Returns true if the energy was successfully spent, false if not enough energy is available.
    */
   spendEnergy(amount) {
-    const nowEnergy = this.state.currentEnergy-amount;
-    if(nowEnergy<0){
+    console.group(`🪙 Spending ${amount} energy`);
+    console.log('Before spend:', this.state.currentEnergy);
+    console.trace();  // 打印调用栈
+    const nowEnergy = this.state.currentEnergy - amount;
+    if (nowEnergy < 0) {
+      console.groupEnd();
       return false;
     }
     this.state.currentEnergy = nowEnergy;
+    console.log(' After spend:', this.state.currentEnergy);
+    console.groupEnd();
     return true;
   }
+
 
   /**
    * Reset energy to MaxEnergy
@@ -266,52 +272,52 @@ export class Player extends HTMLElement{
    * @returns {void}
    */
   shuffleDiscardIntoDeck() {
-    this.discard.getCards().forEach(card=>{
-      moveCard(card,this.discard,this.deck);
-    });
+    while(this.discard.size()>0){
+      moveCard(this.discard.getCards()[0],this.discard,this.deck);
+    }
     this.deck.shuffle();
     this.discard.clear();
   }
 
   /**
-   * Plays a card from the hand.
+   * Plays a card from the cards.
    *
+   * @class Enemy
    * @param {Card} card - The card to play.
-   * @param {object} target - The enemy to play the card against.
+   * @param {Enemy} target - The enemy to play the card against.
    * @returns {void} - Returns nothing.
    */
-  // TODO replace the object with enemy
   playCard(card, target) {
 
     // Should call the specific card’s own card.play,
     // then this.removeCard(card)
     try{
       if(!this.spendEnergy(card.cost)) throw new Error('you don\'t have enough energy');
+      card.play(target);
+      this.discardCard(card);
     }
     catch (err){
       alert(err.message);
-      return;
     }
-    card.play(target);
-    this.discardCard(card);
+
   }
 
   /**
-   * Discards a card from the hand.
-   *
+   * Discards a card from the cards.
+   * @class Card
    * @param {Card} card - The card to discard.
    * @returns {void}
    */
   discardCard(card) {
-    //Moves a card from the hand to the discard pile
+    //Moves a card from the cards to the discard pile
     moveCard(card,this.hand,this.tempDiscard);
   }
 
   /**
-   * Discards all cards in the hand and tempDiscard.
+   * Discards all cards in the cards and tempDiscard.
    */
   discardHand() {
-    // Discards all cards in the hand,
+    // Discards all cards in the cards,
     // called by playerManager at the end of a turn
 
     while(this.hand.size()>0){
@@ -327,8 +333,7 @@ export class Player extends HTMLElement{
    * @returns {void}
    */
   render(){
-    const playerUI = this.template(this);
-    this.shadowRoot.querySelector('.player-ui').innerHTML=playerUI;
+    this.shadowRoot.querySelector('.player-ui').innerHTML=this.template(this);
     this.shadowRoot.querySelector( '.hp-bar').style.width = `${this.state.currentHealth/this.state.maxHealth*100}%`;
   }
 

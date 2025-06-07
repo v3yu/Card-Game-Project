@@ -9,8 +9,8 @@ body {
 }
 
 .card {
-    width: 260px;
-    height: 360px;
+    width: 10vw;
+    height: 15vw;
     background: linear-gradient(to bottom, #d8bfd8, #f7e4bc, #d8bfd8), url('https://www.transparenttextures.com/patterns/parchment.png');
     background-blend-mode: overlay;
     border: 10px double #4b0082;
@@ -28,7 +28,7 @@ body {
 }
 
 .card:hover {
-    transform: translateY(-5px);
+    transform: translateY(-7vw);
     animation: electricGlow 2.5s infinite ease; /* Changed to 'ease' for smoother transition */
 }
 
@@ -115,6 +115,7 @@ body {
     z-index: 1;
 }
 
+
 @keyframes imageFade {
     0% { opacity: 0.9; }
     100% { opacity: 1; }
@@ -122,7 +123,7 @@ body {
 
 .card-type {
     position: absolute;
-    top: 180px;
+    top: 9vw;
     text-align: center;
     max-width: 208px;
     /* left: 10%; */
@@ -140,6 +141,12 @@ body {
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
 }
 
+.card-type:hover {
+    transform:scale(1.05);
+    cursor: pointer;
+    animation: electricGlow 2.5s infinite ease;
+}
+
 .card-description {
     font-size: 14px;
     color: #4b0082;
@@ -153,4 +160,18 @@ body {
     text-shadow: 1px 1px 2px rgba(147, 112, 219, 0.3);
     background: linear-gradient(to bottom, transparent, rgba(75, 0, 130, 0.2));
     border-radius: 5px;
+}
+/* Keep hover styles when .selected is present */
+.card.selected,
+.card.selected:hover {
+    transform: translateY(-7vw) scale(1.05);
+    animation: electricGlow 2.5s infinite ease;
+    z-index: 10;
+}
+
+.card-type.selected,
+.card-type.selected:hover {
+    transform: scale(1.05);
+    cursor: pointer;
+    animation: electricGlow 2.5s infinite ease;
 }

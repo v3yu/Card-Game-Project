@@ -1,24 +1,33 @@
-// import Hand from '../src/components/Hand.js';
-// import {CrashOut} from '../src/components/cards/CrashOut.js';
-// import {FreeBoba} from '../src/components/cards/FreeBoba.js';
-import {Enemy} from '../src/components/Enemy.js';
+
+import {CrashOut} from '../src/components/cards/CrashOut.js';
+import Hand from '../src/components/Hand.js';
+import Discard from '../src/components/Discard.js';
+import Deck from '../src/components/Deck.js';
 import {Player} from '../src/components/Player.js';
-// no
-// const handArea = document.querySelector('.hand-area');
-//
-// const hand = new Hand();
-// handArea.append(hand);
-// const crashOutCard = new CrashOut();
-// const freeBobaCard = new FreeBoba();
-// const crashOutCard2 = new CrashOut();
-//
-// hand.addCard(crashOutCard);
-// hand.addCard(crashOutCard2);
-// hand.addCard(freeBobaCard);
-
-const enemy = new Enemy({name : 'Enemy', HP: 100, Img: '/src/img/sprite.png'});
-document.querySelector('.enemies .character-container').append(enemy) ;
+import {Powell} from '../src/components/Powell.js';
+import {Battle} from '../src/game/Battle.js';
 
 
-const player = new Player(10, 3);
-document.querySelector('.player .character-container').append(player);
+
+
+
+const deck = new Deck([new CrashOut(),new CrashOut(),new CrashOut(),new CrashOut(),new CrashOut(),new CrashOut(),new CrashOut(),new CrashOut()]);
+
+console.log(deck.getCards());
+const player = new Player(10000, 3,deck,new Hand(),new Discard());
+const powell = new Powell(player);
+
+const battle = new Battle(player, powell);
+battle.startBattle();
+
+// const hand_area  = document.querySelector('.hand-area');
+// const hand = new Hand([new CrashOut()]);
+// hand_area.append(hand);
+// const discard = new Discard();
+// console.log(hand.cards)
+// hand.cards.forEach(card => {
+//   card.addEventListener('click', ()=>{moveCard(card,hand,discard);
+//   console.log(hand.cards);
+//   console.log(discard.cards);
+//   })
+// });
