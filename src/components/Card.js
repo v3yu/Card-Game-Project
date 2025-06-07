@@ -69,14 +69,16 @@ export class Card extends HTMLElement {
         cardTypeBtn?.addEventListener('click', (e) => {
             e.stopPropagation();
             const isSelected = this.div.classList.contains('selected');
+            //if card already selected, deselect it
             if (isSelected) {
                 this.div.classList.remove('selected');
                 cardTypeBtn.classList.remove('selected');
-            } else {
-                // Deselect all cards and buttons
+            } 
+            // if not selected, deselect all other cards and select this one
+            else {
                 const handElement = document.querySelector('.hand-area hand-element');
                 if (handElement && handElement.shadowRoot) {
-                    // Find the handArea container inside the shadow root
+                    // find the handArea container inside the shadow root
                     const handAreaDiv = handElement.shadowRoot.querySelector('.handArea');
                     if (handAreaDiv) {
                         // get all direct children (card custom elements)
@@ -92,7 +94,7 @@ export class Card extends HTMLElement {
                         });
                     }
                 }
-                // Select this card
+                // select this card
                 this.div.classList.add('selected');
                 cardTypeBtn.classList.add('selected');
             }
