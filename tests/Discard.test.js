@@ -1,10 +1,6 @@
-
 import Discard from '../src/components/Discard.js';
 import Card from '../src/components/Card.js';
 import Deck from '../src/components/Deck.js';
-
-
-
 
 describe('Discard tests with real Card and shuffle()', () => {
   let discard, card1, card2;

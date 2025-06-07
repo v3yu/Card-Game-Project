@@ -81,8 +81,9 @@ export class Card extends HTMLElement {
             if (isSelected) {
                 this.div.classList.remove('selected');
                 cardTypeBtn.classList.remove('selected');
-            } else {
-                // Deselect all cards and buttons
+            } 
+            // if not selected, deselect all other cards and select this one
+            else {
                 const handElement = document.querySelector('.hand-area hand-element');
                 if (handElement && handElement.shadowRoot) {
                     // find the handArea container inside the shadow root
