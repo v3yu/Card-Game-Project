@@ -1,0 +1,35 @@
+body, html {
+  margin: 0;
+  padding: 0;
+  height: 100vh;
+  background-color: black;
+  font-family: "Gabriela", serif;
+}
+
+#cutscene-bg {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  object-fit: cover;
+  z-index: 1;
+}
+
+#dialogue-box {
+  position: fixed;
+  bottom: 5%;
+  width: 90%;
+  left: 5%;
+  background: rgba(0, 0, 0, 0.75);
+  color: white;
+  padding: 2rem;
+  z-index: 2;
+  cursor: pointer;
+  border-radius: 10px;
+}
+
+#character-name {
+  font-weight: bold;
+  margin-bottom: 0.5rem;
+}
