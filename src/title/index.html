@@ -32,14 +32,16 @@
   </div>
   <div id="overlay"></div>
   <div class="volSettings">
-    <div id="volume-controls">
-      <input type="range" name="volume" id="volume" value="50" min="0" max="100" step="1" />
-      <img src="assets/volume-level-2.svg" alt="Volume level 2" />
+    <h1 id="titleSetting">Settings</h1>
+    <div class="innerSettings">
+      <p id="volText">Volume</p>
+        <input type="range" name="volume" id="volume" value="50" min="0" max="100" step="1" class="accent" />
     </div>
   </div>
   <img id='tutorial-image' src="assets/instructions.png" alt="Tutorial">
   <img id='exit' src="assets/exit.png" alt="Exit">
-  
+  <img id="music" src="assets/music.png" alr="Music">
+  <audio class="hidden" src=""></audio>
   <script src="app.js"></script>
 </body>
 </html>
