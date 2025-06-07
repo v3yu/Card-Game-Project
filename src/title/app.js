@@ -1,7 +1,11 @@
 document.getElementById("play").addEventListener("click", loadStory);
 
 function loadStory() {
-  location='https://example.com';
+  document.getElementById('transition').style.opacity = 1;
+	setTimeout(() => {
+  	console.log("Delayed for 3 second.");
+		location='https://example.com';
+	}, 3000);
 }
 
 let vol = document.getElementById('volume-controls');
