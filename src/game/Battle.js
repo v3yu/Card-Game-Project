@@ -26,6 +26,7 @@ export class Battle {
       this.eventBus.publish('checkGameOver');
     });
 
+    this.onEndTurnClick = () => this.eventBus.publish('endTurn');
 
     // Bind a single event listener to the hand container once at initialization
     const handArea = document.querySelector('.hand-area');
@@ -66,7 +67,7 @@ export class Battle {
       this.player.drawCards(5);
     }
     const endTurnBtn = document.querySelector('.end-turn-button');
-    endTurnBtn.addEventListener('click', () => this.eventBus.publish('endTurn'));
+    endTurnBtn.addEventListener('click', this.onEndTurnClick);
 
   }
 
@@ -74,7 +75,7 @@ export class Battle {
    * Enemy AI turn logic, then ends turn
    */
   enemyAction() {
-    this.enemy.pAttack(10);
+    this.enemy.takeTurn(this.enemy.HP, this.enemy.maxHP, this.player.HP, this.player.maxHP);
     // check whether player is dead
     this.eventBus.publish('checkGameOver');
     this.eventBus.publish('endTurn');
@@ -92,7 +93,7 @@ export class Battle {
       console.log('end player turn');
       this.player.discardHand();
       this.player.resetEnergy();
-      document.querySelector('.end-turn-button').removeEventListener('click', this.handleTurnEnd);
+      document.querySelector('.end-turn-button').removeEventListener('click', this.onEndTurnClick);
     }
 
     // Switch actor
