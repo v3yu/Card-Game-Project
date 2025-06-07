@@ -1,7 +1,6 @@
 
 
 //Test hand
-
 import {CrashOut} from '../src/components/cards/CrashOut.js';
 import Hand from '../src/components/Hand.js';
 import Discard from '../src/components/Discard.js';
@@ -14,7 +13,7 @@ import {Battle} from '../src/game/Battle.js';
 
 
 
-const deck = new Deck([new CrashOut(),new CrashOut(),new CrashOut(),new CrashOut(),new CrashOut(),new CrashOut(),new CrashOut(),new CrashOut()]);
+const deck = new Deck([new CrashOut(),new CrashOut(),new CrashOut(),new CrashOut(),new CrashOut(),new CrashOut(),new CrashOut(),new CrashOut(),new CrashOut(),new CrashOut(),new CrashOut(),new CrashOut(),new CrashOut(),new CrashOut(),new CrashOut(),new CrashOut(),new CrashOut()]);
 
 console.log(deck.getCards());
 const player = new Player(10000, 3,deck,new Hand(),new Discard());
