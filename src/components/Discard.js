@@ -7,8 +7,13 @@ import {Pile} from './Pile.js';
  * @description The player's discard feature, including visual components and logic
  */
 class Discard extends Pile {
-  constructor() {
-    super();
+  /**
+   * use a pile of cards to initialize Discard
+   *
+   * @param {Card[]} cards
+   */
+  constructor(cards=[]) {
+    super(cards);
   }
 
 

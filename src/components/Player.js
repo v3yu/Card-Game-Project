@@ -277,10 +277,9 @@ export class Player extends HTMLElement{
    * Plays a card from the hand.
    *
    * @param {Card} card - The card to play.
-   * @param {object} target - The enemy to play the card against.
+   * @param {Enemy} target - The enemy to play the card against.
    * @returns {void} - Returns nothing.
    */
-  // TODO replace the object with enemy
   playCard(card, target) {
 
     // Should call the specific card’s own card.play,
