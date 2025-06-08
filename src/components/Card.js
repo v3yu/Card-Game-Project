@@ -1,6 +1,5 @@
 //create shylesheet for card
-const cardSheet = new CSSStyleSheet();
-cardSheet.replaceSync(await (await fetch('../src/styles/card.css')).text());
+let cardSheet = null;
 
 /**
  * base card class
@@ -35,7 +34,9 @@ export class Card extends HTMLElement {
         // style.textContent = ``;
 
         //adopt stylesheet for stable cards display
-        this.shadowRoot.adoptedStyleSheets = [cardSheet];
+               if (cardSheet) {
+            this.shadowRoot.adoptedStyleSheets = [cardSheet];
+        }
 
         this.div.className = 'card';
 
@@ -131,13 +132,30 @@ export class Card extends HTMLElement {
     }
 
     //auto render
-    connectedCallback() {
-        if (!this._rendered) {
-            this.render();
-            this._rendered = true;
-            console.log('Card rendered:', this.name);
+connectedCallback() {
+    if (!this._rendered) {
+        this.render();
+        this._rendered = true;
+        // Only load and adopt the stylesheet in the browser with fetch and CSSStyleSheet support
+        if (
+            typeof window !== 'undefined' &&
+            'CSSStyleSheet' in window &&
+            typeof window.fetch === 'function' &&
+            !cardSheet
+        ) {
+            cardSheet = new CSSStyleSheet();
+            window.fetch(new URL('../styles/card.css', import.meta.url))
+                .then(res => res.text())
+                .then(css => {
+                    cardSheet.replaceSync(css);
+                    this.shadowRoot.adoptedStyleSheets = [cardSheet];
+                });
+        } else if (cardSheet) {
+            this.shadowRoot.adoptedStyleSheets = [cardSheet];
         }
+        console.log('Card rendered:', this.name);
     }
+}
 
     /**
      *
