@@ -67,8 +67,8 @@ export class Enemy extends HTMLElement{
 
   .attack-dialog {
     position: absolute;
-    top: 0;
-    right: 0;
+    top: -20%;
+    left: -20%;
     transform: translate(10%, -10%);
     padding: 0.5rem 1rem;
     background: rgba(0, 0, 0, 0.8);
