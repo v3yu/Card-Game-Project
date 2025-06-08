@@ -145,7 +145,7 @@ body {
     line-height: 60px;
   }
   
-  .draw-button, .discard-button {
+  .deck-button, .discard-button {
     position: absolute;
     width: 7vw;
     height: 3vw;
@@ -160,7 +160,7 @@ body {
 
   }
 
-  .draw-button:hover, .discard-button:hover {
+  .deck-button:hover, .discard-button:hover {
     transform: scale(1.05);
   }
 
@@ -183,7 +183,7 @@ body {
     transform: scale(1.05);
   }
   
-  .draw-button {
+  .deck-button {
     left: 1%;
   }
   

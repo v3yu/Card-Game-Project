@@ -3,6 +3,7 @@
 import { EventBus } from './EventBus.js';
 import {isPlayerDead} from './PlayerManager.js';
 import DiscardModal from '../components/DiscardModal.js';
+import DeckModal from '../components/DeckModal.js';
 
 export class Battle {
   /**
@@ -54,6 +55,11 @@ export class Battle {
     const discardModal = document.querySelector('.discard-modal');
     const discardCardsDiv = document.getElementById('discard-cards');
     const closeDiscardModal = document.querySelector('.close-discard-modal');
+    
+    const deckButton = document.querySelector('.deck-button');
+    const deckModal = document.querySelector('.deck-modal');
+    const deckCardsDiv = document.getElementById('deck-cards');
+    const closeDeckModal = document.querySelector('.close-deck-modal');
 
     /* eslint-disable no-unused-vars */
     const discardModalInstance = new DiscardModal({
@@ -62,6 +68,13 @@ export class Battle {
       discardCardsDiv,
       closeDiscardModal,
       discardPile: this.player.discard
+    });
+    const deckModalInstance = new DeckModal({
+      deckButton,
+      deckModal,
+      deckCardsDiv,
+      closeDeckModal,
+      deck: this.player.deck
     });
   }
 
