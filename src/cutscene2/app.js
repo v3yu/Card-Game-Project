@@ -1,57 +1,31 @@
-const dialogue = [
-  {
-    name: 'Main Character',
-    text: 'Surrender yourself Powell. It\'s time to admit that I can use JavaScript Frameworks on my project.',
-    characters: [
-      { src: 'imgs/panda.png', alt: 'Panda' },
-      { src: 'imgs/powell-smile.png', alt: 'Professor Powell' }
-    ]
-  },
-  {
-    name: 'Professor Powell',
-    text: 'I will admit to that under one condition...',
-    characters: [
-      { src: 'imgs/panda.png', alt: 'Panda' },
-      { src: 'imgs/powell-smile.png', alt: 'Professor Powell' }
-    ]
-  },
-  {
-    name: 'Professor Powell',
-    text: 'If you can beat me in battle!!!!!!!!!!',
-    characters: [
-      { src: 'imgs/panda.png', alt: 'Panda' },
-      { src: 'imgs/powell-evil.png', alt: 'Evil Professor Powell' }
-    ]
-  }
-];
+let img1 = document.getElementById('cutscene1-bg');
+let img2 = document.getElementById('cutscene2-bg');
+let img3 = document.getElementById('cutscene3-bg');
 
-let current = 0;
 
-/**
- *
- */
-function showLine() {
-  const line = dialogue[current];
-  document.getElementById('character-name').textContent = line.name;
-  document.getElementById('dialogue-text').textContent = line.text;
 
-  const charDiv = document.getElementById('characters');
-  charDiv.innerHTML = '';
-  line.characters.forEach(char => {
-    const img = document.createElement('img');
-    img.src = char.src;
-    img.alt = char.alt;
-    charDiv.appendChild(img);
-  });
-
-  current++;
-
-  if (current >= dialogue.length) {
-    setTimeout(() => {
-      alert('Cutscene complete! Transition to battle or game start.');
-    }, 1000);
-  }
+function loadImg2() {
+  img1.style.display = 'none';
+  img2.style.display = 'block';
 }
 
-document.getElementById('dialogue-box').addEventListener('click', showLine);
-showLine();
+img1.addEventListener("click", loadImg2);
+
+function loadImg3() {
+  img2.style.display = 'none';
+  img3.style.display = 'block';
+}
+
+img2.addEventListener("click", loadImg3);
+
+
+function loadBattle() {
+  console.log("loadBattle triggered");
+  document.getElementById('transition').style.opacity = 1;
+	setTimeout(() => {
+  	console.log("Delayed for 3 second.");
+		location.href="demo/cardtest.html";
+	}, 3000);
+}
+
+img3.addEventListener("click", loadBattle);
