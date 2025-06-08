@@ -24,7 +24,7 @@ function loadBattle() {
   document.getElementById('transition').style.opacity = 1;
 	setTimeout(() => {
   	console.log("Delayed for 3 second.");
-		//location.href="../cutscene2/index.html";
+		location.href="demo/cardtest.html";
 	}, 3000);
 }
 
