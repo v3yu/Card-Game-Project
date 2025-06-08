@@ -5,23 +5,7 @@ import {isPlayerDead} from './PlayerManager.js';
 
 // Inject .hit animation styles directly from JavaScript
 const style = document.createElement('style');
-style.textContent = `
-@keyframes hitEffect {
-  0%, 100% {
-    transform: translateX(0);
-  }
-  25%, 75% {
-    transform: translateX(-8px);
-  }
-  50% {
-    transform: translateX(8px);
-  }
-}
-
-.hit {
-  animation: hitEffect 0.4s ease-in-out;
-}`
-;
+style.textContent = ``;
 
 document.head.appendChild(style);
 
@@ -62,7 +46,7 @@ export class Battle {
 
       setTimeout(() => {
         if (this.enemy.HP < prevHP) {
-          animateHit('.enemies');
+          animateHit(this.enemy.shadowRoot.querySelector('#enemyImg'));
         }
 
         this.prevEnemyHP = this.enemy.HP;

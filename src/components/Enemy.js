@@ -59,7 +59,26 @@ export class Enemy extends HTMLElement{
             text-shadow: 1px 1px #fff;
             pointer-events: none;
         }
-  `;
+
+        @keyframes hitEffect {
+        0%, 100% {
+          transform: translateX(0);
+          filter: none;
+        }
+        25%, 75% {
+          transform: translateX(-8px);
+          filter: brightness(0.5) sepia(1) hue-rotate(-50deg) saturate(4);
+        }
+        50% {
+          transform: translateX(8px);
+          filter: brightness(0.5) sepia(1) hue-rotate(-50deg) saturate(4);
+        }
+      }
+
+      .hit {
+        animation: hitEffect 0.4s ease-in-out;
+      }
+    `;
 
   /**
    * enemyUI
@@ -148,8 +167,9 @@ export class Enemy extends HTMLElement{
     this.shadowRoot.append(this.enemyUI);
   }
 
-  connectedCallback(){
+  connectedCallback() {
     this.render();
+    this.imgEl = this.shadowRoot.querySelector('#powellImg');
   }
 }
 

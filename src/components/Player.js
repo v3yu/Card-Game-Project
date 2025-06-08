@@ -13,8 +13,6 @@ import {Pile} from './Pile.js';
  */
 export class Player extends HTMLElement{
 
-
-
   style=`
         body {
             font-family: sans-serif;
@@ -90,18 +88,18 @@ export class Player extends HTMLElement{
             width: 10%;
         }
 
-       @keyframes hitEffect {
+         @keyframes hitEffect {
         0%, 100% {
           transform: translateX(0);
           filter: none;
         }
         25%, 75% {
           transform: translateX(-8px);
-          filter: brightness(1.2) sepia(1) hue-rotate(-50deg) saturate(4);
+          filter: brightness(0.5) sepia(1) hue-rotate(-50deg) saturate(4);
         }
         50% {
           transform: translateX(8px);
-          filter: brightness(1.2) sepia(1) hue-rotate(-50deg) saturate(4);
+          filter: brightness(0.5) sepia(1) hue-rotate(-50deg) saturate(4);
         }
       }
 
