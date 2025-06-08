@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>JSDoc: Source: components/cards/SampleCard.js</title>
+    <title>JSDoc: Source: cutscene1/app.js</title>
 
     <script src="scripts/prettify/prettify.js"> </script>
     <script src="scripts/prettify/lang-css.js"> </script>
@@ -17,7 +17,7 @@
 
 <div id="main">
 
-    <h1 class="page-title">Source: components/cards/SampleCard.js</h1>
+    <h1 class="page-title">Source: cutscene1/app.js</h1>
 
     
 
@@ -26,37 +26,39 @@
     
     <section>
         <article>
-            <pre class="prettyprint source linenums"><code>import Card from '../Card.js';
+            <pre class="prettyprint source linenums"><code>const lines = [
+  {
+    name: 'Main Character',
+    text: 'I finished studying... I formed, stormed, normed, performed, and adjourned these past 10 weeks of my training. I am now the 10x Developer that I’ve dreamed to be.'
+  },
+  {
+    name: 'Main Character',
+    text: 'I am ready to face him.'
+  }
+];
 
+let currentLine = 0;
 
-class SampleCard extends Card {
-    constructor() {
-        super({
-            name: 'Name of Card',
-            type: 'attack | defense | status | special',
-            cost: 0,
-            description: 'Card description',
-            effect: 'Card effect',
-            image: '/src/img/SampleCard.png',
-        });
-    }
-    /**
-     * May be the player, an enemy, or all enemies.
-     * The handlePlayerAction() function in PlayerManager.js checks if the player has enough energy to play the card.
-     * So we don't need to check it here.
-     *
-     * @param {object} target - Target of ability
-     */
-    play(target) {
-        void target;
-    }
+/**
+ *
+ */
+function showLine() {
+  const line = lines[currentLine];
+  document.getElementById('character-name').textContent = line.name;
+  document.getElementById('dialogue-text').textContent = line.text;
+
+  currentLine++;
+
+  if (currentLine >= lines.length) {
+    setTimeout(() => {
+      location.href = '../cutscene2/index.html';
+    }, 1000);
+  }
 }
-if (!customElements.get('sample-card')) {
-    customElements.define('sample-card', SampleCard);
-}
 
-
-export {SampleCard};</code></pre>
+document.getElementById('dialogue-box').addEventListener('click', showLine);
+showLine();
+</code></pre>
         </article>
     </section>
 
