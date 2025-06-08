@@ -63,6 +63,7 @@ const discardModal = document.querySelector('.discard-modal');
 const discardCardsDiv = document.getElementById('discard-cards');
 const closeDiscardModal = document.querySelector('.close-discard-modal');
 
+/* eslint-disable no-unused-vars */
 const discardModalInstance = new DiscardModal({
     discardButton,
     discardModal,
