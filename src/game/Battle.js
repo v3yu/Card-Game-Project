@@ -11,6 +11,7 @@ document.head.appendChild(style);
 
 /**
  * Animates a hit effect on the given element or selector.
+ * 
  * @param {string | Element} target - A CSS selector (string) or a DOM element.
  */
 function animateHit(el) {
@@ -68,8 +69,10 @@ export class Battle {
 
   }
 
-  /**
-   * Begin the battle by rendering characters and starting the first turn
+   /**
+   * Starts the battle and initializes the UI.
+   *
+   * @returns {void}
    */
   startBattle() {
     document.querySelector('.player .character-container').append(this.player);
@@ -78,8 +81,10 @@ export class Battle {
     this.eventBus.publish('startTurn');
   }
 
-  /**
-   * Handle player action phase: draw cards, render cards, and attach listeners
+   /**
+   * Handles the player's turn logic.
+   *
+   * @returns {void}
    */
   waitForPlayerAction() {
 
@@ -100,8 +105,10 @@ export class Battle {
 
   }
 
-  /**
-   * Enemy AI turn logic, then ends turn
+   /**
+   * Handles the enemy's turn logic.
+   *
+   * @returns {void}
    */
   enemyAction() {
     const prevHP = this.player.state.currentHealth;
@@ -126,6 +133,8 @@ export class Battle {
 
   /**
    * Internal handler for ending a turn: triggers effects, switches actor, and starts the next turn
+   * 
+   * @returns {void}
    */
   handleTurnEnd() {
     // Trigger end-of-turn effects
@@ -153,6 +162,8 @@ export class Battle {
 
   /**
    * Start-of-turn logic: trigger effects and delegate to appropriate actor
+   *   
+   * @returns {void}
    */
   startTurn() {
 
@@ -170,6 +181,8 @@ export class Battle {
 
   /**
    * if one of the player or enemy is dead, game over
+   *
+   * @returns {void}
    */
   checkGameOver() {
     if(isPlayerDead(this.player)){
@@ -186,6 +199,8 @@ export class Battle {
 
   /**
    * Clean up all event listeners (optional)
+   * 
+   * @returns {void}
    */
   destroy() {
     this.eventBus.unsubscribe('startTurn', this.startTurn);
