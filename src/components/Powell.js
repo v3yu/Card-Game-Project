@@ -1,4 +1,5 @@
 import { Enemy } from './Enemy.js';
+import {lockUIDuring} from './UIManager.js';
 
 export class Powell extends Enemy {
 
@@ -22,34 +23,7 @@ export class Powell extends Enemy {
 
 
   // TODO In the future, move this method into the UI utility class
-  /**
-   * Locks the UI while `fn` runs (typically for an animation) and then unlocks it once it’s finished.
-   *
-   * @param {() => Promise<any>} fn - A function that returns a Promise
-   */
-  async lockUIDuring(fn) {
-    // Inject no-interaction style once
-    if (!document.getElementById('no-interaction-style')) {
-      const styleEl = document.createElement('style');
-      styleEl.id = 'no-interaction-style';
-      styleEl.textContent = `
-      .no-interaction,
-      .no-interaction * {
-        pointer-events: none !important;
-      }
-    `;
-      document.head.appendChild(styleEl);
-    }
 
-    // Add class to disable all pointer events
-    document.body.classList.add('no-interaction');
-    try {
-      await fn();
-    } finally {
-      // Remove class to re-enable pointer events
-      document.body.classList.remove('no-interaction');
-    }
-  }
 
 
   /**
@@ -57,7 +31,7 @@ export class Powell extends Enemy {
    *
    * @param {string} message - message when attack
    * @param {number} duration - how long it will last
-   * @returns {Promise<any>}
+   * @returns {function(): Promise}
    */
   attackAnimation(message,duration=2000){
     return new Promise(resolve => {
@@ -109,7 +83,7 @@ export class Powell extends Enemy {
     this.pAttack(1);
     this.pAttack(1);
     this.lastMove = this.magicMissile;
-    await this.lockUIDuring(()=>this.attackAnimation('Magic Missile, fire! And if anyone still hasn’t turned' +
+    await lockUIDuring(()=>this.attackAnimation('Magic Missile, fire! And if anyone still hasn’t turned' +
       ' in their homework, don’t even think about going home when class ends'));
   }
 
@@ -120,7 +94,7 @@ export class Powell extends Enemy {
     this.pAttack(2);
     //player.applyEffect('Stun');
     this.lastMove = this.cringeDadJoke;
-    await this.lockUIDuring(()=>this.attackAnimation('I’d tell you a homework joke, but… you probably didn’t finish it anyway'));
+    await lockUIDuring(()=>this.attackAnimation('I’d tell you a homework joke, but… you probably didn’t finish it anyway'));
   }
 
   /**
@@ -130,7 +104,7 @@ export class Powell extends Enemy {
     this.gainBlock(3);
     this.attackBuff = 1.5;
     this.lastMove = this.ancientWebSpell;
-    await this.lockUIDuring(()=>this.attackAnimation('Ancient Web Spell, I’m going to make you walk through time and space'));
+    await lockUIDuring(()=>this.attackAnimation('Ancient Web Spell, I’m going to make you walk through time and space'));
   }
 
   /**
@@ -139,7 +113,7 @@ export class Powell extends Enemy {
   async obscureReference() {
     //player.applyEffect('Confused', 2);
     this.lastMove = this.obscureReference;
-    await this.lockUIDuring(()=>this.attackAnimation('Obscure Reference, I’m going to make you think in a language nobody knows'));
+    await lockUIDuring(()=>this.attackAnimation('Obscure Reference, I’m going to make you think in a language nobody knows'));
   }
 
   /**
@@ -149,7 +123,7 @@ export class Powell extends Enemy {
     this.takeDamage(2);
     this.pAttack(4);
     this.lastMove = this.jargonTornado;
-    await  this.lockUIDuring(()=>this.attackAnimation('Jargon Tornado, I’m going to make you think in a language nobody knows'));
+    await  lockUIDuring(()=>this.attackAnimation('Jargon Tornado, I’m going to make you think in a language nobody knows'));
   }
 
   /**
@@ -161,7 +135,7 @@ export class Powell extends Enemy {
     //player.applyEffect('Stun');
     //player.applyEffect('Bleeding');
     this.lastMove = this.cse110Midterm;
-    await  this.lockUIDuring(()=>this.attackAnimation('CSE 110 Midterm, I’m going to make you think in a language nobody knows'));
+    await lockUIDuring(()=>this.attackAnimation('CSE 110 Midterm, I’m going to make you think in a language nobody knows'));
   }
 
   /**

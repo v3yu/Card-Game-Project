@@ -4,6 +4,7 @@ import { EventBus } from './EventBus.js';
 import {isPlayerDead} from './PlayerManager.js';
 import DiscardModal from '../components/DiscardModal.js';
 import DeckModal from '../components/DeckModal.js';
+import {lockUIDuring} from '../components/UIManager.js';
 
 export class Battle {
   /**
@@ -141,7 +142,7 @@ export class Battle {
   /**
    * Start-of-turn logic: trigger effects and delegate to appropriate actor
    */
-  startTurn() {
+  async startTurn() {
 
     if (this.battleOver) return;
 
@@ -149,11 +150,11 @@ export class Battle {
     // this.eventBus.publish('onTurnStart', { actor: this.currentActor });
 
     if (this.currentActor === 'player') {
-      this.showBanner('Player turn', this.turnCount);
+      await lockUIDuring(() => this.showBanner('Player turn', this.turnCount));
       this.waitForPlayerAction();
     } else {
-      this.showBanner('Enemy turn', this.turnCount);
-      this.enemyAction();
+      await lockUIDuring(() => this.showBanner('Enemy turn', this.turnCount));
+      await this.enemyAction();
     }
   }
 
@@ -182,30 +183,39 @@ export class Battle {
    * @param {string} message
    * @param {number} [turn]
    */
-showBanner(message, turn) {
-  const banner = document.querySelector('.turn-banner');
-  if (!banner) return;
-  banner.textContent = turn ? `${message} - Turn ${turn}` : message;
-  // Reset classes and display for animation replay
-  banner.classList.remove('active', 'fade-out');
-  banner.style.display = 'block';
+async showBanner(message, turn) {
+  return new Promise(resolve => {
 
-  // Force reflow to restart animation
-  void banner.offsetWidth;
+    const banner = document.querySelector('.turn-banner');
+    if (!banner){
+      resolve();
+      return;
+    }
+    banner.textContent = turn ? `${message} - Turn ${turn}` : message;
+    // Reset classes and display for animation replay
+    banner.classList.remove('active', 'fade-out');
+    banner.style.display = 'block';
 
-  // Start slide-in animation
-  banner.classList.add('active');
+    // Force reflow to restart animation
+    void banner.offsetWidth;
 
-  // After visible duration, start fade-out
-  setTimeout(() => {
-    banner.classList.remove('active');
-    banner.classList.add('fade-out');
-    // After fade-out transition, hide and reset
+    // Start slide-in animation
+    banner.classList.add('active');
+
+    // After visible duration, start fade-out
     setTimeout(() => {
-      banner.style.display = 'none';
-      banner.classList.remove('fade-out');
-    }, 500); // match fade-out transition duration
-  }, 1200);
+      banner.classList.remove('active');
+      banner.classList.add('fade-out');
+      // After fade-out transition, hide and reset
+      setTimeout(() => {
+        banner.style.display = 'none';
+        banner.classList.remove('fade-out');
+        resolve();
+      }, 500); // match fade-out transition duration
+    }, 1200);
+
+
+  });
 }
 
   destroy() {
