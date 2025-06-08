@@ -48,8 +48,8 @@ export class Battle {
     document.querySelector('.player .character-container').append(this.player);
     document.querySelector('.enemies .character-container').append(this.enemy);
     document.querySelector('.hand-area').append(this.player.hand);
+    console.log('showing game start banner');
     this.eventBus.publish('startTurn');
-
 
     const discardButton = document.querySelector('.discard-button');
     const discardModal = document.querySelector('.discard-modal');
@@ -144,13 +144,24 @@ export class Battle {
 
     if (this.battleOver) return;
 
+        // Show banner for each turn
+    if (this.currentActor === 'player') {
+      this.showBanner('Player turn', this.turnCount);
+      this.waitForPlayerAction();
+    } else {
+      this.showBanner('Enemy turn', this.turnCount);
+      this.enemyAction();
+    }
+
     // update effect
     // this.eventBus.publish('onTurnStart', { actor: this.currentActor });
 
     if (this.currentActor === 'player') {
       this.waitForPlayerAction();
     } else {
-      this.enemyAction();
+      //wait for 2 seconds before enemy action
+      setTimeout(() => {
+      this.enemyAction(); }, 2000);
     }
   }
 
@@ -170,6 +181,37 @@ export class Battle {
     // }
   }
 
+    /**
+   * Show a pop-up banner with a message and optional turn number
+   * @param {string} message
+   * @param {number} [turn]
+   */
+showBanner(message, turn) {
+  const banner = document.querySelector('.turn-banner');
+  if (!banner) return;
+  banner.textContent = turn ? `${message} - Turn ${turn}` : message;
+  // Reset classes and display for animation replay
+  banner.classList.remove('active', 'fade-out');
+  banner.style.display = 'block';
+
+  // Force reflow to restart animation
+  void banner.offsetWidth;
+
+  // Start slide-in animation
+  banner.classList.add('active');
+
+  // After visible duration, start fade-out
+  setTimeout(() => {
+    banner.classList.remove('active');
+    banner.classList.add('fade-out');
+    // After fade-out transition, hide and reset
+    setTimeout(() => {
+      banner.style.display = 'none';
+      banner.classList.remove('fade-out');
+    }, 500); // match fade-out transition duration
+  }, 1200);
+}
+
   /**
    * Clean up all event listeners (optional)
    */
@@ -178,6 +220,5 @@ export class Battle {
     this.eventBus.unsubscribe('endTurn', this.handleTurnEnd);
     this.eventBus.unsubscribe('cardPlayed', this.player.playCard);
   }
-
 
 }
