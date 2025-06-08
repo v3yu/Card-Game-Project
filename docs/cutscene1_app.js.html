@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>JSDoc: Source: components/cards/ScrollRUCSD.js</title>
+    <title>JSDoc: Source: cutscene1/app.js</title>
 
     <script src="scripts/prettify/prettify.js"> </script>
     <script src="scripts/prettify/lang-css.js"> </script>
@@ -17,7 +17,7 @@
 
 <div id="main">
 
-    <h1 class="page-title">Source: components/cards/ScrollRUCSD.js</h1>
+    <h1 class="page-title">Source: cutscene1/app.js</h1>
 
     
 
@@ -26,34 +26,38 @@
     
     <section>
         <article>
-            <pre class="prettyprint source linenums"><code>import Card from '../Card.js';
-
-
-class ScrollRUCSD extends Card {
-  constructor() {
-    super({
-      name: 'Scroll r/UCSD',
-      type: 'draw',
-      cost: 1,
-      description: 'Memes > Midterms.',
-      effect: 'Draw 2. Gain \'Sleep Deprived\' status for 3 turns.',
-      image: '/src/img/ScrollRUCSD.png',
-    });
+            <pre class="prettyprint source linenums"><code>const lines = [
+  {
+    name: 'Main Character',
+    text: 'I finished studying... I formed, stormed, normed, performed, and adjourned these past 10 weeks of my training. I am now the 10x Developer that I’ve dreamed to be.'
+  },
+  {
+    name: 'Main Character',
+    text: 'I am ready to face him.'
   }
+];
 
-  /**
-   * @param {object} player - The player receiving the effect.
-   */
-  play(player) {
-    player.drawCards(2);
-    player.applyEffect('Sleep Deprived', { duration: 3 });
+let currentLine = 0;
+
+/**
+ *
+ */
+function showLine() {
+  const line = lines[currentLine];
+  document.getElementById('character-name').textContent = line.name;
+  document.getElementById('dialogue-text').textContent = line.text;
+
+  currentLine++;
+
+  if (currentLine >= lines.length) {
+    setTimeout(() => {
+      location.href = '../cutscene2/index.html';
+    }, 1000);
   }
 }
-if (!customElements.get('scroll-rucsd')) {
-  customElements.define('scroll-rucsd', ScrollRUCSD);
-}
 
-export {ScrollRUCSD};
+document.getElementById('dialogue-box').addEventListener('click', showLine);
+showLine();
 </code></pre>
         </article>
     </section>
