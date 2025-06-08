@@ -20,8 +20,8 @@ style.textContent = `
 
 .hit {
   animation: hitEffect 0.4s ease-in-out;
-}
-`;
+}`
+;
 
 document.head.appendChild(style);
 
@@ -45,15 +45,27 @@ export class Battle {
     this.turnCount = 1;
     this.currentActor = 'player';
     this.battleOver = false;
+    this.prevPlayerHP = this.player.HP;
+    this.prevEnemyHP = this.enemy.HP;
 
     // Subscribe internal handlers
     this.eventBus.subscribe('startTurn', () => this.startTurn());
     this.eventBus.subscribe('endTurn', () => this.handleTurnEnd());
     this.eventBus.subscribe('checkGameOver', ()=>this.checkGameOver());
     this.eventBus.subscribe('cardPlayed', ({ card }) => {
+      const prevHP = this.enemy.HP;
+
       this.player.playCard(card, this.enemy);
-      animateHit('.enemies');
-      this.eventBus.publish('checkGameOver');
+
+      setTimeout(() => {
+        if (this.enemy.HP < prevHP) {
+          animateHit('.enemies');
+        }
+
+        this.prevEnemyHP = this.enemy.HP;
+
+        this.eventBus.publish('checkGameOver');
+      }, 0);
     });
 
     this.onEndTurnClick = () => this.eventBus.publish('endTurn');
@@ -105,12 +117,25 @@ export class Battle {
    * Enemy AI turn logic, then ends turn
    */
   enemyAction() {
-    this.enemy.takeTurn(this.enemy.HP, this.enemy.maxHP, this.player.HP, this.player.maxHP);
-    animateHit('.player');
-    // check whether player is dead
-    this.eventBus.publish('checkGameOver');
-    this.eventBus.publish('endTurn');
+    const prevHP = this.player.state.currentHealth;
+
+    this.enemy.takeTurn(
+      this.enemy.HP,
+      this.enemy.maxHP,
+      this.player.state.currentHealth,
+      this.player.state.maxHealth
+    );
+
+    setTimeout(() => {
+      if (this.player.state.currentHealth < prevHP) {
+        animateHit('.player'); 
+      }
+      
+      this.eventBus.publish('checkGameOver');
+      this.eventBus.publish('endTurn');
+    }, 0);
   }
+
 
   /**
    * Internal handler for ending a turn: triggers effects, switches actor, and starts the next turn
@@ -180,6 +205,4 @@ export class Battle {
     this.eventBus.unsubscribe('endTurn', this.handleTurnEnd);
     this.eventBus.unsubscribe('cardPlayed', this.player.playCard);
   }
-
-
 }
