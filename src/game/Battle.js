@@ -25,8 +25,11 @@ style.textContent = `
 
 document.head.appendChild(style);
 
-function animateHit(selector) {
-  const el = document.querySelector(selector);
+/**
+ * Animates a hit effect on the given element or selector.
+ * @param {string | Element} target - A CSS selector (string) or a DOM element.
+ */
+function animateHit(el) {
   if (!el) return;
   el.classList.add('hit');
   el.addEventListener('animationend', () => el.classList.remove('hit'), { once: true });
@@ -128,7 +131,7 @@ export class Battle {
 
     setTimeout(() => {
       if (this.player.state.currentHealth < prevHP) {
-        animateHit('.player'); 
+        animateHit(this.player.imgEl);
       }
       
       this.eventBus.publish('checkGameOver');
