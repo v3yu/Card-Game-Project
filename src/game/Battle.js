@@ -3,6 +3,35 @@
 import { EventBus } from './EventBus.js';
 import {isPlayerDead} from './PlayerManager.js';
 
+// Inject .hit animation styles directly from JavaScript
+const style = document.createElement('style');
+style.textContent = `
+@keyframes hitEffect {
+  0%, 100% {
+    transform: translateX(0);
+  }
+  25%, 75% {
+    transform: translateX(-8px);
+  }
+  50% {
+    transform: translateX(8px);
+  }
+}
+
+.hit {
+  animation: hitEffect 0.4s ease-in-out;
+}
+`;
+
+document.head.appendChild(style);
+
+function animateHit(selector) {
+  const el = document.querySelector(selector);
+  if (!el) return;
+  el.classList.add('hit');
+  el.addEventListener('animationend', () => el.classList.remove('hit'), { once: true });
+}
+
 export class Battle {
   /**
    * @param {Player} player - The player instance
@@ -23,6 +52,7 @@ export class Battle {
     this.eventBus.subscribe('checkGameOver', ()=>this.checkGameOver());
     this.eventBus.subscribe('cardPlayed', ({ card }) => {
       this.player.playCard(card, this.enemy);
+      animateHit('.enemies');
       this.eventBus.publish('checkGameOver');
     });
 
@@ -76,6 +106,7 @@ export class Battle {
    */
   enemyAction() {
     this.enemy.takeTurn(this.enemy.HP, this.enemy.maxHP, this.player.HP, this.player.maxHP);
+    animateHit('.player');
     // check whether player is dead
     this.eventBus.publish('checkGameOver');
     this.eventBus.publish('endTurn');
