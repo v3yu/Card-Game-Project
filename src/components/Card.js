@@ -1,3 +1,7 @@
+//create shylesheet for card
+const cardSheet = new CSSStyleSheet();
+cardSheet.replaceSync(await (await fetch('../src/styles/card.css')).text());
+
 /**
  * base card class
  *
@@ -29,6 +33,9 @@ export class Card extends HTMLElement {
         this.div = document.createElement('div');
         // const style = document.createElement('style');
         // style.textContent = ``;
+
+        //adopt stylesheet for stable cards display
+        this.shadowRoot.adoptedStyleSheets = [cardSheet];
 
         this.div.className = 'card';
 
@@ -64,7 +71,6 @@ export class Card extends HTMLElement {
         //         <footer class="description">${this.description}</footer>
         // `;
         this.div.innerHTML = `
-            <link href="/src/styles/card.css" rel="stylesheet">
             <div class="card-banner">${this.name}</div>
             <div class="card-cost">${this.cost}</div>
             <img class="card-image" src="${this.image}" alt="${this.name}"/>
