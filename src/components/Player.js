@@ -212,17 +212,11 @@ export class Player extends HTMLElement{
    * @returns {boolean} - Returns true if the energy was successfully spent, false if not enough energy is available.
    */
   spendEnergy(amount) {
-    console.group(`🪙 Spending ${amount} energy`);
-    console.log('Before spend:', this.state.currentEnergy);
-    console.trace();  // 打印调用栈
     const nowEnergy = this.state.currentEnergy - amount;
     if (nowEnergy < 0) {
-      console.groupEnd();
       return false;
     }
     this.state.currentEnergy = nowEnergy;
-    console.log(' After spend:', this.state.currentEnergy);
-    console.groupEnd();
     return true;
   }
 
