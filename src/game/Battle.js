@@ -48,8 +48,8 @@ export class Battle {
     document.querySelector('.player .character-container').append(this.player);
     document.querySelector('.enemies .character-container').append(this.enemy);
     document.querySelector('.hand-area').append(this.player.hand);
-    console.log('showing game start banner');
     this.eventBus.publish('startTurn');
+
 
     const discardButton = document.querySelector('.discard-button');
     const discardModal = document.querySelector('.discard-modal');
@@ -69,6 +69,7 @@ export class Battle {
       closeDiscardModal,
       discardPile: this.player.discard
     });
+
     const deckModalInstance = new DeckModal({
       deckButton,
       deckModal,
@@ -144,24 +145,15 @@ export class Battle {
 
     if (this.battleOver) return;
 
-        // Show banner for each turn
+    // update effect
+    // this.eventBus.publish('onTurnStart', { actor: this.currentActor });
+
     if (this.currentActor === 'player') {
       this.showBanner('Player turn', this.turnCount);
       this.waitForPlayerAction();
     } else {
       this.showBanner('Enemy turn', this.turnCount);
       this.enemyAction();
-    }
-
-    // update effect
-    // this.eventBus.publish('onTurnStart', { actor: this.currentActor });
-
-    if (this.currentActor === 'player') {
-      this.waitForPlayerAction();
-    } else {
-      //wait for 2 seconds before enemy action
-      setTimeout(() => {
-      this.enemyAction(); }, 2000);
     }
   }
 
@@ -181,7 +173,11 @@ export class Battle {
     // }
   }
 
-    /**
+  /**
+   * Clean up all event listeners (optional)
+   */
+
+      /**Add commentMore actions
    * Show a pop-up banner with a message and optional turn number
    * @param {string} message
    * @param {number} [turn]
@@ -212,13 +208,11 @@ showBanner(message, turn) {
   }, 1200);
 }
 
-  /**
-   * Clean up all event listeners (optional)
-   */
   destroy() {
     this.eventBus.unsubscribe('startTurn', this.startTurn);
     this.eventBus.unsubscribe('endTurn', this.handleTurnEnd);
     this.eventBus.unsubscribe('cardPlayed', this.player.playCard);
   }
+
 
 }
