@@ -1,4 +1,5 @@
 import DiscardModal from '../src/components/DiscardModal.js';
+import DiscardModal from '../src/components/DiscardModal.js';
 import { CrashOut } from '../src/components/cards/CrashOut.js';
 import { FreeBoba } from '../src/components/cards/FreeBoba.js';
 import Discard from '../src/components/Discard.js';
@@ -20,6 +21,13 @@ describe('DiscardModal', () => {
 
         discardPile = new Discard();
 
+        modal = new DiscardModal({
+            discardButton,
+            discardModal,
+            discardCardsDiv,
+            closeDiscardModal,
+            discardPile
+        });
         modal = new DiscardModal({
             discardButton,
             discardModal,
