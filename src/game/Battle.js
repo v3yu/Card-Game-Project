@@ -5,7 +5,7 @@ import {isPlayerDead} from './PlayerManager.js';
 
 // Inject .hit animation styles directly from JavaScript
 const style = document.createElement('style');
-style.textContent = ``;
+style.textContent = '';
 
 document.head.appendChild(style);
 
@@ -13,6 +13,7 @@ document.head.appendChild(style);
  * Animates a hit effect on the given element or selector.
  * 
  * @param {string | Element} target - A CSS selector (string) or a DOM element.
+ * @param el
  */
 function animateHit(el) {
   if (!el) return;
@@ -70,10 +71,10 @@ export class Battle {
   }
 
    /**
-   * Starts the battle and initializes the UI.
-   *
-   * @returns {void}
-   */
+    * Starts the battle and initializes the UI.
+    *
+    * @returns {void}
+    */
   startBattle() {
     document.querySelector('.player .character-container').append(this.player);
     document.querySelector('.enemies .character-container').append(this.enemy);
@@ -82,10 +83,10 @@ export class Battle {
   }
 
    /**
-   * Handles the player's turn logic.
-   *
-   * @returns {void}
-   */
+    * Handles the player's turn logic.
+    *
+    * @returns {void}
+    */
   waitForPlayerAction() {
 
     console.log(this.player.deck.size()+this.player.hand.size()+this.player.discard.size()+this.player.tempDiscard.size());
@@ -106,10 +107,10 @@ export class Battle {
   }
 
    /**
-   * Handles the enemy's turn logic.
-   *
-   * @returns {void}
-   */
+    * Handles the enemy's turn logic.
+    *
+    * @returns {void}
+    */
   enemyAction() {
     const prevHP = this.player.state.currentHealth;
 

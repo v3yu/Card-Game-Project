@@ -9,6 +9,7 @@ import {Pile} from './Pile.js';
 class Discard extends Pile {
   /**
    * use a pile of cards to initialize Discard
+   *
    * @class Crad
    * @param {Card[]} cards - cards array tp initialize the discard pile
    */

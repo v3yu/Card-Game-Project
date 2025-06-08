@@ -321,6 +321,7 @@ export class Player extends HTMLElement{
 
   /**
    * Discards a card from the cards.
+   *
    * @class Card
    * @param {Card} card - The card to discard.
    * @returns {void}
