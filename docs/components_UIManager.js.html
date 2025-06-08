@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>JSDoc: Class: Powell</title>
+    <title>JSDoc: Source: components/UIManager.js</title>
 
     <script src="scripts/prettify/prettify.js"> </script>
     <script src="scripts/prettify/lang-css.js"> </script>
@@ -17,188 +17,45 @@
 
 <div id="main">
 
-    <h1 class="page-title">Class: Powell</h1>
+    <h1 class="page-title">Source: components/UIManager.js</h1>
 
     
 
 
 
-
-<section>
-
-<header>
     
-        <h2><span class="attribs"><span class="type-signature"></span></span>Powell<span class="signature">(player)</span><span class="type-signature"></span></h2>
-        
-    
-</header>
-
-<article>
-    <div class="container-overview">
-    
-        
-
-    
-
-    
-    <h4 class="name" id="Powell"><span class="type-signature"></span>new Powell<span class="signature">(player)</span><span class="type-signature"></span></h4>
-    
-
-    
-
-
-
-<div class="description">
-    Powell constructor
-Uses Enemy cosntructor to initialize enemy
-Assigns couple of private variables for internal use
-</div>
-
-
-
-
-
-
-
-
-
-    <h5>Parameters:</h5>
-    
-
-<table class="params">
-    <thead>
-    <tr>
-        
-        <th>Name</th>
-        
-
-        <th>Type</th>
-
-        
-
-        
-
-        <th class="last">Description</th>
-    </tr>
-    </thead>
-
-    <tbody>
-    
-
-        <tr>
-            
-                <td class="name"><code>player</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type"><a href="Player.html">Player</a></span>
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last">player object</td>
-        </tr>
-
-    
-    </tbody>
-</table>
-
-
-
-
-
-
-<dl class="details">
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-    <dt class="tag-source">Source:</dt>
-    <dd class="tag-source"><ul class="dummy"><li>
-        <a href="components_Powell.js.html">components/Powell.js</a>, <a href="components_Powell.js.html#line16">line 16</a>
-    </li></ul></dd>
-    
-
-    
-
-    
-
-    
-</dl>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-    
-    </div>
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-</article>
-
-</section>
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>/**
+ * Locks the UI while `fn` runs (typically for an animation) and then unlocks it once it’s finished.
+ *
+ * @param {function(): Promise} fn - A function that returns a Promise
+ */
+export async function lockUIDuring(fn) {
+  // Inject no-interaction style once
+  if (!document.getElementById('no-interaction-style')) {
+    const styleEl = document.createElement('style');
+    styleEl.id = 'no-interaction-style';
+    styleEl.textContent = `
+      .no-interaction,
+      .no-interaction * {
+        pointer-events: none !important;
+      }
+    `;
+    document.head.appendChild(styleEl);
+  }
+
+  // Add class to disable all pointer events
+  document.body.classList.add('no-interaction');
+  try {
+    await fn();
+  } finally {
+    // Remove class to re-enable pointer events
+    document.body.classList.remove('no-interaction');
+  }
+}</code></pre>
+        </article>
+    </section>
 
 
 

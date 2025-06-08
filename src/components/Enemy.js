@@ -6,11 +6,14 @@ import {Player} from './Player.js';
 export class Enemy extends HTMLElement{
 
    template = (t)=> `
-      <img src="${t.Img}" alt="enemy" id="enemyImg">
-      <div class="hp-bar-container">
-           <div class="hp-text">${t.HP}/${t.maxHP}</div>
-          <div class="hp-bar"></div>
-      </div>
+    <img src="${t.Img}" alt="enemy" id="enemyImg">
+  <div class="hp-bar-container">
+    <div class="hp-text">${t.HP}/${t.maxHP}</div>
+    <div class="hp-bar"></div>
+  </div>
+  <div class="attack-dialog hidden">
+    <p></p>
+  </div>
    `;
   /**
    * css style of enemy
@@ -20,45 +23,71 @@ export class Enemy extends HTMLElement{
   style = `
   
         .enemy-ui {
-            width: 300px;
-            padding: 10px;
-        }
+    position: relative; 
+    width: 300px;
+    padding: 10px;
+  }
 
-        .hp-bar-container {
-            position: relative;
-            height: 24px;
-            border: 1px solid #aaa;
-            border-radius: 6px;
-            background-color: #ddd;
-            overflow: hidden;
-        }
-        #enemyImg{
-            width: 100%;
-            align-items: center;
-        }
+  #enemyImg {
+    width: 100%;
+    display: block;
+  }
 
-        .hp-bar {
-            height: 100%;
-            width: 100%;
-            background: linear-gradient(to right, #aef, #5cf);
-            transition: width 0.3s ease;
-        }
-        
-        
-         .hp-text {
-            position: absolute;
-            top: 0;
-            left: 50%;
-            transform: translateX(-50%);
-            height: 100%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-weight: bold;
-            color: #000;
-            text-shadow: 1px 1px #fff;
-            pointer-events: none;
-        }
+  .hp-bar-container {
+    position: absolute; 
+    bottom: 0.5rem;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 300px;
+    height: 24px;
+    border: 1px solid #aaa;
+    border-radius: 6px;
+    background-color: #ddd;
+    overflow: hidden;
+  }
+
+  .hp-bar {
+    height: 100%;
+    width: 100%;
+    background: linear-gradient(to right, #aef, #5cf);
+    transition: width 0.3s ease;
+  }
+
+  .hp-text {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-weight: bold;
+    color: #000;
+    text-shadow: 1px 1px #fff;
+    pointer-events: none;
+  }
+
+
+  .attack-dialog {
+    position: absolute;
+    top: -20%;
+    left: -20%;
+    transform: translate(10%, -10%);
+    padding: 0.5rem 1rem;
+    background: rgba(0, 0, 0, 0.8);
+    color: #fff;
+    border-radius: 0.25rem;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.2s ease, transform 0.2s ease;
+  }
+
+  .attack-dialog.hidden {
+    display: none;
+  }
+
+  .attack-dialog.show {
+    display: block;
+    opacity: 1;
+    transform: translate(20%, -20%);
+  }
   `;
 
   /**
@@ -96,6 +125,7 @@ export class Enemy extends HTMLElement{
 
 
   }
+
 
   /**
    *  Take damage

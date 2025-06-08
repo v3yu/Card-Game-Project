@@ -1,5 +1,5 @@
 import {Pile} from '../components/Pile.js';
-import Hand from '../components/Hand.js';
+
 
 /**
  * @deprecated Use Deck.shuffle() instead
@@ -31,15 +31,6 @@ export function moveCard(card, fromCollection, toCollection) {
   // Moving cards between deck, cards, discard, etc.
   //Note: Use the reference of the card when using this function and not it's
   //actual value as it would cause issue with card duplicates.
-  if(fromCollection instanceof Hand){
-    const index = fromCollection.cards.indexOf(card);
-
-    if (index >= 0 && index < fromCollection.cards.length) {
-      fromCollection.cards.splice(index, 1);
-      toCollection.addCard(card);
-    }
-
-  }
 
   const index = fromCollection.cards.indexOf(card);
 

@@ -9,10 +9,6 @@ import {Player} from '../src/components/Player.js';
 import {Powell} from '../src/components/Powell.js';
 import {Battle} from '../src/game/Battle.js';
 
-
-
-
-
 const deck = new Deck([new CrashOut(),new CrashOut(),new CrashOut(),new CrashOut(),new CrashOut(),new CrashOut(),new CrashOut(),new CrashOut(),new CrashOut(),new CrashOut(),new CrashOut(),new CrashOut(),new CrashOut(),new CrashOut(),new CrashOut(),new CrashOut(),new CrashOut()]);
 
 console.log(deck.getCards());

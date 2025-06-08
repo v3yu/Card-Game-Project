@@ -5,8 +5,7 @@ import Discard from '../src/components/Discard.js';
 import Deck from '../src/components/Deck.js';
 import { test } from '@jest/globals';
 describe('DiscardModal', () => {
-
-    /* eslint-disable-next-line no-unused-vars */
+    /* eslint-disable no-unused-vars */
     let discardButton, discardModal, discardCardsDiv, closeDiscardModal, discardPile,modal;
 
     beforeEach(() => {

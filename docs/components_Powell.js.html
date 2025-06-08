@@ -27,6 +27,7 @@
     <section>
         <article>
             <pre class="prettyprint source linenums"><code>import { Enemy } from './Enemy.js';
+import {lockUIDuring} from './UIManager.js';
 
 export class Powell extends Enemy {
 
@@ -45,6 +46,42 @@ export class Powell extends Enemy {
     this.player = player;
     this.attackBuff = 1;
     this.block = 0;
+  }
+
+
+
+  // TODO In the future, move this method into the UI utility class
+
+
+
+  /**
+   * show dialog block when powell attacks
+   *
+   * @param {string} message - message when attack
+   * @param {number} duration - how long it will last
+   * @returns {function(): Promise}
+   */
+  attackAnimation(message,duration=2000){
+    return new Promise(resolve => {
+
+      const element = this.shadowRoot.querySelector('.attack-dialog');
+      element.classList.remove('hidden');
+      void element.offsetWidth;
+      element.querySelector('p').innerText = message;
+      element.classList.add('show');
+      setTimeout(() => {
+        element.classList.remove('show');
+        const onEnd = (e) => {
+          if (e.propertyName === 'opacity') {
+            element.removeEventListener('transitionend', onEnd);
+            element.classList.add('hidden');
+            resolve();
+          }
+        };
+        element.addEventListener('transitionend', onEnd);
+      }, duration);
+    });
+
   }
 
   /**
@@ -69,57 +106,64 @@ export class Powell extends Enemy {
   /**
    * Magic missile attack
    */
-  magicMissile() {
+  async magicMissile() {
     this.pAttack(1);
     this.pAttack(1);
     this.pAttack(1);
     this.lastMove = this.magicMissile;
+    await lockUIDuring(()=>this.attackAnimation('Magic Missile, fire! And if anyone still hasn’t turned' +
+      ' in their homework, don’t even think about going home when class ends'));
   }
 
   /**
    * Cringe dad joke attack
    */
-  cringeDadJoke() {
+  async cringeDadJoke() {
     this.pAttack(2);
     //player.applyEffect('Stun');
     this.lastMove = this.cringeDadJoke;
+    await lockUIDuring(()=>this.attackAnimation('I’d tell you a homework joke, but… you probably didn’t finish it anyway'));
   }
 
   /**
    * Ancient web spell attack
    */
-  ancientWebSpell() {
+  async ancientWebSpell() {
     this.gainBlock(3);
     this.attackBuff = 1.5;
     this.lastMove = this.ancientWebSpell;
+    await lockUIDuring(()=>this.attackAnimation('Ancient Web Spell, I’m going to make you walk through time and space'));
   }
 
   /**
    * Obscure reference attack
    */
-  obscureReference() {
+  async obscureReference() {
     //player.applyEffect('Confused', 2);
     this.lastMove = this.obscureReference;
+    await lockUIDuring(()=>this.attackAnimation('Obscure Reference, I’m going to make you think in a language nobody knows'));
   }
 
   /**
    * Jargon tornado attack
    */
-  jargonTornado() {
+  async jargonTornado() {
     this.takeDamage(2);
     this.pAttack(4);
     this.lastMove = this.jargonTornado;
+    await  lockUIDuring(()=>this.attackAnimation('Jargon Tornado, I’m going to make you think in a language nobody knows'));
   }
 
   /**
    * CSE 110 midterm attack
    */
-  cse110Midterm() {
+  async cse110Midterm() {
     this.pAttack(11.0);
     //player.applyEffect('Confused');
     //player.applyEffect('Stun');
     //player.applyEffect('Bleeding');
     this.lastMove = this.cse110Midterm;
+    await lockUIDuring(()=>this.attackAnimation('CSE 110 Midterm, I’m going to make you think in a language nobody knows'));
   }
 
   /**
@@ -130,33 +174,33 @@ export class Powell extends Enemy {
    * @param {number} playerHP - current HP of player
    * @param {number} playerMaxHP - max HP of player
    */
-  takeTurn(enemyHP, enemyMaxHP, playerHP, playerMaxHP) {
+  async takeTurn(enemyHP, enemyMaxHP, playerHP, playerMaxHP) {
     const m = Math.random();
-    if (m &lt; 0.011) this.cse110Midterm(); //has 1.10% of triggering
-    else if (playerHP &lt;= 4 &amp;&amp; enemyHP > 2) this.jargonTornado();
-    else if (playerHP &lt;= 2) this.cringeDadJoke();
-    else if (playerHP &lt;= 3) this.magicMissile();
-    else if (this.lastMove == this.cringeDadJoke &amp;&amp; (enemyHP / enemyMaxHP &lt;= 0.3)) this.ancientWebSpell();
-    else if (this.lastMove == this.ancientWebSpell &amp;&amp; ((enemyHP - 2) / enemyMaxHP) >= 0.3) this.jargonTornado();
-    else if (this.lastMove == this.ancientWebSpell) this.magicMissile();
+    if (m &lt; 0.011) await this.cse110Midterm(); //has 1.10% of triggering
+    else if (playerHP &lt;= 4 &amp;&amp; enemyHP > 2) await this.jargonTornado();
+    else if (playerHP &lt;= 2) await this.cringeDadJoke();
+    else if (playerHP &lt;= 3) await this.magicMissile();
+    else if (this.lastMove == this.cringeDadJoke &amp;&amp; (enemyHP / enemyMaxHP &lt;= 0.3)) await this.ancientWebSpell();
+    else if (this.lastMove == this.ancientWebSpell &amp;&amp; ((enemyHP - 2) / enemyMaxHP) >= 0.3) await this.jargonTornado();
+    else if (this.lastMove == this.ancientWebSpell) await this.magicMissile();
     else if ((playerHP / playerMaxHP &lt;= 0.3) &amp;&amp; ((enemyHP - 2) / enemyMaxHP) >= 0.3) {
       const a = Math.floor(m * 3);
-      if (a == 0) this.magicMissile();
-      else if (a == 1) this.cringeDadJoke();
-      else this.jargonTornado();
+      if (a == 0) await this.magicMissile();
+      else if (a == 1) await this.cringeDadJoke();
+      else await this.jargonTornado();
     } 
     else if (playerHP / playerMaxHP &lt;= 0.3) {
       const a = Math.floor(m * 2);
-      if (a == 0) this.magicMissile();
-      else this.cringeDadJoke();
+      if (a == 0) await this.magicMissile();
+      else await this.cringeDadJoke();
     }
     else {
       const a = Math.floor(m * 5);
-      if (a == 0) this.magicMissile();
-      else if (a == 1) this.cringeDadJoke();
-      else if (a == 2) this.ancientWebSpell();
-      else if (a == 3) this.obscureReference();
-      else this.jargonTornado();
+      if (a == 0) await this.magicMissile();
+      else if (a == 1) await this.cringeDadJoke();
+      else if (a == 2) await this.ancientWebSpell();
+      else if (a == 3) await this.obscureReference();
+      else await this.jargonTornado();
     }
   }
 }
@@ -173,13 +217,13 @@ if(!customElements.get('powell-enemy')){
 </div>
 
 <nav>
-    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="Battle_Battle.html">Battle</a></li><li><a href="Card.html">Card</a></li><li><a href="Crad.html">Crad</a></li><li><a href="Deck.html">Deck</a></li><li><a href="Discard.html">Discard</a></li><li><a href="Enemy.html">Enemy</a></li><li><a href="Hand.html">Hand</a></li><li><a href="Pile.html">Pile</a></li><li><a href="Pile_Pile.html">Pile</a></li><li><a href="Player.html">Player</a></li><li><a href="Player_Player.html">Player</a></li><li><a href="Powell_Powell.html">Powell</a></li></ul><h3>Global</h3><ul><li><a href="global.html#deletePlayer">deletePlayer</a></li><li><a href="global.html#dimScreen">dimScreen</a></li><li><a href="global.html#endTurn">endTurn</a></li><li><a href="global.html#getPlayer">getPlayer</a></li><li><a href="global.html#handlePlayerAction">handlePlayerAction</a></li><li><a href="global.html#hideSettings">hideSettings</a></li><li><a href="global.html#hideTutorial">hideTutorial</a></li><li><a href="global.html#hideVolume">hideVolume</a></li><li><a href="global.html#isPlayerDead">isPlayerDead</a></li><li><a href="global.html#loadBattle">loadBattle</a></li><li><a href="global.html#loadImg2">loadImg2</a></li><li><a href="global.html#loadImg3">loadImg3</a></li><li><a href="global.html#loadNextChapter">loadNextChapter</a></li><li><a href="global.html#loadStory">loadStory</a></li><li><a href="global.html#showSettings">showSettings</a></li><li><a href="global.html#showTutorial">showTutorial</a></li><li><a href="global.html#showVolume">showVolume</a></li><li><a href="global.html#shuffle">shuffle</a></li><li><a href="global.html#spawnPlayer">spawnPlayer</a></li><li><a href="global.html#startTurn">startTurn</a></li><li><a href="global.html#unDimScreen">unDimScreen</a></li></ul>
+    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="Battle_Battle.html">Battle</a></li><li><a href="Card.html">Card</a></li><li><a href="Crad.html">Crad</a></li><li><a href="Deck.html">Deck</a></li><li><a href="Discard.html">Discard</a></li><li><a href="Enemy.html">Enemy</a></li><li><a href="Hand.html">Hand</a></li><li><a href="Pile.html">Pile</a></li><li><a href="Pile_Pile.html">Pile</a></li><li><a href="Player.html">Player</a></li><li><a href="Player_Player.html">Player</a></li><li><a href="Powell_Powell.html">Powell</a></li></ul><h3>Global</h3><ul><li><a href="global.html#deletePlayer">deletePlayer</a></li><li><a href="global.html#dimScreen">dimScreen</a></li><li><a href="global.html#endTurn">endTurn</a></li><li><a href="global.html#getPlayer">getPlayer</a></li><li><a href="global.html#handlePlayerAction">handlePlayerAction</a></li><li><a href="global.html#hideSettings">hideSettings</a></li><li><a href="global.html#hideTutorial">hideTutorial</a></li><li><a href="global.html#hideVolume">hideVolume</a></li><li><a href="global.html#isPlayerDead">isPlayerDead</a></li><li><a href="global.html#loadBattle">loadBattle</a></li><li><a href="global.html#loadImg2">loadImg2</a></li><li><a href="global.html#loadImg3">loadImg3</a></li><li><a href="global.html#loadNextChapter">loadNextChapter</a></li><li><a href="global.html#loadStory">loadStory</a></li><li><a href="global.html#lockUIDuring">lockUIDuring</a></li><li><a href="global.html#showSettings">showSettings</a></li><li><a href="global.html#showTutorial">showTutorial</a></li><li><a href="global.html#showVolume">showVolume</a></li><li><a href="global.html#shuffle">shuffle</a></li><li><a href="global.html#spawnPlayer">spawnPlayer</a></li><li><a href="global.html#startTurn">startTurn</a></li><li><a href="global.html#unDimScreen">unDimScreen</a></li></ul>
 </nav>
 
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 4.0.4</a> on Sun Jun 08 2025 01:15:22 GMT+0000 (Coordinated Universal Time)
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 4.0.4</a> on Sun Jun 08 2025 17:30:46 GMT+0000 (Coordinated Universal Time)
 </footer>
 
 <script> prettyPrint(); </script>

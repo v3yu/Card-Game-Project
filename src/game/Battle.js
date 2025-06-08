@@ -3,6 +3,8 @@
 import { EventBus } from './EventBus.js';
 import {isPlayerDead} from './PlayerManager.js';
 import DiscardModal from '../components/DiscardModal.js';
+import DeckModal from '../components/DeckModal.js';
+import {lockUIDuring} from '../components/UIManager.js';
 
 export class Battle {
   /**
@@ -54,6 +56,11 @@ export class Battle {
     const discardModal = document.querySelector('.discard-modal');
     const discardCardsDiv = document.getElementById('discard-cards');
     const closeDiscardModal = document.querySelector('.close-discard-modal');
+    
+    const deckButton = document.querySelector('.deck-button');
+    const deckModal = document.querySelector('.deck-modal');
+    const deckCardsDiv = document.getElementById('deck-cards');
+    const closeDeckModal = document.querySelector('.close-deck-modal');
 
     /* eslint-disable no-unused-vars */
     const discardModalInstance = new DiscardModal({
@@ -62,6 +69,14 @@ export class Battle {
       discardCardsDiv,
       closeDiscardModal,
       discardPile: this.player.discard
+    });
+
+    const deckModalInstance = new DeckModal({
+      deckButton,
+      deckModal,
+      deckCardsDiv,
+      closeDeckModal,
+      deck: this.player.deck
     });
   }
 
@@ -90,8 +105,8 @@ export class Battle {
   /**
    * Enemy AI turn logic, then ends turn
    */
-  enemyAction() {
-    this.enemy.takeTurn(this.enemy.HP, this.enemy.maxHP, this.player.HP, this.player.maxHP);
+  async enemyAction() {
+    await this.enemy.takeTurn(this.enemy.HP, this.enemy.maxHP, this.player.state.HP, this.player.state.maxHP);
     // check whether player is dead
     this.eventBus.publish('checkGameOver');
     this.eventBus.publish('endTurn');
@@ -127,7 +142,7 @@ export class Battle {
   /**
    * Start-of-turn logic: trigger effects and delegate to appropriate actor
    */
-  startTurn() {
+  async startTurn() {
 
     if (this.battleOver) return;
 
@@ -135,9 +150,11 @@ export class Battle {
     // this.eventBus.publish('onTurnStart', { actor: this.currentActor });
 
     if (this.currentActor === 'player') {
+      await lockUIDuring(() => this.showBanner('Player turn', this.turnCount));
       this.waitForPlayerAction();
     } else {
-      this.enemyAction();
+      await lockUIDuring(() => this.showBanner('Enemy turn', this.turnCount));
+      await this.enemyAction();
     }
   }
 
@@ -160,6 +177,47 @@ export class Battle {
   /**
    * Clean up all event listeners (optional)
    */
+
+      /**Add commentMore actions
+   * Show a pop-up banner with a message and optional turn number
+   * @param {string} message
+   * @param {number} [turn]
+   */
+async showBanner(message, turn) {
+  return new Promise(resolve => {
+
+    const banner = document.querySelector('.turn-banner');
+    if (!banner){
+      resolve();
+      return;
+    }
+    banner.textContent = turn ? `${message} - Turn ${turn}` : message;
+    // Reset classes and display for animation replay
+    banner.classList.remove('active', 'fade-out');
+    banner.style.display = 'block';
+
+    // Force reflow to restart animation
+    void banner.offsetWidth;
+
+    // Start slide-in animation
+    banner.classList.add('active');
+
+    // After visible duration, start fade-out
+    setTimeout(() => {
+      banner.classList.remove('active');
+      banner.classList.add('fade-out');
+      // After fade-out transition, hide and reset
+      setTimeout(() => {
+        banner.style.display = 'none';
+        banner.classList.remove('fade-out');
+        resolve();
+      }, 500); // match fade-out transition duration
+    }, 1200);
+
+
+  });
+}
+
   destroy() {
     this.eventBus.unsubscribe('startTurn', this.startTurn);
     this.eventBus.unsubscribe('endTurn', this.handleTurnEnd);

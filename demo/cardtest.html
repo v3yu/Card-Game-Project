@@ -1,14 +1,17 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>UCSD Slay the Spire Battle</title>
-  <link rel="stylesheet" href="../src/styles/main.css"/>
-  <link rel="stylesheet" href="../src/styles/card.css"/>
-  <link rel="stylesheet" href="../src/styles/discard.css"/>
-      <script src="demo.js" type="module"></script>
+  <link rel="stylesheet" href="../src/styles/main.css" />
+  <link rel="stylesheet" href="../src/styles/card.css" />
+  <link rel="stylesheet" href="../src/styles/discard.css" />
+  <link rel="stylesheet" href="../src/styles/deck.css" />
+  <script src="demo.js" type="module"></script>
 </head>
+
 <body>
   <div class="combat-scene">
     <!-- Background -->
@@ -20,14 +23,14 @@
 
     <!-- Player & Enemies -->
     <div class="battle-area">
-        <div class="player">
-            <div class="character-container">
-            </div>
-          </div>
-        <div class="enemies">
-            <div class="character-container">
-            </div>
+      <div class="player">
+        <div class="character-container">
         </div>
+      </div>
+      <div class="enemies">
+        <div class="character-container">
+        </div>
+      </div>
     </div>
 
     <!-- Hand Area -->
@@ -36,16 +39,31 @@
     </div>
 
     <!-- UI Buttons -->
-    <button class="draw-button">Draw</button>
+    <button class="deck-button">Deck</button>
     <button class="discard-button">Discard</button>
     <button class="end-turn-button">End Turn</button>
   </div>
+  <!--Deck display modal-->
+  <div class="deck-modal">
+    <p class="deck-message">Cards are drawn from here at the start of each turn.</p>
+    <div id="deck-modal-content">
+      <button class="close-deck-modal">Close</button>
+      <div id="deck-cards"></div>
+    </div>
+  </div>
+
   <!-- Discard display modal-->
   <div class="discard-modal">
-  <div id="discard-modal-content">
-    <button class="close-discard-modal">Close</button>
-    <div id="discard-cards"></div>
+    <p class="discard-message">Cards here are shuffled into your deck when it runs out of cards.</p>
+    <div id="discard-modal-content">
+      <button class="close-discard-modal">Close</button>
+      <div id="discard-cards"></div>
+    </div>
   </div>
-</div>
+
+  <!-- Turn banner-->
+  <div class="turn-banner">
+    </div>
 </body>
+
 </html>
