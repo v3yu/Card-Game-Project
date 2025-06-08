@@ -27,6 +27,7 @@
     <section>
         <article>
             <pre class="prettyprint source linenums"><code>import { Enemy } from './Enemy.js';
+import {lockUIDuring} from './UIManager.js';
 
 export class Powell extends Enemy {
 
@@ -50,34 +51,7 @@ export class Powell extends Enemy {
 
 
   // TODO In the future, move this method into the UI utility class
-  /**
-   * Locks the UI while `fn` runs (typically for an animation) and then unlocks it once it’s finished.
-   *
-   * @param {function(): Promise} fn - A function that returns a Promise
-   */
-  async lockUIDuring(fn) {
-    // Inject no-interaction style once
-    if (!document.getElementById('no-interaction-style')) {
-      const styleEl = document.createElement('style');
-      styleEl.id = 'no-interaction-style';
-      styleEl.textContent = `
-      .no-interaction,
-      .no-interaction * {
-        pointer-events: none !important;
-      }
-    `;
-      document.head.appendChild(styleEl);
-    }
 
-    // Add class to disable all pointer events
-    document.body.classList.add('no-interaction');
-    try {
-      await fn();
-    } finally {
-      // Remove class to re-enable pointer events
-      document.body.classList.remove('no-interaction');
-    }
-  }
 
 
   /**
@@ -137,7 +111,7 @@ export class Powell extends Enemy {
     this.pAttack(1);
     this.pAttack(1);
     this.lastMove = this.magicMissile;
-    await this.lockUIDuring(()=>this.attackAnimation('Magic Missile, fire! And if anyone still hasn’t turned' +
+    await lockUIDuring(()=>this.attackAnimation('Magic Missile, fire! And if anyone still hasn’t turned' +
       ' in their homework, don’t even think about going home when class ends'));
   }
 
@@ -148,7 +122,7 @@ export class Powell extends Enemy {
     this.pAttack(2);
     //player.applyEffect('Stun');
     this.lastMove = this.cringeDadJoke;
-    await this.lockUIDuring(()=>this.attackAnimation('I’d tell you a homework joke, but… you probably didn’t finish it anyway'));
+    await lockUIDuring(()=>this.attackAnimation('I’d tell you a homework joke, but… you probably didn’t finish it anyway'));
   }
 
   /**
@@ -158,7 +132,7 @@ export class Powell extends Enemy {
     this.gainBlock(3);
     this.attackBuff = 1.5;
     this.lastMove = this.ancientWebSpell;
-    await this.lockUIDuring(()=>this.attackAnimation('Ancient Web Spell, I’m going to make you walk through time and space'));
+    await lockUIDuring(()=>this.attackAnimation('Ancient Web Spell, I’m going to make you walk through time and space'));
   }
 
   /**
@@ -167,7 +141,7 @@ export class Powell extends Enemy {
   async obscureReference() {
     //player.applyEffect('Confused', 2);
     this.lastMove = this.obscureReference;
-    await this.lockUIDuring(()=>this.attackAnimation('Obscure Reference, I’m going to make you think in a language nobody knows'));
+    await lockUIDuring(()=>this.attackAnimation('Obscure Reference, I’m going to make you think in a language nobody knows'));
   }
 
   /**
@@ -177,7 +151,7 @@ export class Powell extends Enemy {
     this.takeDamage(2);
     this.pAttack(4);
     this.lastMove = this.jargonTornado;
-    await  this.lockUIDuring(()=>this.attackAnimation('Jargon Tornado, I’m going to make you think in a language nobody knows'));
+    await  lockUIDuring(()=>this.attackAnimation('Jargon Tornado, I’m going to make you think in a language nobody knows'));
   }
 
   /**
@@ -189,7 +163,7 @@ export class Powell extends Enemy {
     //player.applyEffect('Stun');
     //player.applyEffect('Bleeding');
     this.lastMove = this.cse110Midterm;
-    await  this.lockUIDuring(()=>this.attackAnimation('CSE 110 Midterm, I’m going to make you think in a language nobody knows'));
+    await lockUIDuring(()=>this.attackAnimation('CSE 110 Midterm, I’m going to make you think in a language nobody knows'));
   }
 
   /**
@@ -243,13 +217,13 @@ if(!customElements.get('powell-enemy')){
 </div>
 
 <nav>
-    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="Battle_Battle.html">Battle</a></li><li><a href="Card.html">Card</a></li><li><a href="Crad.html">Crad</a></li><li><a href="Deck.html">Deck</a></li><li><a href="Discard.html">Discard</a></li><li><a href="Enemy.html">Enemy</a></li><li><a href="Hand.html">Hand</a></li><li><a href="Pile.html">Pile</a></li><li><a href="Pile_Pile.html">Pile</a></li><li><a href="Player.html">Player</a></li><li><a href="Player_Player.html">Player</a></li><li><a href="Powell_Powell.html">Powell</a></li></ul><h3>Global</h3><ul><li><a href="global.html#deletePlayer">deletePlayer</a></li><li><a href="global.html#dimScreen">dimScreen</a></li><li><a href="global.html#endTurn">endTurn</a></li><li><a href="global.html#getPlayer">getPlayer</a></li><li><a href="global.html#handlePlayerAction">handlePlayerAction</a></li><li><a href="global.html#hideSettings">hideSettings</a></li><li><a href="global.html#hideTutorial">hideTutorial</a></li><li><a href="global.html#hideVolume">hideVolume</a></li><li><a href="global.html#isPlayerDead">isPlayerDead</a></li><li><a href="global.html#loadBattle">loadBattle</a></li><li><a href="global.html#loadImg2">loadImg2</a></li><li><a href="global.html#loadImg3">loadImg3</a></li><li><a href="global.html#loadNextChapter">loadNextChapter</a></li><li><a href="global.html#loadStory">loadStory</a></li><li><a href="global.html#showSettings">showSettings</a></li><li><a href="global.html#showTutorial">showTutorial</a></li><li><a href="global.html#showVolume">showVolume</a></li><li><a href="global.html#shuffle">shuffle</a></li><li><a href="global.html#spawnPlayer">spawnPlayer</a></li><li><a href="global.html#startTurn">startTurn</a></li><li><a href="global.html#unDimScreen">unDimScreen</a></li></ul>
+    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="Battle_Battle.html">Battle</a></li><li><a href="Card.html">Card</a></li><li><a href="Crad.html">Crad</a></li><li><a href="Deck.html">Deck</a></li><li><a href="Discard.html">Discard</a></li><li><a href="Enemy.html">Enemy</a></li><li><a href="Hand.html">Hand</a></li><li><a href="Pile.html">Pile</a></li><li><a href="Pile_Pile.html">Pile</a></li><li><a href="Player.html">Player</a></li><li><a href="Player_Player.html">Player</a></li><li><a href="Powell_Powell.html">Powell</a></li></ul><h3>Global</h3><ul><li><a href="global.html#deletePlayer">deletePlayer</a></li><li><a href="global.html#dimScreen">dimScreen</a></li><li><a href="global.html#endTurn">endTurn</a></li><li><a href="global.html#getPlayer">getPlayer</a></li><li><a href="global.html#handlePlayerAction">handlePlayerAction</a></li><li><a href="global.html#hideSettings">hideSettings</a></li><li><a href="global.html#hideTutorial">hideTutorial</a></li><li><a href="global.html#hideVolume">hideVolume</a></li><li><a href="global.html#isPlayerDead">isPlayerDead</a></li><li><a href="global.html#loadBattle">loadBattle</a></li><li><a href="global.html#loadImg2">loadImg2</a></li><li><a href="global.html#loadImg3">loadImg3</a></li><li><a href="global.html#loadNextChapter">loadNextChapter</a></li><li><a href="global.html#loadStory">loadStory</a></li><li><a href="global.html#lockUIDuring">lockUIDuring</a></li><li><a href="global.html#showSettings">showSettings</a></li><li><a href="global.html#showTutorial">showTutorial</a></li><li><a href="global.html#showVolume">showVolume</a></li><li><a href="global.html#shuffle">shuffle</a></li><li><a href="global.html#spawnPlayer">spawnPlayer</a></li><li><a href="global.html#startTurn">startTurn</a></li><li><a href="global.html#unDimScreen">unDimScreen</a></li></ul>
 </nav>
 
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 4.0.4</a> on Sun Jun 08 2025 10:08:14 GMT-0700 (北美太平洋夏令时间)
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 4.0.4</a> on Sun Jun 08 2025 17:30:46 GMT+0000 (Coordinated Universal Time)
 </footer>
 
 <script> prettyPrint(); </script>
