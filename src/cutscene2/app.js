@@ -23,7 +23,7 @@ window.onload = function() {
     console.log("Delayed for 9 second.");
     document.getElementById('dots').style.opacity = 1;
     img1.style.pointerEvents = 'auto';
-  }, 9000);
+  }, 1000);
 };
 
 //Load the next text_2
@@ -39,7 +39,7 @@ function loadImg2() {
     console.log("Delayed for 3 second.");
     img2.querySelector('#dots').style.opacity = 1;
     img2.style.pointerEvents = 'auto';
-  }, 3000);
+  }, 1000);
 }
 
 //Event when user clicks to proceed to go to the next text_2
@@ -61,7 +61,7 @@ function loadImg3() {
     console.log("Delayed for 2 second.");
     img3.querySelector('#dots').style.opacity = 1;
     img3.style.pointerEvents = 'auto';
-  }, 2000);
+  }, 1000);
 }
 
 //Event when the user wants to go to the next text_3
@@ -75,7 +75,7 @@ function loadBattle() {
 	setTimeout(() => {
   	console.log("Delayed for 3 second.");
 		location.href="../../demo/cardtest.html";
-	}, 3000);
+	}, 1000);
 }
 
 //Event when user clicks to proceed to go to the gameplay

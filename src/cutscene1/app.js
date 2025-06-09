@@ -16,7 +16,7 @@ window.onload = function() {
     console.log("Delayed for 7 second.");
     document.getElementById('dots').style.opacity = 1;
     img1.style.pointerEvents = 'auto';
-  }, 7000);
+  }, 1000);
 };
 
 //Load the next text_2
@@ -32,7 +32,7 @@ function loadImg2() {
     console.log("Delayed for 3 second.");
     img2.querySelector('#dots').style.opacity = 1;
     img2.style.pointerEvents = 'auto';
-  }, 3000);
+  }, 1000);
 }
 
 //Event when user clicks to proceed to go to the next text
@@ -48,7 +48,7 @@ function loadNextChapter() {
 
   console.log('Delayed for 3 second.');
   location.href='../cutscene2/index.html';
-	}, 3000);
+	}, 1000);
 }
 
 //Event when user clicks to proceed to go to the next cutscene

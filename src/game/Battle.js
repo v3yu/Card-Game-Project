@@ -52,7 +52,11 @@ export class Battle {
       setTimeout(() => {
         if (this.enemy.HP < prevHP) {
           animateHit(this.enemy.shadowRoot.querySelector('#enemyImg'));
-        }
+        } else if (this.enemy.HP == 0) {
+          console.log('loadStory triggered');
+          location.href='../endscreen/index.html';
+    }
+
 
         this.prevEnemyHP = this.enemy.HP;
 
@@ -152,7 +156,10 @@ export class Battle {
     setTimeout(() => {
       if (this.player.state.currentHealth < prevHP) {
         animateHit(this.player.imgEl);
-      }
+      } else if (this.player.state.currentHealth == 0) {
+          console.log('loadStory triggered');
+          location.href='../endscreen/index.html';
+    }
 
       this.eventBus.publish('checkGameOver');
       this.eventBus.publish('endTurn');
