@@ -12,24 +12,31 @@
 </head>
 
 <body>
+  <!--Pand image-->
   <div class="panda">
     <img src="assets/panda.png">
   </div>
+  <!--Team 2 logo-->
   <div class="team_2_logo"> 
     <img src="assets/panda-yin-yang.png">
   </div>
+  <!--Menu structure-->
   <div class="menu">
+    <!--Title structure-->
     <div class="title">
       <h1 class="title_1">CSE 110</h1>
       <h2 class="title_2">Bamboo Rebellion</h2>
     </div>
+    <!--Buttons structure-->
     <div class="buttons">
       <button id="play">Play</button>
       <button id="settings">Settings</button>
       <button id="tutorial">Tutorial</button>
     </div>
   </div>
+  <!--Overlay when pressing the settings or tutorial button-->
   <div id="overlay"></div>
+  <!--Volume Settings-->
   <div class="volSettings">
     <h1 id="titleSetting">Settings</h1>
     <div class="innerSettings">
@@ -37,12 +44,17 @@
         <input type="range" name="volume" id="volume" value="50" min="0" max="100" step="1" class="accent" />
     </div>
   </div>
+  <!--Tutorial-->
   <img id='tutorial-image' src="assets/instructions.png" alt="Tutorial">
   <img id='exit' src="assets/exit.png" alt="Exit">
+  <!--Transition to cutscene for 3 seconds-->
   <div id="transition"></div>
   
+  <!--Audio sources-->
   <img id="music" src="assets/music.png" alr="Music">
-  <audio class="hidden" src=""></audio>
+  <audio id="hidden" src=""></audio>
+  <audio id="button-fx1"></audio>
+  <audio id="button-fx2"></audio>
   <script src="app.js" defer></script> 
 </body>
 </html>
