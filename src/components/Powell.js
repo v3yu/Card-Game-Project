@@ -14,7 +14,7 @@ export class Powell extends Enemy {
    * @param {Player} player - player object
    */
   constructor(player) {
-    super({name: 'Prof. Powell', HP: 3, Img: '../src/img/powell_720.png'});
+    super({name: 'Prof. Powell', HP: 110, Img: '../src/img/powell_720.png'});
     this.player = player;
     this.attackBuff = 1;
     this.block = 0;
