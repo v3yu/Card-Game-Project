@@ -128,7 +128,7 @@ body {
   position: absolute;
   left: 50%;
   transform: translate(-50%, 0);
-  bottom: -12vh;
+  bottom: -16vh;
   transform: translateX(-50%);
   display: flex;
   gap: 10px;
