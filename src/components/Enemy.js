@@ -182,8 +182,7 @@ export class Enemy extends HTMLElement{
    *  Die, direct to victorious page
    */
   die(){
-    // TODO use app.js to control it
-     console.log(this.name + ' has died.');
+    location.href = '/Card-Game-Project/src/endscreen/index.html';
   }
 
    /**
