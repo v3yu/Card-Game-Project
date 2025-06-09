@@ -148,6 +148,7 @@ export class Player extends HTMLElement{
       currentHealth : maxHealth,
       currentEnergy : maxEnergy,
       block : 0,
+      hasAttackedThisTurn: false,
     }, {
       set: (target, prop, value) => {
         target[prop] = value;
@@ -179,6 +180,17 @@ export class Player extends HTMLElement{
   }
 
   /**
+   * Animates a hit effect on the given element or selector.
+   *
+   *
+   */
+  animateHit() {
+    const el = this.imgEl;
+    el.classList.add('hit');
+    el.addEventListener('animationend', () => el.classList.remove('hit'), { once: true });
+  }
+
+  /**
    * The character takes damage
    *
    * @param {number} amount - The amount of damage to take.
@@ -188,6 +200,10 @@ export class Player extends HTMLElement{
     const effectiveDamage = Math.max(amount - this.state.block, 0);
     this.state.block = Math.max(this.state.block - amount, 0);
     this.state.currentHealth -= effectiveDamage;
+
+    setTimeout(() => {
+        this.animateHit();
+    }, 0);
 
     if (this.state.currentHealth <= 0) {
       this.state.currentHealth = 0;
@@ -203,6 +219,7 @@ export class Player extends HTMLElement{
    */
   gainBlock(amount) {
     this.state.block += amount;
+    //
   }
 
   /**
@@ -215,9 +232,8 @@ export class Player extends HTMLElement{
     this.state.currentHealth = Math.min(this.state.currentHealth + amount, this.state.maxHealth);
   }
 
-
   die() {
-    // TODO: Implement death logic (e.g. remove from battle, trigger animation, etc.)
+    window.location.href ='';
   }
 
   /**
@@ -235,6 +251,12 @@ export class Player extends HTMLElement{
     }
     this.state.currentEnergy = nowEnergy;
     return true;
+  }
+
+  gainEnergy(amount) {
+
+    // Gain energy, but not exceeding maxEnergy
+    this.state.currentEnergy = Math.min(this.state.currentEnergy + amount, this.state.maxEnergy);
   }
 
 
@@ -266,7 +288,7 @@ export class Player extends HTMLElement{
   //
   // }
 
-
+  
 
   /**
    * Shuffle the deck
@@ -303,7 +325,8 @@ export class Player extends HTMLElement{
     // Should call the specific card’s own card.play,
     // then this.removeCard(card)
     try{
-      if(!this.spendEnergy(card.cost)) throw new Error('you don\'t have enough energy');
+      if(!this.spendEnergy(card.cost)) throw new Error('You don\'t have enough energy!');
+      this.state.hasAttackedThisTurn = true;
       card.play(target);
       this.discardCard(card);
     }

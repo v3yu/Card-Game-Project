@@ -17,10 +17,10 @@ class TripToStudentHealth extends Card {
   /**
    * @param {object} player - The player receiving the effect.
    */
-  play(player) {
-    player.heal(2);
-    player.applyBlock(2);
-  }
+play(player) {
+  player.heal(2);
+  player.gainBlock(2);
+}
 }
 if (!customElements.get('trip-to-student-health')) {
   customElements.define('trip-to-student-health', TripToStudentHealth);

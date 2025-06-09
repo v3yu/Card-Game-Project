@@ -57,26 +57,14 @@ export class Card extends HTMLElement {
      * render the card in specific HtmlElement
      */
     render() {
-        //         this.article.innerHTML=`
-
-        //         <span class="cost">${this.cost}</span>
-
-        //         <header class="name">${this.name}</header>
-
-        //         <figure class="image-container">
-        //             <img src="${this.image}" alt="${this.name}">
-        //         </figure>
-
-        //         <section class="effect">${this.effect}</section>
-
-        //         <footer class="description">${this.description}</footer>
-        // `;
         this.div.innerHTML = `
             <div class="card-banner">${this.name}</div>
             <div class="card-cost">${this.cost}</div>
             <img class="card-image" src="${this.image}" alt="${this.name}"/>
             <button class="card-type">${this.effect}</button>
-            <div class="card-description">${this.description}</div>
+            <div class="card-description"></div>
+            <div class="description-popup">${this.description}</div>
+
         `;
 
         //card hover and click effect

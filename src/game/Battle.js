@@ -6,27 +6,6 @@ import DiscardModal from '../components/DiscardModal.js';
 import DeckModal from '../components/DeckModal.js';
 import {lockUIDuring} from '../components/UIManager.js';
 
-// Inject .hit animation styles directly from JavaScript
-const style = document.createElement('style');
-style.textContent = '';
-
-document.head.appendChild(style);
-
-//Music for battle
-
-
-/**
- * Animates a hit effect on the given element or selector.
- *
- * @param {string | Element} target - A CSS selector (string) or a DOM element.
- * @param el
- */
-function animateHit(el) {
-  if (!el) return;
-  el.classList.add('hit');
-  el.addEventListener('animationend', () => el.classList.remove('hit'), { once: true });
-}
-
 export class Battle {
   /**
    * @param {Player} player - The player instance
@@ -40,33 +19,25 @@ export class Battle {
     this.turnCount = 1;
     this.currentActor = 'player';
     this.battleOver = false;
-    this.prevPlayerHP = this.player.HP;
-    this.prevEnemyHP = this.enemy.HP;
 
     // Subscribe internal handlers
     this.eventBus.subscribe('startTurn', () => this.startTurn());
     this.eventBus.subscribe('endTurn', () => this.handleTurnEnd());
     this.eventBus.subscribe('checkGameOver', ()=>this.checkGameOver());
     this.eventBus.subscribe('cardPlayed', ({ card }) => {
-      const prevHP = this.enemy.HP;
-
+      // Determine target based on card type
+    if (card.type === 'heal' || card.type === 'defense' || card.type === 'buff' || card.type === 'support') {
+      this.player.playCard(card, this.player);
+    } else if (card.type === 'attack') {
       this.player.playCard(card, this.enemy);
-
-      setTimeout(() => {
-        if (this.enemy.HP < prevHP) {
-          animateHit(this.enemy.shadowRoot.querySelector('#enemyImg'));
-        }
-
-      if (this.enemy.HP == 0) {
-        console.log('loadStory triggered');
-        location.href='../src/endscreen/index.html';
-    } 
+    } else {
+      // Default to enemy if type is unknown
+      this.player.playCard(card, this.enemy);
+    }
 
 
-        this.prevEnemyHP = this.enemy.HP;
 
-        this.eventBus.publish('checkGameOver');
-      }, 0);
+
     });
 
     this.onEndTurnClick = () => this.eventBus.publish('endTurn');
@@ -88,6 +59,7 @@ export class Battle {
     * @returns {void}
     */
   startBattle() {
+    this.player.shuffleDeck();
      const audioElem = new Audio('/src/audio/battleMusic.mp3');
      audioElem.loop = true;
      audioElem.volume = 0.1;
@@ -138,7 +110,7 @@ export class Battle {
     try{
 
       if(this.player.drawCards(5)===-1){
-        throw new Error('no enough cards');
+        throw new Error('Not enough cards');
       }
     }
     catch (e){
@@ -156,27 +128,16 @@ export class Battle {
    */
   async enemyAction() {
 
-    const prevHP = this.player.state.currentHealth;
-    this.enemy.takeTurn(
-      this.enemy.HP,
-      this.enemy.maxHP,
-      this.player.state.currentHealth,
-      this.player.state.maxHealth
-    );
-    setTimeout(() => {
-      if (this.player.state.currentHealth < prevHP) {
-        animateHit(this.player.imgEl);
-      }
 
+     await this.enemy.takeTurn(
+       this.enemy.HP,
+       this.enemy.maxHP,
+       this.player.state.currentHealth,
+       this.player.state.maxHealth
+     );
 
-      if (this.player.state.currentHealth == 0) {
-        console.log('loadStory triggered');
-        location.href='../src/endscreen/index.html';
-      }
-
-      this.eventBus.publish('checkGameOver');
-      this.eventBus.publish('endTurn');
-    }, 0);
+    this.eventBus.publish('checkGameOver');
+    this.eventBus.publish('endTurn');
   }
 
 
@@ -222,6 +183,7 @@ export class Battle {
     // this.eventBus.publish('onTurnStart', { actor: this.currentActor });
 
     if (this.currentActor === 'player') {
+      this.player.state.block = 0;
       await lockUIDuring(() => this.showBanner('Player turn', this.turnCount));
       this.waitForPlayerAction();
     } else {
