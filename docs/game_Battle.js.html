@@ -34,6 +34,24 @@ import DiscardModal from '../components/DiscardModal.js';
 import DeckModal from '../components/DeckModal.js';
 import {lockUIDuring} from '../components/UIManager.js';
 
+// Inject .hit animation styles directly from JavaScript
+const style = document.createElement('style');
+style.textContent = '';
+
+document.head.appendChild(style);
+
+/**
+ * Animates a hit effect on the given element or selector.
+ *
+ * @param {string | Element} target - A CSS selector (string) or a DOM element.
+ * @param el
+ */
+function animateHit(el) {
+  if (!el) return;
+  el.classList.add('hit');
+  el.addEventListener('animationend', () => el.classList.remove('hit'), { once: true });
+}
+
 export class Battle {
   /**
    * @param {Player} player - The player instance
@@ -47,15 +65,27 @@ export class Battle {
     this.turnCount = 1;
     this.currentActor = 'player';
     this.battleOver = false;
+    this.prevPlayerHP = this.player.HP;
+    this.prevEnemyHP = this.enemy.HP;
 
     // Subscribe internal handlers
     this.eventBus.subscribe('startTurn', () => this.startTurn());
     this.eventBus.subscribe('endTurn', () => this.handleTurnEnd());
     this.eventBus.subscribe('checkGameOver', ()=>this.checkGameOver());
     this.eventBus.subscribe('cardPlayed', ({ card }) => {
-    this.player.playCard(card, this.enemy);
+      const prevHP = this.enemy.HP;
 
+      this.player.playCard(card, this.enemy);
 
+      setTimeout(() => {
+        if (this.enemy.HP &lt; prevHP) {
+          animateHit(this.enemy.shadowRoot.querySelector('#enemyImg'));
+        }
+
+        this.prevEnemyHP = this.enemy.HP;
+
+        this.eventBus.publish('checkGameOver');
+      }, 0);
     });
 
     this.onEndTurnClick = () => this.eventBus.publish('endTurn');
@@ -140,16 +170,21 @@ export class Battle {
    */
   async enemyAction() {
 
+    const prevHP = this.player.state.currentHealth;
+    this.enemy.takeTurn(
+      this.enemy.HP,
+      this.enemy.maxHP,
+      this.player.state.currentHealth,
+      this.player.state.maxHealth
+    );
+    setTimeout(() => {
+      if (this.player.state.currentHealth &lt; prevHP) {
+        animateHit(this.player.imgEl);
+      }
 
-     await this.enemy.takeTurn(
-       this.enemy.HP,
-       this.enemy.maxHP,
-       this.player.state.currentHealth,
-       this.player.state.maxHealth
-     );
-
-    this.eventBus.publish('checkGameOver');
-    this.eventBus.publish('endTurn');
+      this.eventBus.publish('checkGameOver');
+      this.eventBus.publish('endTurn');
+    }, 0);
   }
 
 
@@ -282,13 +317,13 @@ async showBanner(message, turn) {
 </div>
 
 <nav>
-    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="Battle_Battle.html">Battle</a></li><li><a href="Card.html">Card</a></li><li><a href="Crad.html">Crad</a></li><li><a href="Deck.html">Deck</a></li><li><a href="Discard.html">Discard</a></li><li><a href="Enemy.html">Enemy</a></li><li><a href="Hand.html">Hand</a></li><li><a href="Pile.html">Pile</a></li><li><a href="Pile_Pile.html">Pile</a></li><li><a href="Player.html">Player</a></li><li><a href="Player_Player.html">Player</a></li><li><a href="Powell_Powell.html">Powell</a></li></ul><h3>Global</h3><ul><li><a href="global.html#deletePlayer">deletePlayer</a></li><li><a href="global.html#dimScreen">dimScreen</a></li><li><a href="global.html#endTurn">endTurn</a></li><li><a href="global.html#getPlayer">getPlayer</a></li><li><a href="global.html#handlePlayerAction">handlePlayerAction</a></li><li><a href="global.html#hideSettings">hideSettings</a></li><li><a href="global.html#hideTutorial">hideTutorial</a></li><li><a href="global.html#hideVolume">hideVolume</a></li><li><a href="global.html#isPlayerDead">isPlayerDead</a></li><li><a href="global.html#loadBattle">loadBattle</a></li><li><a href="global.html#loadImg2">loadImg2</a></li><li><a href="global.html#loadImg3">loadImg3</a></li><li><a href="global.html#loadNextChapter">loadNextChapter</a></li><li><a href="global.html#loadStory">loadStory</a></li><li><a href="global.html#lockUIDuring">lockUIDuring</a></li><li><a href="global.html#showSettings">showSettings</a></li><li><a href="global.html#showTutorial">showTutorial</a></li><li><a href="global.html#showVolume">showVolume</a></li><li><a href="global.html#shuffle">shuffle</a></li><li><a href="global.html#spawnPlayer">spawnPlayer</a></li><li><a href="global.html#startTurn">startTurn</a></li><li><a href="global.html#unDimScreen">unDimScreen</a></li></ul>
+    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="Battle_Battle.html">Battle</a></li><li><a href="Card.html">Card</a></li><li><a href="Crad.html">Crad</a></li><li><a href="Deck.html">Deck</a></li><li><a href="Discard.html">Discard</a></li><li><a href="Enemy.html">Enemy</a></li><li><a href="Hand.html">Hand</a></li><li><a href="Pile.html">Pile</a></li><li><a href="Pile_Pile.html">Pile</a></li><li><a href="Player.html">Player</a></li><li><a href="Player_Player.html">Player</a></li><li><a href="Powell_Powell.html">Powell</a></li></ul><h3>Global</h3><ul><li><a href="global.html#animateHit">animateHit</a></li><li><a href="global.html#deletePlayer">deletePlayer</a></li><li><a href="global.html#dimScreen">dimScreen</a></li><li><a href="global.html#endTurn">endTurn</a></li><li><a href="global.html#getPlayer">getPlayer</a></li><li><a href="global.html#handlePlayerAction">handlePlayerAction</a></li><li><a href="global.html#hideSettings">hideSettings</a></li><li><a href="global.html#hideTutorial">hideTutorial</a></li><li><a href="global.html#hideVolume">hideVolume</a></li><li><a href="global.html#isPlayerDead">isPlayerDead</a></li><li><a href="global.html#loadBattle">loadBattle</a></li><li><a href="global.html#loadImg2">loadImg2</a></li><li><a href="global.html#loadImg3">loadImg3</a></li><li><a href="global.html#loadNextChapter">loadNextChapter</a></li><li><a href="global.html#loadStory">loadStory</a></li><li><a href="global.html#lockUIDuring">lockUIDuring</a></li><li><a href="global.html#showSettings">showSettings</a></li><li><a href="global.html#showTutorial">showTutorial</a></li><li><a href="global.html#showVolume">showVolume</a></li><li><a href="global.html#shuffle">shuffle</a></li><li><a href="global.html#spawnPlayer">spawnPlayer</a></li><li><a href="global.html#startTurn">startTurn</a></li><li><a href="global.html#unDimScreen">unDimScreen</a></li></ul>
 </nav>
 
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 4.0.4</a> on Mon Jun 09 2025 04:27:10 GMT+0000 (Coordinated Universal Time)
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 4.0.4</a> on Mon Jun 09 2025 01:33:21 GMT+0000 (Coordinated Universal Time)
 </footer>
 
 <script> prettyPrint(); </script>
