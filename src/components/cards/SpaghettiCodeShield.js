@@ -8,13 +8,13 @@ class SpaghettiCodeShield extends Card {
             type: 'defense',
             cost: 1,
             description: 'You vanished into callback hell. 7 nested if-loops deep. Untraceable.',
-            effect: 'Block 5. +1 if you didn’t attack.',
+            effect: 'Block 2. +1 if you didn’t attack.',
             image: '/src/img/SpaghettiCodeShield.png',
         });
     }
 
     play(player) {
-        player.gainBlock(5);
+        player.gainBlock(2);
         if (player.hasAttackedThisTurn === false) {
             player.gainBlock(1);
         }
