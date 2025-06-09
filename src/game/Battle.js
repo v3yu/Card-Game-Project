@@ -2,6 +2,9 @@
 // Refactored battle system using the EventBus for decoupled event handling
 import { EventBus } from './EventBus.js';
 import {isPlayerDead} from './PlayerManager.js';
+import DiscardModal from '../components/DiscardModal.js';
+import DeckModal from '../components/DeckModal.js';
+import {lockUIDuring} from '../components/UIManager.js';
 
 export class Battle {
   /**
@@ -22,10 +25,22 @@ export class Battle {
     this.eventBus.subscribe('endTurn', () => this.handleTurnEnd());
     this.eventBus.subscribe('checkGameOver', ()=>this.checkGameOver());
     this.eventBus.subscribe('cardPlayed', ({ card }) => {
+      // Determine target based on card type
+    if (card.type === 'heal' || card.type === 'defense' || card.type === 'buff' || card.type === 'support') {
+      this.player.playCard(card, this.player);
+    } else if (card.type === 'attack') {
       this.player.playCard(card, this.enemy);
-      this.eventBus.publish('checkGameOver');
+    } else {
+      // Default to enemy if type is unknown
+      this.player.playCard(card, this.enemy);
+    }
+
+
+
+
     });
 
+    this.onEndTurnClick = () => this.eventBus.publish('endTurn');
 
     // Bind a single event listener to the hand container once at initialization
     const handArea = document.querySelector('.hand-area');
@@ -38,26 +53,64 @@ export class Battle {
 
   }
 
-  /**
-   * Begin the battle by rendering characters and starting the first turn
-   */
+   /**
+    * Starts the battle and initializes the UI.
+    *
+    * @returns {void}
+    */
   startBattle() {
+    this.player.shuffleDeck();
+     const audioElem = new Audio('/src/audio/battleMusic.mp3');
+     audioElem.loop = true;
+     audioElem.volume = 0.1;
+     audioElem.play();
+
     document.querySelector('.player .character-container').append(this.player);
     document.querySelector('.enemies .character-container').append(this.enemy);
     document.querySelector('.hand-area').append(this.player.hand);
     this.eventBus.publish('startTurn');
+
+
+    const discardButton = document.querySelector('.discard-button');
+    const discardModal = document.querySelector('.discard-modal');
+    const discardCardsDiv = document.getElementById('discard-cards');
+    const closeDiscardModal = document.querySelector('.close-discard-modal');
+
+    const deckButton = document.querySelector('.deck-button');
+    const deckModal = document.querySelector('.deck-modal');
+    const deckCardsDiv = document.getElementById('deck-cards');
+    const closeDeckModal = document.querySelector('.close-deck-modal');
+
+    /* eslint-disable no-unused-vars */
+    const discardModalInstance = new DiscardModal({
+      discardButton,
+      discardModal,
+      discardCardsDiv,
+      closeDiscardModal,
+      discardPile: this.player.discard
+    });
+
+    const deckModalInstance = new DeckModal({
+      deckButton,
+      deckModal,
+      deckCardsDiv,
+      closeDeckModal,
+      deck: this.player.deck
+    });
   }
 
-  /**
-   * Handle player action phase: draw cards, render cards, and attach listeners
-   */
+   /**
+    * Handles the player's turn logic.
+    *
+    * @returns {void}
+    */
   waitForPlayerAction() {
 
     console.log(this.player.deck.size()+this.player.hand.size()+this.player.discard.size()+this.player.tempDiscard.size());
     try{
 
       if(this.player.drawCards(5)===-1){
-        throw new Error('no enough cards');
+        throw new Error('Not enough cards');
       }
     }
     catch (e){
@@ -66,22 +119,32 @@ export class Battle {
       this.player.drawCards(5);
     }
     const endTurnBtn = document.querySelector('.end-turn-button');
-    endTurnBtn.addEventListener('click', () => this.eventBus.publish('endTurn'));
+    endTurnBtn.addEventListener('click', this.onEndTurnClick);
 
   }
 
   /**
    * Enemy AI turn logic, then ends turn
    */
-  enemyAction() {
-    this.enemy.pAttack(10);
-    // check whether player is dead
+  async enemyAction() {
+
+
+     await this.enemy.takeTurn(
+       this.enemy.HP,
+       this.enemy.maxHP,
+       this.player.state.currentHealth,
+       this.player.state.maxHealth
+     );
+
     this.eventBus.publish('checkGameOver');
     this.eventBus.publish('endTurn');
   }
 
+
   /**
    * Internal handler for ending a turn: triggers effects, switches actor, and starts the next turn
+   *
+   * @returns {void}
    */
   handleTurnEnd() {
     // Trigger end-of-turn effects
@@ -92,7 +155,7 @@ export class Battle {
       console.log('end player turn');
       this.player.discardHand();
       this.player.resetEnergy();
-      document.querySelector('.end-turn-button').removeEventListener('click', this.handleTurnEnd);
+      document.querySelector('.end-turn-button').removeEventListener('click', this.onEndTurnClick);
     }
 
     // Switch actor
@@ -109,8 +172,10 @@ export class Battle {
 
   /**
    * Start-of-turn logic: trigger effects and delegate to appropriate actor
+   *
+   * @returns {void}
    */
-  startTurn() {
+  async startTurn() {
 
     if (this.battleOver) return;
 
@@ -118,14 +183,19 @@ export class Battle {
     // this.eventBus.publish('onTurnStart', { actor: this.currentActor });
 
     if (this.currentActor === 'player') {
+      this.player.state.block = 0;
+      await lockUIDuring(() => this.showBanner('Player turn', this.turnCount));
       this.waitForPlayerAction();
     } else {
-      this.enemyAction();
+      await lockUIDuring(() => this.showBanner('Enemy turn', this.turnCount));
+      await this.enemyAction();
     }
   }
 
   /**
    * if one of the player or enemy is dead, game over
+   *
+   * @returns {void}
    */
   checkGameOver() {
     if(isPlayerDead(this.player)){
@@ -142,12 +212,53 @@ export class Battle {
 
   /**
    * Clean up all event listeners (optional)
+   *
+   * @returns {void}
    */
+
+      /**Add commentMore actions
+   * Show a pop-up banner with a message and optional turn number
+   * @param {string} message
+   * @param {number} [turn]
+   */
+async showBanner(message, turn) {
+  return new Promise(resolve => {
+
+    const banner = document.querySelector('.turn-banner');
+    if (!banner){
+      resolve();
+      return;
+    }
+    banner.textContent = turn ? `${message} - Turn ${turn}` : message;
+    // Reset classes and display for animation replay
+    banner.classList.remove('active', 'fade-out');
+    banner.style.display = 'block';
+
+    // Force reflow to restart animation
+    void banner.offsetWidth;
+
+    // Start slide-in animation
+    banner.classList.add('active');
+
+    // After visible duration, start fade-out
+    setTimeout(() => {
+      banner.classList.remove('active');
+      banner.classList.add('fade-out');
+      // After fade-out transition, hide and reset
+      setTimeout(() => {
+        banner.style.display = 'none';
+        banner.classList.remove('fade-out');
+        resolve();
+      }, 500); // match fade-out transition duration
+    }, 1200);
+
+
+  });
+}
+
   destroy() {
     this.eventBus.unsubscribe('startTurn', this.startTurn);
     this.eventBus.unsubscribe('endTurn', this.handleTurnEnd);
     this.eventBus.unsubscribe('cardPlayed', this.player.playCard);
   }
-
-
 }

@@ -1,17 +1,48 @@
 <!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <title>Cutscene 2</title>
-  <link rel="stylesheet" href="style.css" />
+  <title>CSE 110 - Bamboo Rebellion</title>
+  <link rel="stylesheet" href="styles.css" />
 </head>
 <body>
-  <img id="cutscene-bg" src="imgs/cutscene2.jpg" alt="Background">
-  <div id="characters"></div>
-  <div id="dialogue-box">
-    <p id="character-name">...</p>
-    <p id="dialogue-text">...</p>
+  <!--Background for cutscene 2-->
+  <img id="cutscene2-bg" src="imgs/cutscene2.png" alt="Background1">
+  <!--Sprites-->
+  <img id="panda" src="imgs/panda.png" alt="panda">
+  <img id="powell" src="imgs/powell.png" alt="professor">
+  <img id="evil-powell" src="imgs/evil-powell.png" alt="angry professor">
+  <!--Character's textbox (1)-->
+  <div class="textbox_1">
+    <!--Character's Name-->
+    <h1 id="name">Sun-Tzu</h1>
+    <!--Character's Dialogue-->
+    <p id="text">Surrender yourself Powell. It's time to admit that I can use Javascript Frameworks on my project.</p>
+    <!--Proceed to next text (2)-->
+    <p id="dots">...</p>
   </div>
+  <!--Enemy's textbox (2)-->
+  <div class="textbox_2">
+    <!--Enemy's Name-->
+    <h1 id="name">Professor Powell</h1>
+    <!--Enemy's Dialogue-->
+    <p id="text">I will admit to that under one condition...</p>
+    <!--Proceed to next text (3)-->
+    <p id="dots">...</p>
+  </div>
+  <!--Enemy's textbox (3)-->
+  <div class="textbox_3">
+    <!--Enemy's Name-->
+    <h1 id="name">Professor Powell</h1>
+    <!--Enemy's Dialogue-->
+    <p id="text">If you can beat me in battle!!!!!!!!!!</p>
+    <!--Proceed to next cutscene-->
+    <p id="dots">...</p>
+  </div>
+  <div id="borders"></div>
+  <div id="transition"></div>
+  <audio id="hidden"></audio>
   <script src="app.js"></script>
 </body>
 </html>

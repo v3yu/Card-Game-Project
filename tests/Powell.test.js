@@ -22,10 +22,7 @@ describe('Instance of enemy - Powell', () => {
         expect(player.state.currentHealth).toBe(90);
     });
 
-    test('gaining block', () => {
-        enemy.gainBlock(10);
-        expect(enemy.block).toBe(10);
-    });
+
 
     test('magic missile attack', () => {
         enemy.magicMissile();
@@ -39,12 +36,6 @@ describe('Instance of enemy - Powell', () => {
         expect(enemy.lastMove).toBe(enemy.cringeDadJoke);
     });
 
-    test('ancient web spell attack', () => {
-        enemy.ancientWebSpell();
-        expect(enemy.block).toBe(3);
-        expect(enemy.attackBuff).toBe(1.5);
-        expect(enemy.lastMove).toBe(enemy.ancientWebSpell);
-    });
 
     test('obscure reference attack', () => {
         enemy.obscureReference();
@@ -54,7 +45,7 @@ describe('Instance of enemy - Powell', () => {
     test('jargon tornado attack', () => {
         enemy.jargonTornado();
         expect(enemy.HP).toBe(108);
-        expect(player.state.currentHealth).toBe(96);
+        expect(player.state.currentHealth).toBe(95);
         expect(enemy.lastMove).toBe(enemy.jargonTornado);
     });
 

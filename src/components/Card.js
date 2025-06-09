@@ -1,3 +1,6 @@
+//create shylesheet for card
+let cardSheet = null;
+
 /**
  * base card class
  *
@@ -30,6 +33,11 @@ export class Card extends HTMLElement {
         // const style = document.createElement('style');
         // style.textContent = ``;
 
+        //adopt stylesheet for stable cards display
+               if (cardSheet) {
+            this.shadowRoot.adoptedStyleSheets = [cardSheet];
+        }
+
         this.div.className = 'card';
 
         shadow.append(this.div);
@@ -49,27 +57,14 @@ export class Card extends HTMLElement {
      * render the card in specific HtmlElement
      */
     render() {
-        //         this.article.innerHTML=`
-
-        //         <span class="cost">${this.cost}</span>
-
-        //         <header class="name">${this.name}</header>
-
-        //         <figure class="image-container">
-        //             <img src="${this.image}" alt="${this.name}">
-        //         </figure>
-
-        //         <section class="effect">${this.effect}</section>
-
-        //         <footer class="description">${this.description}</footer>
-        // `;
         this.div.innerHTML = `
-            <link href="/src/styles/card.css" rel="stylesheet">
             <div class="card-banner">${this.name}</div>
             <div class="card-cost">${this.cost}</div>
             <img class="card-image" src="${this.image}" alt="${this.name}"/>
             <button class="card-type">${this.effect}</button>
-            <div class="card-description">${this.description}</div>
+            <div class="card-description"></div>
+            <div class="description-popup">${this.description}</div>
+
         `;
 
         //card hover and click effect
@@ -77,14 +72,16 @@ export class Card extends HTMLElement {
         cardTypeBtn?.addEventListener('click', (e) => {
             e.stopPropagation();
             const isSelected = this.div.classList.contains('selected');
+            //if card already selected, deselect it
             if (isSelected) {
                 this.div.classList.remove('selected');
                 cardTypeBtn.classList.remove('selected');
-            } else {
-                // Deselect all cards and buttons
-                const handElement = document.querySelector('.cards-area cards-element');
+            } 
+            // if not selected, deselect all other cards and select this one
+            else {
+                const handElement = document.querySelector('.hand-area hand-element');
                 if (handElement && handElement.shadowRoot) {
-                    // Find the handArea container inside the shadow root
+                    // find the handArea container inside the shadow root
                     const handAreaDiv = handElement.shadowRoot.querySelector('.handArea');
                     if (handAreaDiv) {
                         // get all direct children (card custom elements)
@@ -100,7 +97,7 @@ export class Card extends HTMLElement {
                         });
                     }
                 }
-                // Select this card
+                // select this card
                 this.div.classList.add('selected');
                 cardTypeBtn.classList.add('selected');
             }
@@ -125,13 +122,30 @@ export class Card extends HTMLElement {
     }
 
     //auto render
-    connectedCallback() {
-        if (!this._rendered) {
-            this.render();
-            this._rendered = true;
-            console.log('Card rendered:', this.name);
+connectedCallback() {
+    if (!this._rendered) {
+        this.render();
+        this._rendered = true;
+        // Only load and adopt the stylesheet in the browser with fetch and CSSStyleSheet support
+        if (
+            typeof window !== 'undefined' &&
+            'CSSStyleSheet' in window &&
+            typeof window.fetch === 'function' &&
+            !cardSheet
+        ) {
+            cardSheet = new CSSStyleSheet();
+            window.fetch(new URL('../styles/card.css', import.meta.url))
+                .then(res => res.text())
+                .then(css => {
+                    cardSheet.replaceSync(css);
+                    this.shadowRoot.adoptedStyleSheets = [cardSheet];
+                });
+        } else if (cardSheet) {
+            this.shadowRoot.adoptedStyleSheets = [cardSheet];
         }
+        console.log('Card rendered:', this.name);
     }
+}
 
     /**
      *

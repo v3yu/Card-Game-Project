@@ -1,47 +1,162 @@
 body, html {
   margin: 0;
   padding: 0;
-  height: 100vh;
-  background-color: black;
+  height: 100%;
   font-family: "Gabriela", serif;
 }
 
-#cutscene-bg {
+/*Style for panda*/
+#panda {
+	height:55vh;
+	width: 18vw;
+	position: absolute;
+	left: 30%;
+	bottom: 36%;
+  z-index: 4;
+  transition: opacity 3.5s ease;
+  opacity: 0;
+}
+
+/*Style for Powell*/
+#powell {
+	height:45vh;
+	width: 25vw;
+	position: absolute;
+	right: 10%;
+	bottom: 35%;
+  z-index: 4;
+  opacity: 1;
+}
+
+/*Style for evil Powell*/
+#evil-powell {
+	height:45vh;
+	width: 25vw;
+	position: absolute;
+	right: 10%;
+	bottom: 35%;
+  z-index: 4;
+  opacity: 0;
+}
+
+/*Style for the background*/
+#cutscene2-bg {
+  position: fixed;
+  display: block;
+  top: 5%;
+  left: 5%;
+  height: 90vh;
+  width: 90vw;
+  z-index: 2;
+  border-radius: 0.75rem;
+}
+
+/*Transition to black for 3 seconds*/
+#transition {
+  position: fixed;
+  opacity: 1;
+  width: 100%;
+  height: 100%; 
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: black;
+  z-index: 10; 
+  transition: opacity 3s ease;
+  pointer-events: none;
+}
+
+/*Border around the cutscene*/
+#borders {
   position: fixed;
   width: 100%;
-  height: 100%;
-  object-fit: cover;
-  z-index: 1;
+  height: 100%; 
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: black;
+  z-index: 1; 
 }
 
-#characters {
+/*Textbox 1*/
+.textbox_1 {
   position: fixed;
-  bottom: 25%;
-  left: 5%;
+  width: 85vw;
+  height: 25vh;
+  left: 8%;
+  bottom: 10%;
+  background-color: rgba(0, 0, 0, 0.85);
+  border-radius: .5rem;
   z-index: 2;
-  display: flex;
-  gap: 2rem;
-}
-
-#characters img {
-  height: 40vh;
-  object-fit: contain;
-}
-
-#dialogue-box {
-  position: fixed;
-  bottom: 5%;
-  width: 90%;
-  left: 5%;
-  background: rgba(0, 0, 0, 0.75);
-  color: white;
-  padding: 2rem;
-  z-index: 3;
+  pointer-events: none;
   cursor: pointer;
-  border-radius: 10px;
 }
 
-#character-name {
-  font-weight: bold;
-  margin-bottom: 0.5rem;
+/*Textbox 2*/
+.textbox_2 {
+  display: none;
+  position: fixed;
+  width: 85vw;
+  height: 25vh;
+  left: 8%;
+  bottom: 10%;
+  background-color: rgba(0, 0, 0, 0.85);
+  border-radius: .5rem;
+  z-index: 2;
+  pointer-events: none;
+  cursor: pointer;
+}
+
+/*Textbox 3*/
+.textbox_3 {
+  display: none;
+  position: fixed;
+  width: 85vw;
+  height: 25vh;
+  left: 8%;
+  bottom: 10%;
+  background-color: rgba(0, 0, 0, 0.85);
+  border-radius: .5rem;
+  z-index: 2;
+  pointer-events: none;
+  cursor: pointer;
+}
+
+/*Top text for character's name*/
+#name {
+  color: white;
+  margin-left: 1.5vw;
+  margin-top: 1.5vh;
+  font-size: 3vw;
+  user-select: none;
+
+  transition: opacity 5s ease;
+  opacity: 0;
+}
+
+/*Bottom text for dialogue*/
+#text {
+  color: white;
+  margin-left: 1.5vw;
+  font-size: 2vw;
+  line-height: 1.6;
+  user-select: none;
+
+  transition: opacity 5s ease;
+  opacity: 0;
+}
+
+/*Dots to let user proceed to next dialogue*/
+#dots {
+  position: absolute;
+  bottom: -1rem;
+  right: 2rem;
+  font-size: 2vw;
+  color: white;
+  user-select: none;
+
+  transition: opacity .5s ease-in;
+  opacity: 0;
 }

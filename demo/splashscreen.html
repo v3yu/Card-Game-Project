@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Custom Splash Screen</title>
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      background-color: #000;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      overflow: hidden;
+      font-family: Arial, sans-serif;
+      color: #fff;
+    }
+    #logo {
+      opacity: 0;
+      animation: fadeIn 2s ease-in-out forwards, twinkle 1.5s infinite ease-in-out 2s;
+    }
+    @keyframes fadeIn {
+      0% { opacity: 0; }
+      100% { opacity: 1; }
+    }
+    @keyframes twinkle {
+      0% { transform: scale(1); filter: brightness(1); }
+      50% { transform: scale(1.05); filter: brightness(1.2); }
+      100% { transform: scale(1); filter: brightness(1); }
+    }
+    .logo-img {
+      max-width: 300px;
+      max-height: 300px;
+    }
+    .loading-bar {
+      width: 300px;
+      height: 20px;
+      background-color: #222;
+      border: 2px solid #444;
+      border-radius: 10px;
+      overflow: hidden;
+      margin-top: 20px;
+      position: relative;
+    }
+    .loading-bar-fill {
+      width: 0;
+      height: 100%;
+      background: linear-gradient(90deg, #800080, #a100a1, #800080);
+      animation: load 3s ease-in-out forwards;
+    }
+    @keyframes load {
+      0% { width: 0; }
+      33% { width: 33%; }
+      66% { width: 66%; }
+      100% { width: 100%; }
+    }
+    .loading-text {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      font-size: 14px;
+      opacity: 1;
+      transition: opacity 0.5s;
+    }
+  </style>
+</head>
+<body>
+  <div id="logo">
+    <img src="/src/img/sprite.png" alt="Your Logo" class="logo-img">
+  </div>
+  <div class="loading-bar">
+    <div class="loading-bar-fill"></div>
+    <div class="loading-text" id="text">Loading Shaders</div>
+    <script>
+      const text = document.getElementById('text');
+      setTimeout(() => {
+        text.textContent = 'Loading Powell';
+      }, 1000);
+    </script>
+  </div>
+</body>
+</html>

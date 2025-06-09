@@ -13,8 +13,6 @@ import {Pile} from './Pile.js';
  */
 export class Player extends HTMLElement{
 
-
-
   style=`
         body {
             font-family: sans-serif;
@@ -89,11 +87,30 @@ export class Player extends HTMLElement{
         .effectIcon{
             width: 10%;
         }
+
+         @keyframes hitEffect {
+        0%, 100% {
+          transform: translateX(0);
+          filter: none;
+        }
+        25%, 75% {
+          transform: translateX(-8px);
+          filter: brightness(0.5) sepia(1) hue-rotate(-50deg) saturate(4);
+        }
+        50% {
+          transform: translateX(8px);
+          filter: brightness(0.5) sepia(1) hue-rotate(-50deg) saturate(4);
+        }
+      }
+
+      .hit {
+        animation: hitEffect 0.4s ease-in-out;
+      }
   `;
 
   template = (t)=>`
-   <img src="/src/img/sprite.png" alt="player" id="enemyImg">
-    <div class="block-row">
+    <img src="/src/img/sprite.png" alt="player" id="enemyImg">
+   <div class="block-row">
         <img src="/src/img/shieldicon.png" alt="block">
         <span id="block">${t.state.block}</span>
         <img src="/src/img/energyicon.png" alt="energy">
@@ -131,6 +148,7 @@ export class Player extends HTMLElement{
       currentHealth : maxHealth,
       currentEnergy : maxEnergy,
       block : 0,
+      hasAttackedThisTurn: false,
     }, {
       set: (target, prop, value) => {
         target[prop] = value;
@@ -162,6 +180,17 @@ export class Player extends HTMLElement{
   }
 
   /**
+   * Animates a hit effect on the given element or selector.
+   *
+   *
+   */
+  animateHit() {
+    const el = this.imgEl;
+    el.classList.add('hit');
+    el.addEventListener('animationend', () => el.classList.remove('hit'), { once: true });
+  }
+
+  /**
    * The character takes damage
    *
    * @param {number} amount - The amount of damage to take.
@@ -171,6 +200,10 @@ export class Player extends HTMLElement{
     const effectiveDamage = Math.max(amount - this.state.block, 0);
     this.state.block = Math.max(this.state.block - amount, 0);
     this.state.currentHealth -= effectiveDamage;
+
+    setTimeout(() => {
+        this.animateHit();
+    }, 0);
 
     if (this.state.currentHealth <= 0) {
       this.state.currentHealth = 0;
@@ -186,6 +219,7 @@ export class Player extends HTMLElement{
    */
   gainBlock(amount) {
     this.state.block += amount;
+    //
   }
 
   /**
@@ -198,9 +232,8 @@ export class Player extends HTMLElement{
     this.state.currentHealth = Math.min(this.state.currentHealth + amount, this.state.maxHealth);
   }
 
-
   die() {
-    // TODO: Implement death logic (e.g. remove from battle, trigger animation, etc.)
+    location.href = '/Card-Game-Project/src/endscreen/index.html';
   }
 
   /**
@@ -212,18 +245,18 @@ export class Player extends HTMLElement{
    * @returns {boolean} - Returns true if the energy was successfully spent, false if not enough energy is available.
    */
   spendEnergy(amount) {
-    console.group(`🪙 Spending ${amount} energy`);
-    console.log('Before spend:', this.state.currentEnergy);
-    console.trace();  // 打印调用栈
     const nowEnergy = this.state.currentEnergy - amount;
     if (nowEnergy < 0) {
-      console.groupEnd();
       return false;
     }
     this.state.currentEnergy = nowEnergy;
-    console.log(' After spend:', this.state.currentEnergy);
-    console.groupEnd();
     return true;
+  }
+
+  gainEnergy(amount) {
+
+    // Gain energy, but not exceeding maxEnergy
+    this.state.currentEnergy = Math.min(this.state.currentEnergy + amount, this.state.maxEnergy);
   }
 
 
@@ -255,7 +288,7 @@ export class Player extends HTMLElement{
   //
   // }
 
-
+  
 
   /**
    * Shuffle the deck
@@ -292,7 +325,8 @@ export class Player extends HTMLElement{
     // Should call the specific card’s own card.play,
     // then this.removeCard(card)
     try{
-      if(!this.spendEnergy(card.cost)) throw new Error('you don\'t have enough energy');
+      if(!this.spendEnergy(card.cost)) throw new Error('You don\'t have enough energy!');
+      this.state.hasAttackedThisTurn = true;
       card.play(target);
       this.discardCard(card);
     }
@@ -334,12 +368,15 @@ export class Player extends HTMLElement{
    * @returns {void}
    */
   render(){
-    this.shadowRoot.querySelector('.player-ui').innerHTML=this.template(this);
-    this.shadowRoot.querySelector( '.hp-bar').style.width = `${this.state.currentHealth/this.state.maxHealth*100}%`;
+    this.shadowRoot.querySelector('.player-ui').innerHTML = this.template(this);
+    this.shadowRoot.querySelector('.hp-bar').style.width = `${this.state.currentHealth / this.state.maxHealth * 100}%`;
+    
+    this.imgEl = this.shadowRoot.querySelector('#enemyImg');
   }
 
-  connectedCallback(){
+  connectedCallback() {
     this.render();
+    this.imgEl = this.shadowRoot.querySelector('#enemyImg');
   }
 
 }

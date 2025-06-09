@@ -6,11 +6,14 @@ import {Player} from './Player.js';
 export class Enemy extends HTMLElement{
 
    template = (t)=> `
-      <img src="${t.Img}" alt="enemy" id="enemyImg">
-      <div class="hp-bar-container">
-           <div class="hp-text">${t.HP}/${t.maxHP}</div>
-          <div class="hp-bar"></div>
-      </div>
+    <img src="${t.Img}" alt="enemy" id="enemyImg">
+  <div class="hp-bar-container">
+    <div class="hp-text">${t.HP}/${t.maxHP}</div>
+    <div class="hp-bar"></div>
+  </div>
+  <div class="attack-dialog hidden">
+    <p></p>
+  </div>
    `;
   /**
    * css style of enemy
@@ -20,22 +23,28 @@ export class Enemy extends HTMLElement{
   style = `
   
         .enemy-ui {
-            width: 300px;
-            padding: 10px;
-        }
+    position: relative; 
+    width: 300px;
+    padding: 10px;
+  }
 
-        .hp-bar-container {
-            position: relative;
-            height: 24px;
-            border: 1px solid #aaa;
-            border-radius: 6px;
-            background-color: #ddd;
-            overflow: hidden;
-        }
-        #enemyImg{
-            width: 100%;
-            align-items: center;
-        }
+  #enemyImg {
+    width: 100%;
+    display: block;
+  }
+
+  .hp-bar-container {
+    position: absolute; 
+    bottom: 0.5rem;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 300px;
+    height: 24px;
+    border: 1px solid #aaa;
+    border-radius: 6px;
+    background-color: #ddd;
+    overflow: hidden;
+  }
 
         .hp-bar {
             height: 100%;
@@ -59,6 +68,49 @@ export class Enemy extends HTMLElement{
             text-shadow: 1px 1px #fff;
             pointer-events: none;
         }
+        
+        .attack-dialog {
+          position: absolute;
+          top: -20%;
+          left: -20%;
+          transform: translate(10%, -10%);
+          padding: 0.5rem 1rem;
+          background: rgba(0, 0, 0, 0.8);
+          color: #fff;
+          border-radius: 0.25rem;
+          opacity: 0;
+          pointer-events: none;
+          transition: opacity 0.2s ease, transform 0.2s ease;
+        }
+      
+        .attack-dialog.hidden {
+          display: none;
+        }
+      
+        .attack-dialog.show {
+          display: block;
+          opacity: 1;
+          transform: translate(20%, -20%);
+        }
+        
+        @keyframes hitEffect {
+        0%, 100% {
+          transform: translateX(0);
+          filter: none;
+        }
+        25%, 75% {
+          transform: translateX(-8px);
+          filter: brightness(0.5) sepia(1) hue-rotate(-50deg) saturate(4);
+        }
+        50% {
+          transform: translateX(8px);
+          filter: brightness(0.5) sepia(1) hue-rotate(-50deg) saturate(4);
+        }
+      }
+
+      .hit {
+        animation: hitEffect 0.4s ease-in-out;
+      }
   `;
 
   /**
@@ -98,6 +150,18 @@ export class Enemy extends HTMLElement{
   }
 
   /**
+   * Animates a hit effect on the given element or selector.
+   *
+   *
+   */
+  animateHit() {
+    const el = this.shadowRoot.querySelector('#enemyImg');
+    el.classList.add('hit');
+    el.addEventListener('animationend', () => el.classList.remove('hit'), { once: true });
+  }
+
+
+  /**
    *  Take damage
    *
    * @param {number} damage -  The amount of damage to take
@@ -106,6 +170,9 @@ export class Enemy extends HTMLElement{
     this.HP = Math.max(this.HP - damage, 0);
     this.shadowRoot.querySelector( '.hp-bar').style.width = `${this.HP/this.maxHP*100}%`;
     this.shadowRoot.querySelector( '.hp-text').innerText = `${this.HP}/${this.maxHP}`;
+    setTimeout(() => {
+        this.animateHit();
+    }, 0);
     if(this.HP===0){
       this.die();
     }
@@ -115,8 +182,7 @@ export class Enemy extends HTMLElement{
    *  Die, direct to victorious page
    */
   die(){
-    // TODO use app.js to control it
-     console.log(this.name + ' has died.');
+    location.href = '/Card-Game-Project/src/endscreen/index.html';
   }
 
    /**
@@ -148,8 +214,9 @@ export class Enemy extends HTMLElement{
     this.shadowRoot.append(this.enemyUI);
   }
 
-  connectedCallback(){
+  connectedCallback() {
     this.render();
+    this.imgEl = this.shadowRoot.querySelector('#powellImg');
   }
 }
 
