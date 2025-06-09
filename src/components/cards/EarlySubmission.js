@@ -18,7 +18,7 @@ class EarlySubmission extends Card {
      * @param {object} player - The player receiving the effect.
      */
   play(player) {
-    player.applyEffect('Energy Boost', { energyGainNextTurn: 1 });
+    player.gainEnergy(1);
   }
 }
 if (!customElements.get('early-submission')) {

@@ -238,6 +238,12 @@ export class Player extends HTMLElement{
     return true;
   }
 
+  gainEnergy(amount) {
+
+    // Gain energy, but not exceeding maxEnergy
+    this.state.currentEnergy = Math.min(this.state.currentEnergy + amount, this.state.maxEnergy);
+  }
+
 
   /**
    * Reset energy to MaxEnergy

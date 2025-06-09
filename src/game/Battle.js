@@ -48,7 +48,7 @@ export class Battle {
       const prevHP = this.enemy.HP;
 
       // Determine target based on card type
-      if (card.type === 'heal' || card.type === 'defense') {
+      if (card.type === 'heal' || card.type === 'defense' || card.type === 'buff' || card.type === 'support') {
         this.player.playCard(card, this.player);
       } else if (card.type === 'attack') {
         this.player.playCard(card, this.enemy);

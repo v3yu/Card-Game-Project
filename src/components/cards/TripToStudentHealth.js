@@ -18,9 +18,6 @@ class TripToStudentHealth extends Card {
    * @param {object} player - The player receiving the effect.
    */
 play(player) {
-  console.log('player:', player);
-  console.log('player.heal:', player.heal);
-  console.log('player.gainBlock:', player.gainBlock);
   player.heal(2);
   player.gainBlock(2);
 }
