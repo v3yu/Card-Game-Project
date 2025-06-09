@@ -3,10 +3,10 @@ document.getElementById('play').addEventListener('click', loadStory);
 //Audio files
 const audioElem1 = document.getElementById('hidden');
 audioElem1.src = 'assets/soundtrack.mp3';
-const audioElem2 = document.getElementById('button-fx1')
-audioElem2.src = 'assets/button-fx1.mp3'
-const audioElem3 = document.getElementById('button-fx2')
-audioElem3.src = 'assets/button-fx2.mp3'
+const audioElem2 = document.getElementById('button-fx1');
+audioElem2.src = 'assets/button-fx1.mp3';
+const audioElem3 = document.getElementById('button-fx2');
+audioElem3.src = 'assets/button-fx2.mp3';
 
 /**
  *Play button fades into the cutscenes
