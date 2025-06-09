@@ -74,7 +74,7 @@ function loadBattle() {
   //Fade into black for 3 seconds
 	setTimeout(() => {
   	console.log("Delayed for 3 second.");
-		location.href="../endscreen/index.html";
+		location.href="../../demo/cardtest.html";
 	}, 3000);
 }
 
