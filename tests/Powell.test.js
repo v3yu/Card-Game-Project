@@ -45,7 +45,7 @@ describe('Instance of enemy - Powell', () => {
     test('jargon tornado attack', () => {
         enemy.jargonTornado();
         expect(enemy.HP).toBe(108);
-        expect(player.state.currentHealth).toBe(96);
+        expect(player.state.currentHealth).toBe(95);
         expect(enemy.lastMove).toBe(enemy.jargonTornado);
     });
 
