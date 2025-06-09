@@ -12,6 +12,10 @@ style.textContent = '';
 
 document.head.appendChild(style);
 
+//Music for battle
+const audioElem = new Audio('../audio/battle-music.mp3');
+audioElem.loop = true;
+
 /**
  * Animates a hit effect on the given element or selector.
  *
@@ -85,6 +89,8 @@ export class Battle {
     * @returns {void}
     */
   startBattle() {
+    audioElem.play();
+
     document.querySelector('.player .character-container').append(this.player);
     document.querySelector('.enemies .character-container').append(this.enemy);
     document.querySelector('.hand-area').append(this.player.hand);
