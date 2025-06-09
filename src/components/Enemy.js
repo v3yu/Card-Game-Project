@@ -46,48 +46,71 @@ export class Enemy extends HTMLElement{
     overflow: hidden;
   }
 
-  .hp-bar {
-    height: 100%;
-    width: 100%;
-    background: linear-gradient(to right, #aef, #5cf);
-    transition: width 0.3s ease;
-  }
+        .hp-bar {
+            height: 100%;
+            width: 100%;
+            background: linear-gradient(to right, #aef, #5cf);
+            transition: width 0.3s ease;
+        }
+        
+        
+         .hp-text {
+            position: absolute;
+            top: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            color: #000;
+            text-shadow: 1px 1px #fff;
+            pointer-events: none;
+        }
+        
+        .attack-dialog {
+          position: absolute;
+          top: -20%;
+          left: -20%;
+          transform: translate(10%, -10%);
+          padding: 0.5rem 1rem;
+          background: rgba(0, 0, 0, 0.8);
+          color: #fff;
+          border-radius: 0.25rem;
+          opacity: 0;
+          pointer-events: none;
+          transition: opacity 0.2s ease, transform 0.2s ease;
+        }
+      
+        .attack-dialog.hidden {
+          display: none;
+        }
+      
+        .attack-dialog.show {
+          display: block;
+          opacity: 1;
+          transform: translate(20%, -20%);
+        }
+        
+        @keyframes hitEffect {
+        0%, 100% {
+          transform: translateX(0);
+          filter: none;
+        }
+        25%, 75% {
+          transform: translateX(-8px);
+          filter: brightness(0.5) sepia(1) hue-rotate(-50deg) saturate(4);
+        }
+        50% {
+          transform: translateX(8px);
+          filter: brightness(0.5) sepia(1) hue-rotate(-50deg) saturate(4);
+        }
+      }
 
-  .hp-text {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    font-weight: bold;
-    color: #000;
-    text-shadow: 1px 1px #fff;
-    pointer-events: none;
-  }
-
-
-  .attack-dialog {
-    position: absolute;
-    top: -20%;
-    left: -20%;
-    transform: translate(10%, -10%);
-    padding: 0.5rem 1rem;
-    background: rgba(0, 0, 0, 0.8);
-    color: #fff;
-    border-radius: 0.25rem;
-    opacity: 0;
-    pointer-events: none;
-    transition: opacity 0.2s ease, transform 0.2s ease;
-  }
-
-  .attack-dialog.hidden {
-    display: none;
-  }
-
-  .attack-dialog.show {
-    display: block;
-    opacity: 1;
-    transform: translate(20%, -20%);
-  }
+      .hit {
+        animation: hitEffect 0.4s ease-in-out;
+      }
   `;
 
   /**
@@ -178,8 +201,9 @@ export class Enemy extends HTMLElement{
     this.shadowRoot.append(this.enemyUI);
   }
 
-  connectedCallback(){
+  connectedCallback() {
     this.render();
+    this.imgEl = this.shadowRoot.querySelector('#powellImg');
   }
 }
 
