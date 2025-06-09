@@ -54,7 +54,7 @@ export class Battle {
           animateHit(this.enemy.shadowRoot.querySelector('#enemyImg'));
         } else if (this.enemy.HP == 0) {
           console.log('loadStory triggered');
-          location.href='../endscreen/index.html';
+          location.href='../src/endscreen/index.html';
     }
 
 
@@ -158,7 +158,7 @@ export class Battle {
         animateHit(this.player.imgEl);
       } else if (this.player.state.currentHealth == 0) {
           console.log('loadStory triggered');
-          location.href='../endscreen/index.html';
+          location.href='../src/endscreen/index.html';
     }
 
       this.eventBus.publish('checkGameOver');
