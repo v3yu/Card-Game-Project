@@ -56,14 +56,6 @@ export class Powell extends Enemy {
 
   }
 
-  /**
-   * Applies block to this enemy
-   * 
-   * @param {number} value - block value
-   */
-  gainBlock(value) {
-    this.block = value;
-  }
 
   /**
    * Attack function, which takes attack buff into account

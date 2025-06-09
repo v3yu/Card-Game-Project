@@ -142,21 +142,16 @@ export class Battle {
    */
   async enemyAction() {
 
-    const prevHP = this.player.state.currentHealth;
-    this.enemy.takeTurn(
-      this.enemy.HP,
-      this.enemy.maxHP,
-      this.player.state.currentHealth,
-      this.player.state.maxHealth
-    );
-    setTimeout(() => {
-      if (this.player.state.currentHealth < prevHP) {
-        animateHit(this.player.imgEl);
-      }
 
-      this.eventBus.publish('checkGameOver');
-      this.eventBus.publish('endTurn');
-    }, 0);
+     await this.enemy.takeTurn(
+       this.enemy.HP,
+       this.enemy.maxHP,
+       this.player.state.currentHealth,
+       this.player.state.maxHealth
+     );
+
+    this.eventBus.publish('checkGameOver');
+    this.eventBus.publish('endTurn');
   }
 
 
