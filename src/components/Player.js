@@ -233,7 +233,7 @@ export class Player extends HTMLElement{
   }
 
   die() {
-    window.location.href ='';
+    location.href = '/Card-Game-Project/src/endscreen/index.html';
   }
 
   /**
