@@ -1,32 +1,31 @@
-const lines = [
-  {
-    name: 'Main Character',
-    text: 'I finished studying... I formed, stormed, normed, performed, and adjourned these past 10 weeks of my training. I am now the 10x Developer that I’ve dreamed to be.'
-  },
-  {
-    name: 'Main Character',
-    text: 'I am ready to face him.'
-  }
-];
+let img1 = document.getElementById('cutscene1-bg');
+let img2 = document.getElementById('cutscene2-bg');
 
-let currentLine = 0;
+
 
 /**
  *
  */
-function showLine() {
-  const line = lines[currentLine];
-  document.getElementById('character-name').textContent = line.name;
-  document.getElementById('dialogue-text').textContent = line.text;
-
-  currentLine++;
-
-  if (currentLine >= lines.length) {
-    setTimeout(() => {
-      location.href = '../cutscene2/index.html';
-    }, 1000);
-  }
+function loadImg2() {
+  img1.style.display = 'none';
+  img2.style.display = 'block';
 }
 
-document.getElementById('dialogue-box').addEventListener('click', showLine);
-showLine();
+img1.addEventListener('click', loadImg2);
+
+
+/**
+ *
+ */
+function loadNextChapter() {
+  console.log('loadNextChapter triggered');
+  document.getElementById('transition').style.opacity = 1;
+	setTimeout(() => {
+
+
+  console.log('Delayed for 3 second.');
+  location.href='../cutscene2/index.html';
+	}, 3000);
+}
+
+img2.addEventListener('click', loadNextChapter);

@@ -234,4 +234,35 @@ body {
     margin-top: 6px;
   }
 
-  
+.turn-banner {
+  display: none;
+  height: 10vh;
+  width: 0;
+  padding: 1%;
+  position: fixed;
+  top: 40px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: #0000007b;
+  color: #fff;
+  font-size: 2rem;
+  z-index: 1000;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.2);
+  text-align: center;
+  pointer-events: none;
+  opacity: 0;
+  transition:
+    width 0.5s cubic-bezier(0.4, 0, 0.2, 1),
+    opacity 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.turn-banner.active {
+  width: 100%;
+  opacity: 1;
+}
+
+.turn-banner.fade-out {
+  width:100%;
+  opacity: 0;
+  /* width remains at 100% during fade out */
+}

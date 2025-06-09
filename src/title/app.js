@@ -7,8 +7,8 @@ function loadStory() {
   console.log('loadStory triggered');
   document.getElementById('transition').style.opacity = 1;
 	setTimeout(() => {
-  console.log('Delayed for 3 second.');
-  location.href='../cutscene1/index.html';
+    console.log('Delayed for 3 second.');
+    location.href='../cutscene1/index.html';
 	}, 3000);
 }
 

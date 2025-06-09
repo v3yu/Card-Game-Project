@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>JSDoc: Source: components/cards/InternshipBombard.js</title>
+    <title>JSDoc: Source: components/UIManager.js</title>
 
     <script src="scripts/prettify/prettify.js"> </script>
     <script src="scripts/prettify/lang-css.js"> </script>
@@ -17,7 +17,7 @@
 
 <div id="main">
 
-    <h1 class="page-title">Source: components/cards/InternshipBombard.js</h1>
+    <h1 class="page-title">Source: components/UIManager.js</h1>
 
     
 
@@ -26,34 +26,34 @@
     
     <section>
         <article>
-            <pre class="prettyprint source linenums"><code>import Card from '../Card.js';
+            <pre class="prettyprint source linenums"><code>/**
+ * Locks the UI while `fn` runs (typically for an animation) and then unlocks it once it’s finished.
+ *
+ * @param {function(): Promise} fn - A function that returns a Promise
+ */
+export async function lockUIDuring(fn) {
+  // Inject no-interaction style once
+  if (!document.getElementById('no-interaction-style')) {
+    const styleEl = document.createElement('style');
+    styleEl.id = 'no-interaction-style';
+    styleEl.textContent = `
+      .no-interaction,
+      .no-interaction * {
+        pointer-events: none !important;
+      }
+    `;
+    document.head.appendChild(styleEl);
+  }
 
-
-class InternshipBombard extends Card {
-    constructor() {
-        super({
-            name: 'Internship Application Bombardment',
-            type: 'attack',
-            cost: 1,
-            description: 'You send your resume to 60 companies. 0 of them got back to you.',
-            effect: 'Deal 2 damage to all enemies.',
-            image: '/src/img/InternshipBombard.png',
-        });
-    }
-    /**
-     * @param {object[]} enemies - Array of target enemies.
-     */
-    play(enemies) {
-        enemies.forEach(enemy => {
-            enemy.takeDamage(2);
-        });
-    }
-}
-if (!customElements.get('internship-bombard')) {
-    customElements.define('internship-bombard', InternshipBombard);
-}
-
-export {InternshipBombard};</code></pre>
+  // Add class to disable all pointer events
+  document.body.classList.add('no-interaction');
+  try {
+    await fn();
+  } finally {
+    // Remove class to re-enable pointer events
+    document.body.classList.remove('no-interaction');
+  }
+}</code></pre>
         </article>
     </section>
 

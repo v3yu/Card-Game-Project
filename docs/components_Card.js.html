@@ -26,7 +26,10 @@
     
     <section>
         <article>
-            <pre class="prettyprint source linenums"><code>/**
+            <pre class="prettyprint source linenums"><code>//create shylesheet for card
+let cardSheet = null;
+
+/**
  * base card class
  *
  * @class
@@ -57,6 +60,11 @@ export class Card extends HTMLElement {
         this.div = document.createElement('div');
         // const style = document.createElement('style');
         // style.textContent = ``;
+
+        //adopt stylesheet for stable cards display
+               if (cardSheet) {
+            this.shadowRoot.adoptedStyleSheets = [cardSheet];
+        }
 
         this.div.className = 'card';
 
@@ -92,7 +100,6 @@ export class Card extends HTMLElement {
         //         &lt;footer class="description">${this.description}&lt;/footer>
         // `;
         this.div.innerHTML = `
-            &lt;link href="/src/styles/card.css" rel="stylesheet">
             &lt;div class="card-banner">${this.name}&lt;/div>
             &lt;div class="card-cost">${this.cost}&lt;/div>
             &lt;img class="card-image" src="${this.image}" alt="${this.name}"/>
@@ -105,14 +112,16 @@ export class Card extends HTMLElement {
         cardTypeBtn?.addEventListener('click', (e) => {
             e.stopPropagation();
             const isSelected = this.div.classList.contains('selected');
+            //if card already selected, deselect it
             if (isSelected) {
                 this.div.classList.remove('selected');
                 cardTypeBtn.classList.remove('selected');
-            } else {
-                // Deselect all cards and buttons
-                const handElement = document.querySelector('.cards-area cards-element');
+            } 
+            // if not selected, deselect all other cards and select this one
+            else {
+                const handElement = document.querySelector('.hand-area hand-element');
                 if (handElement &amp;&amp; handElement.shadowRoot) {
-                    // Find the handArea container inside the shadow root
+                    // find the handArea container inside the shadow root
                     const handAreaDiv = handElement.shadowRoot.querySelector('.handArea');
                     if (handAreaDiv) {
                         // get all direct children (card custom elements)
@@ -128,7 +137,7 @@ export class Card extends HTMLElement {
                         });
                     }
                 }
-                // Select this card
+                // select this card
                 this.div.classList.add('selected');
                 cardTypeBtn.classList.add('selected');
             }
@@ -153,13 +162,30 @@ export class Card extends HTMLElement {
     }
 
     //auto render
-    connectedCallback() {
-        if (!this._rendered) {
-            this.render();
-            this._rendered = true;
-            console.log('Card rendered:', this.name);
+connectedCallback() {
+    if (!this._rendered) {
+        this.render();
+        this._rendered = true;
+        // Only load and adopt the stylesheet in the browser with fetch and CSSStyleSheet support
+        if (
+            typeof window !== 'undefined' &amp;&amp;
+            'CSSStyleSheet' in window &amp;&amp;
+            typeof window.fetch === 'function' &amp;&amp;
+            !cardSheet
+        ) {
+            cardSheet = new CSSStyleSheet();
+            window.fetch(new URL('../styles/card.css', import.meta.url))
+                .then(res => res.text())
+                .then(css => {
+                    cardSheet.replaceSync(css);
+                    this.shadowRoot.adoptedStyleSheets = [cardSheet];
+                });
+        } else if (cardSheet) {
+            this.shadowRoot.adoptedStyleSheets = [cardSheet];
         }
+        console.log('Card rendered:', this.name);
     }
+}
 
     /**
      *
@@ -188,13 +214,13 @@ export default Card;</code></pre>
 </div>
 
 <nav>
-    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="Battle_Battle.html">Battle</a></li><li><a href="Card.html">Card</a></li><li><a href="Crad.html">Crad</a></li><li><a href="Deck.html">Deck</a></li><li><a href="Discard.html">Discard</a></li><li><a href="Enemy.html">Enemy</a></li><li><a href="Hand.html">Hand</a></li><li><a href="Pile.html">Pile</a></li><li><a href="Pile_Pile.html">Pile</a></li><li><a href="Player.html">Player</a></li><li><a href="Player_Player.html">Player</a></li><li><a href="Powell_Powell.html">Powell</a></li></ul><h3>Global</h3><ul><li><a href="global.html#deletePlayer">deletePlayer</a></li><li><a href="global.html#dimScreen">dimScreen</a></li><li><a href="global.html#endTurn">endTurn</a></li><li><a href="global.html#getPlayer">getPlayer</a></li><li><a href="global.html#handlePlayerAction">handlePlayerAction</a></li><li><a href="global.html#hideSettings">hideSettings</a></li><li><a href="global.html#hideTutorial">hideTutorial</a></li><li><a href="global.html#hideVolume">hideVolume</a></li><li><a href="global.html#isPlayerDead">isPlayerDead</a></li><li><a href="global.html#loadStory">loadStory</a></li><li><a href="global.html#showLine">showLine</a></li><li><a href="global.html#showSettings">showSettings</a></li><li><a href="global.html#showTutorial">showTutorial</a></li><li><a href="global.html#showVolume">showVolume</a></li><li><a href="global.html#shuffle">shuffle</a></li><li><a href="global.html#spawnPlayer">spawnPlayer</a></li><li><a href="global.html#startTurn">startTurn</a></li><li><a href="global.html#unDimScreen">unDimScreen</a></li></ul>
+    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="Battle_Battle.html">Battle</a></li><li><a href="Card.html">Card</a></li><li><a href="Crad.html">Crad</a></li><li><a href="Deck.html">Deck</a></li><li><a href="Discard.html">Discard</a></li><li><a href="Enemy.html">Enemy</a></li><li><a href="Hand.html">Hand</a></li><li><a href="Pile.html">Pile</a></li><li><a href="Pile_Pile.html">Pile</a></li><li><a href="Player.html">Player</a></li><li><a href="Player_Player.html">Player</a></li><li><a href="Powell_Powell.html">Powell</a></li></ul><h3>Global</h3><ul><li><a href="global.html#animateHit">animateHit</a></li><li><a href="global.html#deletePlayer">deletePlayer</a></li><li><a href="global.html#dimScreen">dimScreen</a></li><li><a href="global.html#endTurn">endTurn</a></li><li><a href="global.html#getPlayer">getPlayer</a></li><li><a href="global.html#handlePlayerAction">handlePlayerAction</a></li><li><a href="global.html#hideSettings">hideSettings</a></li><li><a href="global.html#hideTutorial">hideTutorial</a></li><li><a href="global.html#hideVolume">hideVolume</a></li><li><a href="global.html#isPlayerDead">isPlayerDead</a></li><li><a href="global.html#loadBattle">loadBattle</a></li><li><a href="global.html#loadImg2">loadImg2</a></li><li><a href="global.html#loadImg3">loadImg3</a></li><li><a href="global.html#loadNextChapter">loadNextChapter</a></li><li><a href="global.html#loadStory">loadStory</a></li><li><a href="global.html#lockUIDuring">lockUIDuring</a></li><li><a href="global.html#showSettings">showSettings</a></li><li><a href="global.html#showTutorial">showTutorial</a></li><li><a href="global.html#showVolume">showVolume</a></li><li><a href="global.html#shuffle">shuffle</a></li><li><a href="global.html#spawnPlayer">spawnPlayer</a></li><li><a href="global.html#startTurn">startTurn</a></li><li><a href="global.html#unDimScreen">unDimScreen</a></li></ul>
 </nav>
 
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 4.0.4</a> on Mon Jun 09 2025 00:24:25 GMT+0000 (Coordinated Universal Time)
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 4.0.4</a> on Mon Jun 09 2025 00:49:13 GMT+0000 (Coordinated Universal Time)
 </footer>
 
 <script> prettyPrint(); </script>
