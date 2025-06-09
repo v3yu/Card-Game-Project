@@ -149,6 +149,17 @@ export class Enemy extends HTMLElement{
 
   }
 
+  /**
+   * Animates a hit effect on the given element or selector.
+   *
+   *
+   */
+  animateHit() {
+    const el = this.shadowRoot.querySelector('#enemyImg');
+    el.classList.add('hit');
+    el.addEventListener('animationend', () => el.classList.remove('hit'), { once: true });
+  }
+
 
   /**
    *  Take damage
@@ -159,6 +170,9 @@ export class Enemy extends HTMLElement{
     this.HP = Math.max(this.HP - damage, 0);
     this.shadowRoot.querySelector( '.hp-bar').style.width = `${this.HP/this.maxHP*100}%`;
     this.shadowRoot.querySelector( '.hp-text').innerText = `${this.HP}/${this.maxHP}`;
+    setTimeout(() => {
+        this.animateHit();
+    }, 0);
     if(this.HP===0){
       this.die();
     }

@@ -180,6 +180,17 @@ export class Player extends HTMLElement{
   }
 
   /**
+   * Animates a hit effect on the given element or selector.
+   *
+   *
+   */
+  animateHit() {
+    const el = this.imgEl;
+    el.classList.add('hit');
+    el.addEventListener('animationend', () => el.classList.remove('hit'), { once: true });
+  }
+
+  /**
    * The character takes damage
    *
    * @param {number} amount - The amount of damage to take.
@@ -189,6 +200,10 @@ export class Player extends HTMLElement{
     const effectiveDamage = Math.max(amount - this.state.block, 0);
     this.state.block = Math.max(this.state.block - amount, 0);
     this.state.currentHealth -= effectiveDamage;
+
+    setTimeout(() => {
+        this.animateHit();
+    }, 0);
 
     if (this.state.currentHealth <= 0) {
       this.state.currentHealth = 0;
@@ -218,7 +233,7 @@ export class Player extends HTMLElement{
   }
 
   die() {
-    // TODO: Implement death logic (e.g. remove from battle, trigger animation, etc.)
+    window.location.href ='';
   }
 
   /**
