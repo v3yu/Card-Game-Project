@@ -7,8 +7,8 @@ class SpaghettiCodeShield extends Card {
             name: 'Spaghetti Code Shield',
             type: 'defense',
             cost: 1,
-            description: 'You disappeared into callback hell, 7 nested if-loops deep. No one can find you.',
-            effect: '+5 Block. If you didn’t attack this turn, block +1 more.',
+            description: 'You vanished into callback hell. 7 nested if-loops deep. Untraceable.',
+            effect: 'Block 5. +1 if you didn’t attack.',
             image: '/src/img/SpaghettiCodeShield.png',
         });
     }

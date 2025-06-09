@@ -8,7 +8,7 @@ class ScrollRUCSD extends Card {
       type: 'draw',
       cost: 1,
       description: 'Memes > Midterms.',
-      effect: 'Draw 2 cards. Gain \'Sleep Deprived\' status for 3 turns.',
+      effect: 'Draw 2. Gain \'Sleep Deprived\' status for 3 turns.',
       image: '/src/img/ScrollRUCSD.png',
     });
   }

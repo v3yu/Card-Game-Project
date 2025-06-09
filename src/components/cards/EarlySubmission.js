@@ -9,7 +9,7 @@ class EarlySubmission extends Card {
         type: 'buff',
         cost: 0,
         description: 'You actually turned something in early. Historic moment.',
-        effect: 'Next trun: gain +1 energy.',
+        effect: 'Gain +1 energy.',
         image: '/src/img/EarlySubmission.png',
         });
     }
