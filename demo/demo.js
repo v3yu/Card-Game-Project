@@ -12,7 +12,7 @@ import {Battle} from '../src/game/Battle.js';
 const deck = new Deck([new CrashOut(),new CrashOut(),new CrashOut(),new CrashOut(),new CrashOut(),new CrashOut(),new CrashOut(),new CrashOut(),new CrashOut(),new CrashOut(),new CrashOut(),new CrashOut(),new CrashOut(),new CrashOut(),new CrashOut(),new CrashOut(),new CrashOut()]);
 
 console.log(deck.getCards());
-const player = new Player(10000, 3,deck,new Hand(),new Discard());
+const player = new Player(100, 3,deck,new Hand(),new Discard());
 const powell = new Powell(player);
 
 const battle = new Battle(player, powell);
