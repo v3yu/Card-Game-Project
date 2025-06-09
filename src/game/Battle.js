@@ -2,6 +2,9 @@
 // Refactored battle system using the EventBus for decoupled event handling
 import { EventBus } from './EventBus.js';
 import {isPlayerDead} from './PlayerManager.js';
+import DiscardModal from '../components/DiscardModal.js';
+import DeckModal from '../components/DeckModal.js';
+import {lockUIDuring} from '../components/UIManager.js';
 
 // Inject .hit animation styles directly from JavaScript
 const style = document.createElement('style');
@@ -11,7 +14,7 @@ document.head.appendChild(style);
 
 /**
  * Animates a hit effect on the given element or selector.
- * 
+ *
  * @param {string | Element} target - A CSS selector (string) or a DOM element.
  * @param el
  */
@@ -80,6 +83,34 @@ export class Battle {
     document.querySelector('.enemies .character-container').append(this.enemy);
     document.querySelector('.hand-area').append(this.player.hand);
     this.eventBus.publish('startTurn');
+
+
+    const discardButton = document.querySelector('.discard-button');
+    const discardModal = document.querySelector('.discard-modal');
+    const discardCardsDiv = document.getElementById('discard-cards');
+    const closeDiscardModal = document.querySelector('.close-discard-modal');
+
+    const deckButton = document.querySelector('.deck-button');
+    const deckModal = document.querySelector('.deck-modal');
+    const deckCardsDiv = document.getElementById('deck-cards');
+    const closeDeckModal = document.querySelector('.close-deck-modal');
+
+    /* eslint-disable no-unused-vars */
+    const discardModalInstance = new DiscardModal({
+      discardButton,
+      discardModal,
+      discardCardsDiv,
+      closeDiscardModal,
+      discardPile: this.player.discard
+    });
+
+    const deckModalInstance = new DeckModal({
+      deckButton,
+      deckModal,
+      deckCardsDiv,
+      closeDeckModal,
+      deck: this.player.deck
+    });
   }
 
    /**
@@ -106,14 +137,10 @@ export class Battle {
 
   }
 
-   /**
-    * Handles the enemy's turn logic.
-    *
-    * @returns {void}
-    */
-  enemyAction() {
-    const prevHP = this.player.state.currentHealth;
-
+  /**
+   * Enemy AI turn logic, then ends turn
+   */
+  async enemyAction() {
     this.enemy.takeTurn(
       this.enemy.HP,
       this.enemy.maxHP,
@@ -125,16 +152,19 @@ export class Battle {
       if (this.player.state.currentHealth < prevHP) {
         animateHit(this.player.imgEl);
       }
-      
+
       this.eventBus.publish('checkGameOver');
       this.eventBus.publish('endTurn');
     }, 0);
+    // check whether player is dead
+    this.eventBus.publish('checkGameOver');
+    this.eventBus.publish('endTurn');
   }
 
 
   /**
    * Internal handler for ending a turn: triggers effects, switches actor, and starts the next turn
-   * 
+   *
    * @returns {void}
    */
   handleTurnEnd() {
@@ -163,10 +193,10 @@ export class Battle {
 
   /**
    * Start-of-turn logic: trigger effects and delegate to appropriate actor
-   *   
+   *
    * @returns {void}
    */
-  startTurn() {
+  async startTurn() {
 
     if (this.battleOver) return;
 
@@ -174,9 +204,11 @@ export class Battle {
     // this.eventBus.publish('onTurnStart', { actor: this.currentActor });
 
     if (this.currentActor === 'player') {
+      await lockUIDuring(() => this.showBanner('Player turn', this.turnCount));
       this.waitForPlayerAction();
     } else {
-      this.enemyAction();
+      await lockUIDuring(() => this.showBanner('Enemy turn', this.turnCount));
+      await this.enemyAction();
     }
   }
 
@@ -200,9 +232,50 @@ export class Battle {
 
   /**
    * Clean up all event listeners (optional)
-   * 
+   *
    * @returns {void}
    */
+
+      /**Add commentMore actions
+   * Show a pop-up banner with a message and optional turn number
+   * @param {string} message
+   * @param {number} [turn]
+   */
+async showBanner(message, turn) {
+  return new Promise(resolve => {
+
+    const banner = document.querySelector('.turn-banner');
+    if (!banner){
+      resolve();
+      return;
+    }
+    banner.textContent = turn ? `${message} - Turn ${turn}` : message;
+    // Reset classes and display for animation replay
+    banner.classList.remove('active', 'fade-out');
+    banner.style.display = 'block';
+
+    // Force reflow to restart animation
+    void banner.offsetWidth;
+
+    // Start slide-in animation
+    banner.classList.add('active');
+
+    // After visible duration, start fade-out
+    setTimeout(() => {
+      banner.classList.remove('active');
+      banner.classList.add('fade-out');
+      // After fade-out transition, hide and reset
+      setTimeout(() => {
+        banner.style.display = 'none';
+        banner.classList.remove('fade-out');
+        resolve();
+      }, 500); // match fade-out transition duration
+    }, 1200);
+
+
+  });
+}
+
   destroy() {
     this.eventBus.unsubscribe('startTurn', this.startTurn);
     this.eventBus.unsubscribe('endTurn', this.handleTurnEnd);

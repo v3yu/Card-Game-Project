@@ -1,0 +1,57 @@
+  .close-deck-modal {
+      float: right;
+      width: 3vw;
+      height: 2vw;
+      background: linear-gradient(45deg, #4b0082, #800080);
+      border: none;
+      border-radius: 5vw;
+      color: rgb(255, 255, 255);
+      font-weight: bold;
+      cursor: pointer;
+      z-index: 5;
+  }
+
+  .deck-modal {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      background: rgba(0, 0, 0, 0.7);
+      z-index: 1000;
+      align-items: center;
+      justify-content: center;
+  }
+
+  #deck-modal-content {
+      padding: 20px;
+      border-radius: 10px;
+      max-width: 90vw;
+      max-height: 80vh;
+      overflow: auto;
+      color:white;
+  }
+
+  #deck-cards {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 10px;
+  }
+
+.deck-message {
+    position: fixed;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: flex-end;
+    font-size: 1.5vw;
+    text-align: center;
+    color: white;
+    z-index: 1100;
+    padding-bottom: 20px;
+    pointer-events: none;
+}

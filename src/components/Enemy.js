@@ -6,11 +6,14 @@ import {Player} from './Player.js';
 export class Enemy extends HTMLElement{
 
    template = (t)=> `
-      <img src="${t.Img}" alt="enemy" id="enemyImg">
-      <div class="hp-bar-container">
-           <div class="hp-text">${t.HP}/${t.maxHP}</div>
-          <div class="hp-bar"></div>
-      </div>
+    <img src="${t.Img}" alt="enemy" id="enemyImg">
+  <div class="hp-bar-container">
+    <div class="hp-text">${t.HP}/${t.maxHP}</div>
+    <div class="hp-bar"></div>
+  </div>
+  <div class="attack-dialog hidden">
+    <p></p>
+  </div>
    `;
   /**
    * css style of enemy
@@ -20,22 +23,28 @@ export class Enemy extends HTMLElement{
   style = `
   
         .enemy-ui {
-            width: 300px;
-            padding: 10px;
-        }
+    position: relative; 
+    width: 300px;
+    padding: 10px;
+  }
 
-        .hp-bar-container {
-            position: relative;
-            height: 24px;
-            border: 1px solid #aaa;
-            border-radius: 6px;
-            background-color: #ddd;
-            overflow: hidden;
-        }
-        #enemyImg{
-            width: 100%;
-            align-items: center;
-        }
+  #enemyImg {
+    width: 100%;
+    display: block;
+  }
+
+  .hp-bar-container {
+    position: absolute; 
+    bottom: 0.5rem;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 300px;
+    height: 24px;
+    border: 1px solid #aaa;
+    border-radius: 6px;
+    background-color: #ddd;
+    overflow: hidden;
+  }
 
         .hp-bar {
             height: 100%;
@@ -59,7 +68,31 @@ export class Enemy extends HTMLElement{
             text-shadow: 1px 1px #fff;
             pointer-events: none;
         }
-
+        
+        .attack-dialog {
+          position: absolute;
+          top: -20%;
+          left: -20%;
+          transform: translate(10%, -10%);
+          padding: 0.5rem 1rem;
+          background: rgba(0, 0, 0, 0.8);
+          color: #fff;
+          border-radius: 0.25rem;
+          opacity: 0;
+          pointer-events: none;
+          transition: opacity 0.2s ease, transform 0.2s ease;
+        }
+      
+        .attack-dialog.hidden {
+          display: none;
+        }
+      
+        .attack-dialog.show {
+          display: block;
+          opacity: 1;
+          transform: translate(20%, -20%);
+        }
+        
         @keyframes hitEffect {
         0%, 100% {
           transform: translateX(0);
@@ -78,7 +111,7 @@ export class Enemy extends HTMLElement{
       .hit {
         animation: hitEffect 0.4s ease-in-out;
       }
-    `;
+  `;
 
   /**
    * enemyUI
@@ -115,6 +148,7 @@ export class Enemy extends HTMLElement{
 
 
   }
+
 
   /**
    *  Take damage
