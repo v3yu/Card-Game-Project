@@ -5,11 +5,11 @@ import Card from '../Card.js';
 class StackOverflow extends Card {
   constructor() {
     super({
-      name: 'Steal Code From StackOverflow',
+      name: 'Ctrl+C from StackOverflow',
       type: 'attack',
       cost: 1,
-      description: 'Well, the user whose code you copied probably copied it from someone else too.',
-      effect: 'Deal 4 damage. Apply \'Shame\' (target loses 1 energy next turn).',
+      description: 'That code’s been copied 5 times before you.',
+      effect: 'Deal 4. Apply Shame (–1 energy)',
       image: '/src/img/StackOverflow.png',
     });
   }

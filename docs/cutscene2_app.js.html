@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>JSDoc: Class: Discard</title>
+    <title>JSDoc: Source: cutscene2/app.js</title>
 
     <script src="scripts/prettify/prettify.js"> </script>
     <script src="scripts/prettify/lang-css.js"> </script>
@@ -17,137 +17,75 @@
 
 <div id="main">
 
-    <h1 class="page-title">Class: Discard</h1>
+    <h1 class="page-title">Source: cutscene2/app.js</h1>
 
     
 
 
 
-
-<section>
-
-<header>
     
-        <h2><span class="attribs"><span class="type-signature"></span></span>Discard<span class="signature">()</span><span class="type-signature"></span></h2>
-        
-    
-</header>
-
-<article>
-    <div class="container-overview">
-    
-        
-
-    
-
-    
-    <h4 class="name" id="Discard"><span class="type-signature"></span>new Discard<span class="signature">()</span><span class="type-signature"></span></h4>
-    
-
-    
-
-
-
-<div class="description">
-    The player's discard feature, including visual components and logic
-</div>
-
-
-
-
-
-
-
-
-
-
-
-
-
-<dl class="details">
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-    <dt class="tag-source">Source:</dt>
-    <dd class="tag-source"><ul class="dummy"><li>
-        <a href="components_Discard.js.html">components/Discard.js</a>, <a href="components_Discard.js.html#line5">line 5</a>
-    </li></ul></dd>
-    
-
-    
-
-    
-
-    
-</dl>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-    
-    </div>
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-</article>
-
-</section>
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>const dialogue = [
+  {
+    name: 'Main Character',
+    text: 'Surrender yourself Powell. It\'s time to admit that I can use JavaScript Frameworks on my project.',
+    characters: [
+      { src: 'imgs/panda.png', alt: 'Panda' },
+      { src: 'imgs/powell-smile.png', alt: 'Professor Powell' }
+    ]
+  },
+  {
+    name: 'Professor Powell',
+    text: 'I will admit to that under one condition...',
+    characters: [
+      { src: 'imgs/panda.png', alt: 'Panda' },
+      { src: 'imgs/powell-smile.png', alt: 'Professor Powell' }
+    ]
+  },
+  {
+    name: 'Professor Powell',
+    text: 'If you can beat me in battle!!!!!!!!!!',
+    characters: [
+      { src: 'imgs/panda.png', alt: 'Panda' },
+      { src: 'imgs/powell-evil.png', alt: 'Evil Professor Powell' }
+    ]
+  }
+];
+
+let current = 0;
+
+/**
+ *
+ */
+function showLine() {
+  const line = dialogue[current];
+  document.getElementById('character-name').textContent = line.name;
+  document.getElementById('dialogue-text').textContent = line.text;
+
+  const charDiv = document.getElementById('characters');
+  charDiv.innerHTML = '';
+  line.characters.forEach(char => {
+    const img = document.createElement('img');
+    img.src = char.src;
+    img.alt = char.alt;
+    charDiv.appendChild(img);
+  });
+
+  current++;
+
+  if (current >= dialogue.length) {
+    setTimeout(() => {
+      alert('Cutscene complete! Transition to battle or game start.');
+    }, 1000);
+  }
+}
+
+document.getElementById('dialogue-box').addEventListener('click', showLine);
+showLine();
+</code></pre>
+        </article>
+    </section>
 
 
 
