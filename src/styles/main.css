@@ -135,6 +135,7 @@ body {
   z-index: 3;
   padding: 10px 0;
   align-items: center;
+  transform: translateX(-50%) scale(0.8);
 }
 
 .card {
