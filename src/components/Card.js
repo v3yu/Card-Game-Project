@@ -1,3 +1,6 @@
+//create shylesheet for card
+let cardSheet = null;
+
 /**
  * base card class
  *
@@ -30,6 +33,11 @@ export class Card extends HTMLElement {
         // const style = document.createElement('style');
         // style.textContent = ``;
 
+        //adopt stylesheet for stable cards display
+               if (cardSheet) {
+            this.shadowRoot.adoptedStyleSheets = [cardSheet];
+        }
+
         this.div.className = 'card';
 
         shadow.append(this.div);
@@ -50,7 +58,6 @@ export class Card extends HTMLElement {
      */
     render() {
         this.div.innerHTML = `
-            <link href="/src/styles/card.css" rel="stylesheet">
             <div class="card-banner">${this.name}</div>
             <div class="card-cost">${this.cost}</div>
             <img class="card-image" src="${this.image}" alt="${this.name}"/>
@@ -115,13 +122,30 @@ export class Card extends HTMLElement {
     }
 
     //auto render
-    connectedCallback() {
-        if (!this._rendered) {
-            this.render();
-            this._rendered = true;
-            console.log('Card rendered:', this.name);
+connectedCallback() {
+    if (!this._rendered) {
+        this.render();
+        this._rendered = true;
+        // Only load and adopt the stylesheet in the browser with fetch and CSSStyleSheet support
+        if (
+            typeof window !== 'undefined' &&
+            'CSSStyleSheet' in window &&
+            typeof window.fetch === 'function' &&
+            !cardSheet
+        ) {
+            cardSheet = new CSSStyleSheet();
+            window.fetch(new URL('../styles/card.css', import.meta.url))
+                .then(res => res.text())
+                .then(css => {
+                    cardSheet.replaceSync(css);
+                    this.shadowRoot.adoptedStyleSheets = [cardSheet];
+                });
+        } else if (cardSheet) {
+            this.shadowRoot.adoptedStyleSheets = [cardSheet];
         }
+        console.log('Card rendered:', this.name);
     }
+}
 
     /**
      *

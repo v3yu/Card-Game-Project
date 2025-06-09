@@ -13,8 +13,6 @@ import {Pile} from './Pile.js';
  */
 export class Player extends HTMLElement{
 
-
-
   style=`
         body {
             font-family: sans-serif;
@@ -89,11 +87,30 @@ export class Player extends HTMLElement{
         .effectIcon{
             width: 10%;
         }
+
+         @keyframes hitEffect {
+        0%, 100% {
+          transform: translateX(0);
+          filter: none;
+        }
+        25%, 75% {
+          transform: translateX(-8px);
+          filter: brightness(0.5) sepia(1) hue-rotate(-50deg) saturate(4);
+        }
+        50% {
+          transform: translateX(8px);
+          filter: brightness(0.5) sepia(1) hue-rotate(-50deg) saturate(4);
+        }
+      }
+
+      .hit {
+        animation: hitEffect 0.4s ease-in-out;
+      }
   `;
 
   template = (t)=>`
-   <img src="/src/img/sprite.png" alt="player" id="enemyImg">
-    <div class="block-row">
+    <img src="/src/img/sprite.png" alt="player" id="enemyImg">
+   <div class="block-row">
         <img src="/src/img/shieldicon.png" alt="block">
         <span id="block">${t.state.block}</span>
         <img src="/src/img/energyicon.png" alt="energy">
@@ -328,12 +345,15 @@ export class Player extends HTMLElement{
    * @returns {void}
    */
   render(){
-    this.shadowRoot.querySelector('.player-ui').innerHTML=this.template(this);
-    this.shadowRoot.querySelector( '.hp-bar').style.width = `${this.state.currentHealth/this.state.maxHealth*100}%`;
+    this.shadowRoot.querySelector('.player-ui').innerHTML = this.template(this);
+    this.shadowRoot.querySelector('.hp-bar').style.width = `${this.state.currentHealth / this.state.maxHealth * 100}%`;
+    
+    this.imgEl = this.shadowRoot.querySelector('#enemyImg');
   }
 
-  connectedCallback(){
+  connectedCallback() {
     this.render();
+    this.imgEl = this.shadowRoot.querySelector('#enemyImg');
   }
 
 }

@@ -4,7 +4,7 @@ import Card from '../Card.js';
 class InternshipBombard extends Card {
     constructor() {
         super({
-            name: 'Internship Application Bombardment',
+            name: 'Application Bombardment',
             type: 'attack',
             cost: 1,
             description: 'You send your resume to 60 companies. 0 of them got back to you.',

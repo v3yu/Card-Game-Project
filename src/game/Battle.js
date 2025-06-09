@@ -6,6 +6,24 @@ import DiscardModal from '../components/DiscardModal.js';
 import DeckModal from '../components/DeckModal.js';
 import {lockUIDuring} from '../components/UIManager.js';
 
+// Inject .hit animation styles directly from JavaScript
+const style = document.createElement('style');
+style.textContent = '';
+
+document.head.appendChild(style);
+
+/**
+ * Animates a hit effect on the given element or selector.
+ *
+ * @param {string | Element} target - A CSS selector (string) or a DOM element.
+ * @param el
+ */
+function animateHit(el) {
+  if (!el) return;
+  el.classList.add('hit');
+  el.addEventListener('animationend', () => el.classList.remove('hit'), { once: true });
+}
+
 export class Battle {
   /**
    * @param {Player} player - The player instance
@@ -19,14 +37,27 @@ export class Battle {
     this.turnCount = 1;
     this.currentActor = 'player';
     this.battleOver = false;
+    this.prevPlayerHP = this.player.HP;
+    this.prevEnemyHP = this.enemy.HP;
 
     // Subscribe internal handlers
     this.eventBus.subscribe('startTurn', () => this.startTurn());
     this.eventBus.subscribe('endTurn', () => this.handleTurnEnd());
     this.eventBus.subscribe('checkGameOver', ()=>this.checkGameOver());
     this.eventBus.subscribe('cardPlayed', ({ card }) => {
+      const prevHP = this.enemy.HP;
+
       this.player.playCard(card, this.enemy);
-      this.eventBus.publish('checkGameOver');
+
+      setTimeout(() => {
+        if (this.enemy.HP < prevHP) {
+          animateHit(this.enemy.shadowRoot.querySelector('#enemyImg'));
+        }
+
+        this.prevEnemyHP = this.enemy.HP;
+
+        this.eventBus.publish('checkGameOver');
+      }, 0);
     });
 
     this.onEndTurnClick = () => this.eventBus.publish('endTurn');
@@ -42,9 +73,11 @@ export class Battle {
 
   }
 
-  /**
-   * Begin the battle by rendering characters and starting the first turn
-   */
+   /**
+    * Starts the battle and initializes the UI.
+    *
+    * @returns {void}
+    */
   startBattle() {
     document.querySelector('.player .character-container').append(this.player);
     document.querySelector('.enemies .character-container').append(this.enemy);
@@ -56,7 +89,7 @@ export class Battle {
     const discardModal = document.querySelector('.discard-modal');
     const discardCardsDiv = document.getElementById('discard-cards');
     const closeDiscardModal = document.querySelector('.close-discard-modal');
-    
+
     const deckButton = document.querySelector('.deck-button');
     const deckModal = document.querySelector('.deck-modal');
     const deckCardsDiv = document.getElementById('deck-cards');
@@ -80,9 +113,11 @@ export class Battle {
     });
   }
 
-  /**
-   * Handle player action phase: draw cards, render cards, and attach listeners
-   */
+   /**
+    * Handles the player's turn logic.
+    *
+    * @returns {void}
+    */
   waitForPlayerAction() {
 
     console.log(this.player.deck.size()+this.player.hand.size()+this.player.discard.size()+this.player.tempDiscard.size());
@@ -106,14 +141,29 @@ export class Battle {
    * Enemy AI turn logic, then ends turn
    */
   async enemyAction() {
-    await this.enemy.takeTurn(this.enemy.HP, this.enemy.maxHP, this.player.state.HP, this.player.state.maxHP);
-    // check whether player is dead
-    this.eventBus.publish('checkGameOver');
-    this.eventBus.publish('endTurn');
+
+    const prevHP = this.player.state.currentHealth;
+    this.enemy.takeTurn(
+      this.enemy.HP,
+      this.enemy.maxHP,
+      this.player.state.currentHealth,
+      this.player.state.maxHealth
+    );
+    setTimeout(() => {
+      if (this.player.state.currentHealth < prevHP) {
+        animateHit(this.player.imgEl);
+      }
+
+      this.eventBus.publish('checkGameOver');
+      this.eventBus.publish('endTurn');
+    }, 0);
   }
+
 
   /**
    * Internal handler for ending a turn: triggers effects, switches actor, and starts the next turn
+   *
+   * @returns {void}
    */
   handleTurnEnd() {
     // Trigger end-of-turn effects
@@ -141,6 +191,8 @@ export class Battle {
 
   /**
    * Start-of-turn logic: trigger effects and delegate to appropriate actor
+   *
+   * @returns {void}
    */
   async startTurn() {
 
@@ -160,6 +212,8 @@ export class Battle {
 
   /**
    * if one of the player or enemy is dead, game over
+   *
+   * @returns {void}
    */
   checkGameOver() {
     if(isPlayerDead(this.player)){
@@ -176,6 +230,8 @@ export class Battle {
 
   /**
    * Clean up all event listeners (optional)
+   *
+   * @returns {void}
    */
 
       /**Add commentMore actions
@@ -223,6 +279,4 @@ async showBanner(message, turn) {
     this.eventBus.unsubscribe('endTurn', this.handleTurnEnd);
     this.eventBus.unsubscribe('cardPlayed', this.player.playCard);
   }
-
-
 }
