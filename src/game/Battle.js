@@ -141,13 +141,14 @@ export class Battle {
    * Enemy AI turn logic, then ends turn
    */
   async enemyAction() {
+
+    const prevHP = this.player.state.currentHealth;
     this.enemy.takeTurn(
       this.enemy.HP,
       this.enemy.maxHP,
       this.player.state.currentHealth,
       this.player.state.maxHealth
     );
-
     setTimeout(() => {
       if (this.player.state.currentHealth < prevHP) {
         animateHit(this.player.imgEl);
@@ -156,9 +157,6 @@ export class Battle {
       this.eventBus.publish('checkGameOver');
       this.eventBus.publish('endTurn');
     }, 0);
-    // check whether player is dead
-    this.eventBus.publish('checkGameOver');
-    this.eventBus.publish('endTurn');
   }
 
 
