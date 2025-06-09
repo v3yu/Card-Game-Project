@@ -8,7 +8,7 @@ class PullAllNighter extends Card {
             cost: 1,
             description: 'It\'s 3AM and the assignment\'s due at 8.',
             effect: 'Deal 4 damage. Take 1 damage yourself.',
-            image: '/src/img/PullAllNighter.png',
+            image: '../src/img/PullAllNighter.png',
         });
     }
 

@@ -109,11 +109,11 @@ export class Player extends HTMLElement{
   `;
 
   template = (t)=>`
-    <img src="/src/img/sprite.png" alt="player" id="enemyImg">
+    <img src="../src/img/sprite.png" alt="player" id="enemyImg">
    <div class="block-row">
-        <img src="/src/img/shieldicon.png" alt="block">
+        <img src="../src/img/shieldicon.png" alt="block">
         <span id="block">${t.state.block}</span>
-        <img src="/src/img/energyicon.png" alt="energy">
+        <img src="../src/img/energyicon.png" alt="energy">
         <span id="energy">${t.state.currentEnergy}/${t.state.maxEnergy}</span>
     </div>
     <div class="hp-bar-container">
@@ -122,8 +122,8 @@ export class Player extends HTMLElement{
     </div>
     <div class="effect-container">
 <!--  example  -->
-<!--        <img class="effectIcon" src="/src/img/attackUpIcon.png" alt="attackUp">-->
-<!--        <img class="effectIcon" src="/src/img/defenseDownIcon.png" alt="defenseDown">-->
+<!--        <img class="effectIcon" src="../src/img/attackUpIcon.png" alt="attackUp">-->
+<!--        <img class="effectIcon" src="../src/img/defenseDownIcon.png" alt="defenseDown">-->
     </div>
   `;
   /**

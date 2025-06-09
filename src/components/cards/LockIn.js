@@ -10,7 +10,7 @@ class LockIn extends Card {
             cost: 1, 
             description: 'You have 3 midterms next week. Get to Geisel and lock the hell in.',
             effect: 'Focus up: next 2 attacks +2 dmg.',
-            image: '/src/img/LockIn.png',
+            image: '../src/img/LockIn.png',
         });
     }
 

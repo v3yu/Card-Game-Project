@@ -10,7 +10,7 @@ class StackOverflow extends Card {
       cost: 1,
       description: 'That code’s been copied 5 times before you.',
       effect: 'Deal 4. Apply Shame (–1 energy)',
-      image: '/src/img/StackOverflow.png',
+      image: '../src/img/StackOverflow.png',
     });
   }
 

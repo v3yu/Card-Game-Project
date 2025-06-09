@@ -9,7 +9,7 @@ class SevereCrashOut extends Card {
             cost: 1,
             description: 'You tried automating a 6-min task for 6 hours. Now you\'re questioning your major.',
             effect: 'Deal 5 damage.',
-            image: '/src/img/SevereCrashOut.png',
+            image: '../src/img/SevereCrashOut.png',
         });
     }
     /**

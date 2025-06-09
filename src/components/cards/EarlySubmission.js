@@ -10,7 +10,7 @@ class EarlySubmission extends Card {
         cost: 0,
         description: 'You actually turned something in early. Historic moment.',
         effect: 'Gain +1 energy.',
-        image: '/src/img/EarlySubmission.png',
+        image: '../src/img/EarlySubmission.png',
         });
     }
 

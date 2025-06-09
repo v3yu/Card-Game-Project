@@ -10,7 +10,7 @@ class TripToStudentHealth extends Card {
       cost: 2,
       description: 'The only way to get better is to get worse. Take a break. You need it.',
       effect: 'Heal 2 HP. Block 2 damage.',
-      image: '/src/img/StudentHealth.png',
+      image: '../src/img/StudentHealth.png',
     });
   }
 

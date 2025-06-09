@@ -9,7 +9,7 @@ class InternshipBombard extends Card {
             cost: 1,
             description: 'You send your resume to 60 companies. 0 of them got back to you.',
             effect: 'Deal 2 damage to all enemies.',
-            image: '/src/img/InternshipBombard.png',
+            image: '../src/img/InternshipBombard.png',
         });
     }
     /**

@@ -9,7 +9,7 @@ class FakeSleep extends Card {
             cost: 1,
             description: 'Prof. Powell is calling on your group. You’re suddenly very still.',
             effect: 'Block 3 dmg. Ignore 1 status effect.',
-            image: '/src/img/FakeSleep.png',
+            image: '../src/img/FakeSleep.png',
         });
     }
     play(player) {

@@ -9,7 +9,7 @@ class SpaghettiCodeShield extends Card {
             cost: 1,
             description: 'You vanished into callback hell. 7 nested if-loops deep. Untraceable.',
             effect: 'Block 2. +1 if you didn’t attack.',
-            image: '/src/img/SpaghettiCodeShield.png',
+            image: '../src/img/SpaghettiCodeShield.png',
         });
     }
 
