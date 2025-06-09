@@ -102,18 +102,28 @@ export class Powell extends Enemy {
     this.pAttack(1);
     this.pAttack(1);
     this.lastMove = this.magicMissile;
-    await lockUIDuring(()=>this.attackAnimation('Magic Missile, fire! And if anyone still hasn’t turned' +
-      ' in their homework, don’t even think about going home when class ends'));
+    await lockUIDuring(()=>this.attackAnimation('I cast Magic Missile! 10000 pages of Craft notes incoming!'));
   }
 
   /**
    * Cringe dad joke attack
    */
+  static dadJokes = [
+    "Why did the programmer quit his job? Because he didn't get arrays!",
+    "Why do Java developers wear glasses? Because they don't see sharp.",
+    "How many programmers does it take to change a light bulb? None, that's a hardware problem.",
+    "Why do programmers prefer dark mode? Because light attracts bugs.",
+    "A SQL query walks into a bar, walks up to two tables and asks: 'Can I join you?'"
+  ];
+  static dadJokeIndex = 0;
+
   async cringeDadJoke() {
     this.pAttack(2);
     //player.applyEffect('Stun');
+    const joke = Powell.dadJokes[Powell.dadJokeIndex];
+    Powell.dadJokeIndex = (Powell.dadJokeIndex + 1) % Powell.dadJokes.length;
     this.lastMove = this.cringeDadJoke;
-    await lockUIDuring(()=>this.attackAnimation('I’d tell you a homework joke, but… you probably didn’t finish it anyway'));
+    await lockUIDuring(() => this.attackAnimation(`I cast Cringe Dad Joke! ${joke}`));
   }
 
   /**
@@ -122,7 +132,7 @@ export class Powell extends Enemy {
   async ancientWebSpell() {
     this.attackBuff = 1.5;
     this.lastMove = this.ancientWebSpell;
-    await lockUIDuring(()=>this.attackAnimation('Ancient Web Spell, I’m going to make you walk through time and space'));
+    await lockUIDuring(()=>this.attackAnimation('I cast Ancient Web Spell! Check out pint.com'));
   }
 
   /**
@@ -131,7 +141,7 @@ export class Powell extends Enemy {
   async obscureReference() {
     //player.applyEffect('Confused', 2);
     this.lastMove = this.obscureReference;
-    await lockUIDuring(()=>this.attackAnimation('Obscure Reference, I’m going to make you think in a language nobody knows'));
+    await lockUIDuring(()=>this.attackAnimation('I cast Obscure Reference! ↑, ↑, ↓, ↓, ←, →, ←, →, B, A'));
   }
 
   /**
@@ -139,9 +149,9 @@ export class Powell extends Enemy {
    */
   async jargonTornado() {
     this.takeDamage(2);
-    this.pAttack(4);
+    this.pAttack(5);
     this.lastMove = this.jargonTornado;
-    await  lockUIDuring(()=>this.attackAnimation('Jargon Tornado, I’m going to make you think in a language nobody knows'));
+    await  lockUIDuring(()=>this.attackAnimation('I cast Jargon Tornado! ADR SRP UCD MVC TDD SSoT'));
   }
 
   /**
@@ -153,7 +163,7 @@ export class Powell extends Enemy {
     //player.applyEffect('Stun');
     //player.applyEffect('Bleeding');
     this.lastMove = this.cse110Midterm;
-    await lockUIDuring(()=>this.attackAnimation('CSE 110 Midterm, I’m going to make you think in a language nobody knows'));
+    await lockUIDuring(()=>this.attackAnimation('I cast CSE 110 Midterm!'));
   }
 
   /**
