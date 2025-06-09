@@ -6,24 +6,6 @@ import DiscardModal from '../components/DiscardModal.js';
 import DeckModal from '../components/DeckModal.js';
 import {lockUIDuring} from '../components/UIManager.js';
 
-// Inject .hit animation styles directly from JavaScript
-const style = document.createElement('style');
-style.textContent = '';
-
-document.head.appendChild(style);
-
-/**
- * Animates a hit effect on the given element or selector.
- *
- * @param {string | Element} target - A CSS selector (string) or a DOM element.
- * @param el
- */
-function animateHit(el) {
-  if (!el) return;
-  el.classList.add('hit');
-  el.addEventListener('animationend', () => el.classList.remove('hit'), { once: true });
-}
-
 export class Battle {
   /**
    * @param {Player} player - The player instance
@@ -43,9 +25,7 @@ export class Battle {
     this.eventBus.subscribe('endTurn', () => this.handleTurnEnd());
     this.eventBus.subscribe('checkGameOver', ()=>this.checkGameOver());
     this.eventBus.subscribe('cardPlayed', ({ card }) => {
-      const prevHP = this.enemy.HP;
-
-      this.player.playCard(card, this.enemy);
+    this.player.playCard(card, this.enemy);
 
 
     });

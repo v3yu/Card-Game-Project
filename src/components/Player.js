@@ -232,7 +232,7 @@ export class Player extends HTMLElement{
 
 
   die() {
-    // TODO: Implement death logic (e.g. remove from battle, trigger animation, etc.)
+    window.location.href ='';
   }
 
   /**
