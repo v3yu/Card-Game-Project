@@ -25,7 +25,17 @@ export class Battle {
     this.eventBus.subscribe('endTurn', () => this.handleTurnEnd());
     this.eventBus.subscribe('checkGameOver', ()=>this.checkGameOver());
     this.eventBus.subscribe('cardPlayed', ({ card }) => {
-    this.player.playCard(card, this.enemy);
+      // Determine target based on card type
+    if (card.type === 'heal' || card.type === 'defense' || card.type === 'buff' || card.type === 'support') {
+      this.player.playCard(card, this.player);
+    } else if (card.type === 'attack') {
+      this.player.playCard(card, this.enemy);
+    } else {
+      // Default to enemy if type is unknown
+      this.player.playCard(card, this.enemy);
+    }
+
+
 
 
     });
@@ -49,6 +59,7 @@ export class Battle {
     * @returns {void}
     */
   startBattle() {
+    this.player.shuffleDeck();
     document.querySelector('.player .character-container').append(this.player);
     document.querySelector('.enemies .character-container').append(this.enemy);
     document.querySelector('.hand-area').append(this.player.hand);
@@ -94,7 +105,7 @@ export class Battle {
     try{
 
       if(this.player.drawCards(5)===-1){
-        throw new Error('no enough cards');
+        throw new Error('Not enough cards');
       }
     }
     catch (e){
@@ -167,6 +178,7 @@ export class Battle {
     // this.eventBus.publish('onTurnStart', { actor: this.currentActor });
 
     if (this.currentActor === 'player') {
+      this.player.state.block = 0;
       await lockUIDuring(() => this.showBanner('Player turn', this.turnCount));
       this.waitForPlayerAction();
     } else {

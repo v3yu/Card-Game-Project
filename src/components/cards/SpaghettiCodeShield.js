@@ -15,7 +15,7 @@ class SpaghettiCodeShield extends Card {
 
     play(player) {
         player.gainBlock(5);
-        if (!player.hasAttackedThisTurn()) {
+        if (player.hasAttackedThisTurn === false) {
             player.gainBlock(1);
         }
     }

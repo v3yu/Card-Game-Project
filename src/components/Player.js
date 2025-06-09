@@ -148,6 +148,7 @@ export class Player extends HTMLElement{
       currentHealth : maxHealth,
       currentEnergy : maxEnergy,
       block : 0,
+      hasAttackedThisTurn: false,
     }, {
       set: (target, prop, value) => {
         target[prop] = value;
@@ -218,6 +219,7 @@ export class Player extends HTMLElement{
    */
   gainBlock(amount) {
     this.state.block += amount;
+    //
   }
 
   /**
@@ -229,7 +231,6 @@ export class Player extends HTMLElement{
   heal(amount) {
     this.state.currentHealth = Math.min(this.state.currentHealth + amount, this.state.maxHealth);
   }
-
 
   die() {
     window.location.href ='';
@@ -250,6 +251,12 @@ export class Player extends HTMLElement{
     }
     this.state.currentEnergy = nowEnergy;
     return true;
+  }
+
+  gainEnergy(amount) {
+
+    // Gain energy, but not exceeding maxEnergy
+    this.state.currentEnergy = Math.min(this.state.currentEnergy + amount, this.state.maxEnergy);
   }
 
 
@@ -281,7 +288,7 @@ export class Player extends HTMLElement{
   //
   // }
 
-
+  
 
   /**
    * Shuffle the deck
@@ -318,7 +325,8 @@ export class Player extends HTMLElement{
     // Should call the specific card’s own card.play,
     // then this.removeCard(card)
     try{
-      if(!this.spendEnergy(card.cost)) throw new Error('you don\'t have enough energy');
+      if(!this.spendEnergy(card.cost)) throw new Error('You don\'t have enough energy!');
+      this.state.hasAttackedThisTurn = true;
       card.play(target);
       this.discardCard(card);
     }
