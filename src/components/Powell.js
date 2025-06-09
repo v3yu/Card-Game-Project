@@ -22,7 +22,6 @@ export class Powell extends Enemy {
 
 
 
-  // TODO In the future, move this method into the UI utility class
 
 
 
@@ -93,7 +92,6 @@ export class Powell extends Enemy {
    * Ancient web spell attack
    */
   async ancientWebSpell() {
-    this.gainBlock(3);
     this.attackBuff = 1.5;
     this.lastMove = this.ancientWebSpell;
     await lockUIDuring(()=>this.attackAnimation('Ancient Web Spell, I’m going to make you walk through time and space'));

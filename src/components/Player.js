@@ -181,7 +181,7 @@ export class Player extends HTMLElement{
   /**
    * Animates a hit effect on the given element or selector.
    *
-
+   *
    */
   animateHit() {
     const el = this.imgEl;
@@ -201,7 +201,7 @@ export class Player extends HTMLElement{
     this.state.currentHealth -= effectiveDamage;
 
     setTimeout(() => {
-        this.animateHit(this.imgEl);
+        this.animateHit();
     }, 0);
 
     if (this.state.currentHealth <= 0) {

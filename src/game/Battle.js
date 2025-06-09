@@ -37,8 +37,6 @@ export class Battle {
     this.turnCount = 1;
     this.currentActor = 'player';
     this.battleOver = false;
-    this.prevPlayerHP = this.player.HP;
-    this.prevEnemyHP = this.enemy.HP;
 
     // Subscribe internal handlers
     this.eventBus.subscribe('startTurn', () => this.startTurn());
@@ -49,15 +47,7 @@ export class Battle {
 
       this.player.playCard(card, this.enemy);
 
-      setTimeout(() => {
-        if (this.enemy.HP < prevHP) {
-          animateHit(this.enemy.shadowRoot.querySelector('#enemyImg'));
-        }
 
-        this.prevEnemyHP = this.enemy.HP;
-
-        this.eventBus.publish('checkGameOver');
-      }, 0);
     });
 
     this.onEndTurnClick = () => this.eventBus.publish('endTurn');
