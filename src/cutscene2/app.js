@@ -2,8 +2,13 @@ let img1 = document.getElementsByClassName('textbox_1')[0]; //textbox 1
 let img2 = document.getElementsByClassName('textbox_2')[0]; //textbox 2
 let img3 = document.getElementsByClassName('textbox_3')[0]; //textbox 3
 
+const audioElem = document.getElementById('hidden');
+audioElem.src = 'imgs/mus.mp3';
+audioElem.loop = true;
+
 //On load
 window.onload = function() {
+  audioElem.play();
   //Transition fades out for 3 seconds
   document.getElementById('transition').style.opacity = 0;
   //Render the panda in 2 seconds

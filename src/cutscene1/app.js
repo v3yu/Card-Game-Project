@@ -1,8 +1,12 @@
 let img1 = document.getElementsByClassName('textbox_1')[0]; //textbox 1
 let img2 = document.getElementsByClassName('textbox_2')[0]; //textbox 2
 
+const audioElem = document.getElementById('hidden');
+audioElem.src = 'imgs/mus.mp3';
+
 //On load
 window.onload = function() {
+  audioElem.play();
   //Transition fades out for 3 seconds
   document.getElementById('transition').style.opacity = 0;
   //Render the text in the next 1.5 seconds
