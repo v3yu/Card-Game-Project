@@ -26,6 +26,21 @@ export class Player extends HTMLElement{
         .player-ui {
             width: 300px;
             padding: 10px;
+            position: relative;
+        }
+
+         .player-shadow {
+            position: absolute;
+            left: 50%;
+            bottom: 20%;
+            transform: translateX(-70%);
+            width: 70%;
+            height: 22px;
+            background: radial-gradient(ellipse at center, rgba(0,0,0,0.55) 65%, transparent 100%);
+            border-radius: 50%;
+            z-index: -1;
+            pointer-events: none;
+            filter: blur(2px);
         }
 
 
@@ -109,6 +124,7 @@ export class Player extends HTMLElement{
   `;
 
   template = (t)=>`
+  <div class="player-shadow"></div>
     <img src="../src/img/sprite.png" alt="player" id="enemyImg">
    <div class="block-row">
         <img src="../src/img/shieldicon.png" alt="block">

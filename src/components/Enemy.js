@@ -6,6 +6,7 @@ import {Player} from './Player.js';
 export class Enemy extends HTMLElement{
 
    template = (t)=> `
+   <div class="enemy-shadow"></div>
     <img src="${t.Img}" alt="enemy" id="enemyImg">
   <div class="hp-bar-container">
     <div class="hp-text">${t.HP}/${t.maxHP}</div>
@@ -27,6 +28,20 @@ export class Enemy extends HTMLElement{
     width: 300px;
     padding: 10px;
   }
+             .enemy-shadow {
+            position: absolute;
+            left: 50%;
+            bottom: 7%;
+            transform: translateX(-50%);
+            width: 50%;
+            height: 22px;
+            background: radial-gradient(ellipse at center, rgba(0,0,0,0.55) 65%, transparent 100%);
+            border-radius: 50%;
+            z-index: -1;
+            pointer-events: none;
+            filter: blur(2px);
+        }
+
 
   #enemyImg {
     width: 100%;
